@@ -25,8 +25,8 @@
   <div id="view-test">
     <section id="intro" class="intro">
       <p class="eyebrow">Political alignment test</p>
-      <h1>Where you sit on ten axes, and who sits near you.</h1>
-      <p class="lede">Rate <span id="q-total">77</span> statements. You get the nearest of <span id="ide-total">48</span> real ideologies, your score on each axis, and the closest of <span id="fig-total">90</span> scored people on each axis and overall: every US president, militant and terrorist leaders, dictators, activists and a few notorious public figures.</p>
+      <h1>Which bad leader is closest to you?</h1>
+      <p class="lede">Rate <span id="q-total">77</span> statements. You get the nearest of <span id="ide-total">49</span> real ideologies, your score on each axis, and which of <span id="fig-total">50</span> dictators, terrorist leaders and notorious figures sits closest to you on each axis and overall.</p>
       <div class="intro-actions">
         <button id="start" class="btn btn-primary" type="button">Start the test</button>
         <span class="hint">About 10 minutes. Keys 1–5 answer.</span>
@@ -78,6 +78,7 @@
       <div class="matches">
         <div class="matches-col">
           <h2 class="h-section">Closest overall</h2>
+          <p class="sub">Everyone here is a dictator, militant or notorious figure, so a close match means you share some of their stated positions, not their conduct.</p>
           <ol id="r-near" class="match-list"></ol>
         </div>
         <div class="matches-col">
@@ -105,10 +106,8 @@
       <label for="fig-filter" class="sr">Category</label>
       <select id="fig-filter">
         <option value="all">All categories</option>
-        <option value="president">US presidents</option>
         <option value="militant">Militant &amp; terrorist leaders</option>
         <option value="ruler">Dictators &amp; heads of state</option>
-        <option value="activist">Politicians &amp; activists</option>
         <option value="public">Celebrities &amp; notorious figures</option>
       </select>
       <label for="fig-search" class="sr">Search</label>
@@ -134,8 +133,9 @@
     <p>Matches use root-mean-square distance over the axes both profiles define, converted to a percentage where 0 distance is 100% and the maximum possible distance (200) is 0%. Figures need a score on at least 5 axes to enter the overall ranking. Per-axis matches use any figure scored on that axis, with ties broken by overall distance.</p>
 
     <h2 class="h-section">How the figures were scored</h2>
-    <p>Positions are inferred from what each person did in power and said in their own writings or speeches, placed on the present-day spectrum you answer on. That choice has consequences. Nineteenth-century presidents who enslaved people or drove Native removal score high on Exclusion; they would not by the standards of their own time. The alternative, scoring relative to each era, would make a modern test-taker's "match" with Polk meaningless.</p>
-    <p>Confidence reflects how much political record exists. Bin Laden, Lenin and Reagan wrote or governed at length. Sean Combs and Jeffrey Epstein left almost no stated politics: their profiles cover the few axes with evidence (donations, campaigns, public statements) and are blank elsewhere. Epstein falls below the 5-axis threshold and is excluded from overall rankings. Matching someone on an axis is a fact about one position, not about character or conduct.</p>
+    <p>The roster is deliberately limited to divisive figures: dictators, militant and terrorist leaders, and notorious public figures. Positions are inferred from what each person did in power and said in their own writings or speeches, placed on the present-day spectrum you answer on, not relative to their era.</p>
+    <p>Because nobody mainstream is on the list, a moderate will still get a "closest" match, usually a far worse person than they are. The percentage tells you how close that really is.</p>
+    <p>Confidence reflects how much political record exists. Bin Laden, Lenin and Thatcher wrote or governed at length. Sean Combs and Jeffrey Epstein left almost no stated politics: their profiles cover the few axes with evidence (donations, campaigns, public statements) and are blank elsewhere. Epstein falls below the 5-axis threshold and is excluded from overall rankings. Matching someone on an axis is a fact about one position, not about character or conduct.</p>
 
     <h2 class="h-section">Limits</h2>
     <p>Ten axes cannot hold a whole politics. A single number for "Means" flattens the difference between Gandhi's nonviolent law-breaking and a bombing campaign; the statements try to separate those but the scale cannot. Ideology profiles are idealized centers, and real movements spread wide around them. Statement wording carries bias that no balancing fully removes. Treat the output as a map for argument, not a measurement.</p>

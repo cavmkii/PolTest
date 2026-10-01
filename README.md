@@ -1,9 +1,8 @@
 # Ten Axes
 
 A political alignment test in the style of 8values and 12axes. 77 statements score you on ten axes,
-match you to the nearest of 49 real ideologies, and show which of 90 scored people sit closest to you
-on each axis and overall: every US president, militant and terrorist leaders, 20th-century dictators,
-activists, and a few notorious public figures.
+match you to the nearest of 49 real ideologies, and show which of 50 divisive figures sits closest to you
+on each axis and overall: dictators, militant and terrorist leaders, and notorious public figures.
 
 Open `index.html` in a browser. No build step, no dependencies.
 
@@ -40,8 +39,8 @@ Matching is RMS distance across all ten axes. An axis a profile leaves blank cou
 (e.g. Joseph Kony, scored on six axes) out-matched well-documented ones. Figures need five scored axes to
 enter the overall ranking. Per-axis matches use anyone scored on that axis.
 
-A simulation that answers the test as each well-documented figure would recovers that figure in its own
-top 3 for 81 of 82 profiles; an all-neutral respondent lands on Centrism.
+An all-neutral respondent lands on the Centrism ideology. Because the roster holds no mainstream figures,
+moderates still get a nearest figure; read the match percentage, not just the name.
 
 ## Scoring the figures
 
