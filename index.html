@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ten Axes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<!--BODY-->
+<header class="top">
+  <a class="brand" href="#test" data-view="test">Ten Axes</a>
+  <nav class="nav" aria-label="Sections">
+    <a href="#test" data-view="test">Test</a>
+    <a href="#figures" data-view="figures">Figures</a>
+    <a href="#ideologies" data-view="ideologies">Ideologies</a>
+    <a href="#method" data-view="method">Method</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div id="view-test">
+    <section id="intro" class="intro">
+      <p class="eyebrow">Political alignment test</p>
+      <h1>Where you sit on ten axes, and who sits near you.</h1>
+      <p class="lede">Rate <span id="q-total">77</span> statements. You get the nearest of <span id="ide-total">48</span> real ideologies, your score on each axis, and the closest of <span id="fig-total">90</span> scored people on each axis and overall: every US president, militant and terrorist leaders, dictators, activists and a few notorious public figures.</p>
+      <div class="intro-actions">
+        <button id="start" class="btn btn-primary" type="button">Start the test</button>
+        <span class="hint">About 10 minutes. Keys 1–5 answer.</span>
+      </div>
+      <ol class="axis-index" aria-label="The ten axes">
+        <li>Equality ↔ Markets</li><li>Liberty ↔ Authority</li><li>Progress ↔ Tradition</li>
+        <li>Globalism ↔ Nationalism</li><li>Secular ↔ Religious</li><li>Pluralism ↔ Exclusion</li>
+        <li>Restraint ↔ Militarism</li><li>Rehabilitation ↔ Punishment</li><li>Ecology ↔ Industry</li>
+        <li>Reform ↔ Upheaval</li>
+      </ol>
+      <details class="paste">
+        <summary>Have a result code?</summary>
+        <div class="paste-row">
+          <label for="paste-code" class="sr">Result code</label>
+          <input id="paste-code" type="text" placeholder="#r.-20.35.10.…" autocomplete="off">
+          <button id="load-code" class="btn" type="button">Show result</button>
+        </div>
+        <p id="paste-error" class="error" hidden>That code needs ten numbers between -100 and 100, separated by dots, starting with r.</p>
+      </details>
+    </section>
+
+    <section id="quiz" class="quiz" hidden>
+      <div class="progress"><span id="q-progress"></span></div>
+      <p id="q-count" class="eyebrow"></p>
+      <h2 id="q-text" class="q-text"></h2>
+      <div id="q-answers" class="answers"></div>
+      <div class="quiz-nav">
+        <button id="q-back" class="btn btn-quiet" type="button">Back</button>
+        <button id="q-skip" class="btn btn-quiet" type="button">Skip</button>
+      </div>
+    </section>
+
+    <section id="results" class="results" hidden>
+      <div class="verdict">
+        <p class="eyebrow">Closest ideology</p>
+        <h1 id="r-ideology"></h1>
+        <p id="r-ideology-sim" class="sim num"></p>
+        <p id="r-ideology-desc" class="lede"></p>
+        <div class="runners">
+          <h2 class="h-small">Next closest</h2>
+          <ol id="r-runners"></ol>
+        </div>
+      </div>
+
+      <h2 class="h-section">Your axes</h2>
+      <p class="sub">The large mark is you. Thin ticks are scored figures; hover one for the name. Chips are the four people closest to you on that axis alone.</p>
+      <div id="r-axes" class="axes"></div>
+
+      <div class="matches">
+        <div class="matches-col">
+          <h2 class="h-section">Closest overall</h2>
+          <ol id="r-near" class="match-list"></ol>
+        </div>
+        <div class="matches-col">
+          <h2 class="h-section">Furthest overall</h2>
+          <ol id="r-far" class="match-list"></ol>
+        </div>
+      </div>
+      <p id="r-skipped" class="sub"></p>
+
+      <div class="code-box">
+        <label for="r-code" class="h-small">Result code</label>
+        <div class="paste-row">
+          <input id="r-code" type="text" readonly>
+          <button id="copy-code" class="btn" type="button">Copy</button>
+          <button id="retake" class="btn btn-quiet" type="button">Retake</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section id="view-figures" hidden>
+    <h1 class="h-page">Figures</h1>
+    <p class="lede">Each profile is an estimate from public record on today's spectrum. Blank axes mean there is no record to score. Open a card for the reasoning.</p>
+    <div class="filters">
+      <label for="fig-filter" class="sr">Category</label>
+      <select id="fig-filter">
+        <option value="all">All categories</option>
+        <option value="president">US presidents</option>
+        <option value="militant">Militant &amp; terrorist leaders</option>
+        <option value="ruler">Dictators &amp; heads of state</option>
+        <option value="activist">Politicians &amp; activists</option>
+        <option value="public">Celebrities &amp; notorious figures</option>
+      </select>
+      <label for="fig-search" class="sr">Search</label>
+      <input id="fig-search" type="search" placeholder="Search names or labels">
+      <span id="fig-count" class="hint num"></span>
+    </div>
+    <ul id="fig-list" class="fig-list"></ul>
+  </section>
+
+  <section id="view-ideologies" hidden>
+    <h1 class="h-page">Ideologies</h1>
+    <p class="lede">Reference profiles used for the main result. Axes marked "No record" are ones an ideology has no settled position on, so they are left out of the match.</p>
+    <ul id="ide-list" class="ide-list"></ul>
+  </section>
+
+  <section id="view-method" hidden class="method">
+    <h1 class="h-page">Method</h1>
+    <h2 class="h-section">Axes</h2>
+    <dl id="method-axes" class="method-axes"></dl>
+
+    <h2 class="h-section">Scoring</h2>
+    <p>Answers count +1, +½, 0, −½, −1. Each statement carries a weight on one or more axes; your axis score is the weighted sum divided by the largest possible sum, scaled to −100…+100. Skipped statements drop out of both. Each axis has statements in both directions so that agreeing with everything does not push you to one pole.</p>
+    <p>Matches use root-mean-square distance over the axes both profiles define, converted to a percentage where 0 distance is 100% and the maximum possible distance (200) is 0%. Figures need a score on at least 5 axes to enter the overall ranking. Per-axis matches use any figure scored on that axis, with ties broken by overall distance.</p>
+
+    <h2 class="h-section">How the figures were scored</h2>
+    <p>Positions are inferred from what each person did in power and said in their own writings or speeches, placed on the present-day spectrum you answer on. That choice has consequences. Nineteenth-century presidents who enslaved people or drove Native removal score high on Exclusion; they would not by the standards of their own time. The alternative, scoring relative to each era, would make a modern test-taker's "match" with Polk meaningless.</p>
+    <p>Confidence reflects how much political record exists. Bin Laden, Lenin and Reagan wrote or governed at length. Sean Combs and Jeffrey Epstein left almost no stated politics: their profiles cover the few axes with evidence (donations, campaigns, public statements) and are blank elsewhere. Epstein falls below the 5-axis threshold and is excluded from overall rankings. Matching someone on an axis is a fact about one position, not about character or conduct.</p>
+
+    <h2 class="h-section">Limits</h2>
+    <p>Ten axes cannot hold a whole politics. A single number for "Means" flattens the difference between Gandhi's nonviolent law-breaking and a bombing campaign; the statements try to separate those but the scale cannot. Ideology profiles are idealized centers, and real movements spread wide around them. Statement wording carries bias that no balancing fully removes. Treat the output as a map for argument, not a measurement.</p>
+    <p>Comparable tests: <a href="https://8values.github.io/" target="_blank" rel="noopener">8values</a> (four axes, the scoring model used here), <a href="https://12axes.github.io/" target="_blank" rel="noopener">12axes</a> (more axes, ideology matching with weighted slots).</p>
+  </section>
+</main>
+
+<dialog id="fig-dialog" class="fig-dialog" aria-labelledby="fd-name">
+  <div class="fd-head">
+    <div>
+      <h2 id="fd-name"></h2>
+      <p id="fd-sub" class="fd-sub"></p>
+    </div>
+    <button id="fd-close" class="btn btn-quiet" type="button" aria-label="Close">Close</button>
+  </div>
+  <p class="fd-label-row"><span id="fd-label" class="fd-label"></span> <span id="fd-conf" class="conf"></span></p>
+  <p id="fd-note" class="fd-note"></p>
+  <div id="fd-profile"></div>
+  <p id="fd-legend" class="sub legend" hidden><span class="key key-fig"></span> this person <span class="key key-you"></span> you</p>
+  <p id="fd-nearest" class="sub"></p>
+</dialog>
+<!--/BODY-->
+
+<script src="js/axes.js"></script>
+<script src="js/questions.js"></script>
+<script src="js/ideologies.js"></script>
+<script src="js/figures.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
