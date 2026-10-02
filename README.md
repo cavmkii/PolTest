@@ -27,6 +27,8 @@ Open `index.html` in a browser. No build step, no dependencies.
 - `js/questions.js` – statements and their axis weights
 - `js/ideologies.js` – reference ideology profiles (`null` = no characteristic position)
 - `js/figures.js` – figure profiles, each with a confidence level and the evidence behind it
+- `js/ideology-notes.js` – long-form notes per ideology: core idea, policies, internal debates, where it exists today, research on supporters
+- `js/interpret.js` – plain-language readings of your scores: policy positions, two-dimension typology, psychological research
 - `js/app.js` – scoring, matching, UI
 
 ## Scoring

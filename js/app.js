@@ -240,16 +240,10 @@
     $('#r-ideology-sim').textContent = approx(top.d) + ' match' + (weak ? ' · no profile fits closely' : '');
     $('#r-ideology-src').textContent = top.ide.src ? 'Profile follows ' + top.ide.src + '.' : '';
 
-    const runners = $('#r-runners');
-    runners.textContent = '';
-    ideos.slice(close.length > 1 ? Math.min(close.length, 3) : 1).slice(0, 4).forEach((r) => {
-      const li = el('li');
-      li.appendChild(el('span', 'runner-name', r.ide.name));
-      li.appendChild(el('span', 'num', approx(r.d)));
-      runners.appendChild(li);
-    });
-
     renderQuality(currentQuality);
+    renderDeepTabs(u, ideos.slice(0, 5));
+    renderPractice(u);
+    renderPsych(u);
 
     // Per-axis results with nearest figures on each axis
     const axesBox = $('#r-axes');
@@ -312,6 +306,126 @@
     const code = '#r.' + u.join('.');
     $('#r-code').value = code;
     if (!keepScroll) window.scrollTo({ top: 0 });
+  }
+
+  // ---------- ideology deep dive ----------
+
+  function renderDeepTabs(u, list) {
+    const tabs = $('#r-deep-tabs');
+    tabs.textContent = '';
+    const select = (i) => {
+      [...tabs.children].forEach((t, j) => t.setAttribute('aria-selected', String(i === j)));
+      renderDeep(u, list[i].ide);
+    };
+    list.forEach((r, i) => {
+      const b = el('button', 'deep-tab');
+      b.type = 'button';
+      b.setAttribute('role', 'tab');
+      b.appendChild(el('span', null, r.ide.name));
+      b.appendChild(el('span', 'num deep-tab-pct', approx(r.d)));
+      b.addEventListener('click', () => select(i));
+      tabs.appendChild(b);
+    });
+    select(0);
+  }
+
+  function renderDeep(u, ide) {
+    const n = IDEOLOGY_NOTES[ide.name] || {};
+    $('#r-deep-name').textContent = ide.name;
+    $('#r-deep-core').textContent = n.core || ide.d;
+    const pol = $('#r-deep-policy');
+    pol.textContent = '';
+    (n.policy || []).forEach((t) => pol.appendChild(el('li', null, t)));
+    $('#r-deep-tensions').textContent = n.tensions || '';
+    $('#r-deep-today').textContent = n.today || '';
+    $('#r-deep-psych').textContent = n.psych || '';
+    $('#r-deep-psych-wrap').hidden = !n.psych;
+    $('#r-deep-src').textContent = ide.src ? 'Further reading: ' + ide.src + '.' : '';
+
+    const c = compareToIdeology(u, ide);
+    const box = $('#r-deep-compare');
+    box.textContent = '';
+    if (c.same.length) box.appendChild(el('p', null, 'You match it closely on ' + listText(c.same) + '.'));
+    if (c.apart.length) {
+      const ul = el('ul', 'deep-list');
+      c.apart.forEach((x) => {
+        const itPole = x.it < 0 ? x.ax.left : x.ax.right;
+        const yourPole = x.you < 0 ? x.ax.left : x.ax.right;
+        const sameSide = Math.sign(x.you) === Math.sign(x.it) && Math.abs(x.you) >= 10;
+        const how = Math.abs(x.you) < Math.abs(x.it) && (sameSide || Math.abs(x.you) < 10)
+          ? `you are much less firmly on the ${itPole} side`
+          : sameSide ? `you go further toward ${yourPole}`
+          : Math.abs(x.it) < 10 ? `you lean toward ${yourPole} where it sits in the middle`
+          : `you lean the other way, toward ${yourPole}`;
+        ul.appendChild(el('li', null, `${x.ax.name}: you ${signed(x.you)}, typical supporter ${signed(x.it)}. ${how[0].toUpperCase() + how.slice(1)}.`));
+      });
+      box.appendChild(el('p', null, 'You part ways with it on:'));
+      box.appendChild(ul);
+    } else {
+      box.appendChild(el('p', null, 'There is no axis where you differ from it by 30 points or more.'));
+    }
+    if (c.open.length) box.appendChild(el('p', 'sub', 'It takes no fixed position on ' + listText(c.open) + ', so those axes were not used.'));
+  }
+
+  function listText(a) {
+    if (a.length < 2) return a.join('');
+    return a.slice(0, -1).join(', ') + ' and ' + a[a.length - 1];
+  }
+
+  function renderPractice(u) {
+    const ol = $('#r-practice');
+    ol.textContent = '';
+    const order = AXES.map((ax, k) => ({ ax, k, v: u[k] })).sort((a, b) => Math.abs(b.v) - Math.abs(a.v));
+    const center = [];
+    order.forEach(({ ax, v }) => {
+      const t = practiceFor(ax.key, v);
+      if (!t) { center.push(ax.name); return; }
+      const li = el('li', 'practice-item');
+      const head = el('div', 'practice-head');
+      head.appendChild(el('span', 'practice-axis', ax.name));
+      head.appendChild(el('span', 'practice-verdict', strengthLabel(v, ax)));
+      head.appendChild(el('span', 'num practice-val', signed(v)));
+      li.appendChild(head);
+      li.appendChild(el('p', null, t));
+      ol.appendChild(li);
+    });
+    $('#r-practice-center').textContent = center.length
+      ? 'No strong pull either way on ' + listText(center) + '.'
+      : '';
+  }
+
+  function renderPsych(u) {
+    const d = dimensions(u);
+    const t = typology(d);
+    $('#r-type-name').textContent = t.name;
+    $('#r-type-text').textContent = t.text;
+    $('#r-dims').textContent = `Economic ${signed(d.econ)} · Cultural ${signed(d.cultural)}`;
+    $('#r-map').innerHTML = dimMap(d);
+    const box = $('#r-psych');
+    box.textContent = '';
+    psychology(u, d).forEach((p) => box.appendChild(el('p', null, p)));
+    $('#r-psych-caveat').textContent = PSYCH_CAVEAT;
+  }
+
+  // Small two-dimensional map. x = economic (Equality to Markets), y = cultural (Progress/Liberty at the
+  // bottom, Tradition/Authority at the top).
+  function dimMap(d) {
+    const S = 220, P = 28, W = S - 2 * P;
+    const x = P + ((d.econ + 100) / 200) * W;
+    const y = P + ((100 - d.cultural) / 200) * W;
+    const q = (tx, ty, label, anchor) => `<text x="${tx}" y="${ty}" text-anchor="${anchor}" class="map-q">${label}</text>`;
+    return `<svg viewBox="0 0 ${S} ${S}" role="img">
+      <rect x="${P}" y="${P}" width="${W}" height="${W}" class="map-box"/>
+      <line x1="${S / 2}" y1="${P}" x2="${S / 2}" y2="${S - P}" class="map-axis"/>
+      <line x1="${P}" y1="${S / 2}" x2="${S - P}" y2="${S / 2}" class="map-axis"/>
+      ${q(P + 4, P + 12, 'Left-communitarian', 'start')}
+      ${q(S - P - 4, P + 12, 'Consistent right', 'end')}
+      ${q(P + 4, S - P - 6, 'Consistent left', 'start')}
+      ${q(S - P - 4, S - P - 6, 'Market liberal', 'end')}
+      <text x="${S / 2}" y="${S - 8}" text-anchor="middle" class="map-lab">Equality ← economic → Markets</text>
+      <text x="10" y="${S / 2}" text-anchor="middle" class="map-lab" transform="rotate(-90 10 ${S / 2})">Liberty ← cultural → Order</text>
+      <circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="7" class="map-you"/>
+    </svg>`;
   }
 
   function renderQuality(q) {
@@ -473,6 +587,19 @@
       li.appendChild(el('p', 'ide-desc', ide.d));
       if (ide.src) li.appendChild(el('p', 'ide-src', 'Source: ' + ide.src));
       li.appendChild(profileTable(ide.v));
+      const n = IDEOLOGY_NOTES[ide.name];
+      if (n) {
+        const det = el('details', 'ide-more');
+        det.appendChild(el('summary', null, 'Read more'));
+        det.appendChild(el('p', null, n.core));
+        const ul = el('ul', 'deep-list');
+        n.policy.forEach((t) => ul.appendChild(el('li', null, t)));
+        det.append(el('h4', 'h-small', 'What its supporters push for'), ul,
+          el('h4', 'h-small', 'Arguments inside it'), el('p', null, n.tensions),
+          el('h4', 'h-small', 'Where it exists today'), el('p', null, n.today));
+        if (n.psych) det.append(el('h4', 'h-small', 'Research on its supporters'), el('p', null, n.psych));
+        li.appendChild(det);
+      }
       list.appendChild(li);
     });
   }
