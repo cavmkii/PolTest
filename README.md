@@ -1,6 +1,6 @@
 # Ten Axes
 
-A political alignment test in the style of 8values and 12axes. 50 statements (five per axis) score you on ten axes,
+A political alignment test in the style of 8values and 12axes. 77 statements, or a 50-statement short version (five per axis), score you on ten axes,
 match you to the nearest of 49 real ideologies, and show which of 50 divisive figures sits closest to you
 on each axis and overall: dictators, militant and terrorist leaders, and notorious public figures.
 
