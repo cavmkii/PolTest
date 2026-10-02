@@ -1,6 +1,6 @@
 # Ten Axes
 
-A political alignment test in the style of 8values and 12axes. 77 statements, or a 50-statement short version (five per axis), score you on ten axes,
+A political alignment test in the style of 8values and 12axes. 78 statements, or a 50-statement short version (five per axis), plus one attention check, score you on ten axes,
 match you to the nearest of 49 real ideologies, and show which of 50 divisive figures sits closest to you
 on each axis and overall: dictators, militant and terrorist leaders, and notorious public figures.
 
@@ -31,19 +31,20 @@ Open `index.html` in a browser. No build step, no dependencies.
 
 ## Scoring
 
-Answers are +1, +½, 0, −½, −1; each axis score is the weighted sum over the maximum possible, scaled to ±100
-(the 8values model). Every axis has statements keyed in both directions.
+Answers are +1, +½, 0, −½, −1; "No opinion" drops the statement. Each axis score is the weighted sum over the
+maximum possible, scaled to ±100 (the 8values model). Every axis has statements keyed in both directions;
+violence items are concrete scenarios (Westwood et al. 2022).
 
-Matching is RMS distance across all ten axes. An axis a profile leaves blank counts as a fixed gap
-(35 points for figures, 30 for ideologies) rather than being skipped; without that, sparse profiles
-(e.g. Joseph Kony, scored on six axes) out-matched well-documented ones. Figures need five scored axes to
-enter the overall ranking. Per-axis matches use anyone scored on that axis.
+Matching is weighted RMS distance across all ten axes. Means counts half; each axis's weight can be raised or
+lowered on the results page. A blank axis on a profile counts as a fixed gap (35 points for figures, 30 for
+ideologies). Results report answer consistency, attention-check failure, and "no clear fit" when the top
+ideologies are within 3 points.
 
-An all-neutral respondent lands on the Centrism ideology. Because the roster holds no mainstream figures,
-moderates still get a nearest figure; read the match percentage, not just the name.
+## Sources
 
-## Scoring the figures
+Figure economy scores were checked against Herre (2023), Global Leader Ideologies; party positions against
+V-Party (Lührmann et al. 2020); regime type against V-Dem legitimation codes. Every figure and ideology lists
+its sources in `js/figures.js` and `js/ideologies.js`; the Method tab has the methodological references.
+Celebrities have no scholarly coding and are excluded from the overall ranking.
 
-Positions come from what each person did and wrote, placed on the present-day spectrum, not relative to
-their era. Low-confidence profiles (Combs, Epstein, several celebrities) are mostly blank because there is
-little stated politics to score. See the Method tab for limits.
+The test is not validated: no factor analysis, reliability or test-retest data exist for it.

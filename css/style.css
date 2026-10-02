@@ -214,6 +214,19 @@ h1 { font-weight: 800; font-stretch: 112%; font-size: clamp(1.9rem, 5vw, 3rem); 
 
 .code-box { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--rule); }
 
+/* Answer quality, tags, importance */
+.quality { margin-top: 32px; padding: 16px 18px; border: 1px solid var(--rule); border-radius: 10px; background: var(--surface); }
+.quality ul { margin: 8px 0 0; padding-left: 18px; display: flex; flex-direction: column; gap: 6px; font-size: 0.92rem; max-width: 70ch; }
+.quality li.warn { color: var(--low); }
+.tag { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--warn); border: 1px solid currentColor; border-radius: 999px; padding: 1px 7px; }
+.imp { margin-left: auto; display: inline-flex; align-items: center; gap: 6px; font-size: 0.8rem; color: var(--muted); }
+.imp select { padding: 2px 6px; border-radius: 6px; border: 1px solid var(--rule); background: var(--surface); font-size: 0.8rem; }
+.imp + .axis-val { margin-left: 0; min-width: 3ch; text-align: right; }
+.ide-src { font-size: 0.78rem; color: var(--muted); margin: -4px 0 10px; font-style: italic; }
+.fd-flag { margin: -6px 0 16px; font-size: 0.88rem; color: var(--warn); }
+.fd-src-wrap { margin-top: 18px; }
+.fd-src { margin: 6px 0 0; padding-left: 18px; font-size: 0.85rem; color: var(--muted); display: flex; flex-direction: column; gap: 3px; }
+
 /* Figures browser */
 .filters { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 24px; }
 .filters select, .filters input {
@@ -283,6 +296,8 @@ h1 { font-weight: 800; font-stretch: 112%; font-size: clamp(1.9rem, 5vw, 3rem); 
 .method-axes dt { font-weight: 600; margin-top: 14px; }
 .method-axes dd { margin: 4px 0 0; color: var(--muted); font-size: 0.93rem; max-width: 65ch; }
 .dd-count { font-family: var(--font-mono); font-size: 0.8rem; }
+.method-list { max-width: 65ch; padding-left: 18px; display: flex; flex-direction: column; gap: 8px; }
+.refs { max-width: 70ch; padding-left: 18px; font-size: 0.86rem; color: var(--muted); display: flex; flex-direction: column; gap: 4px; }
 
 @media (max-width: 640px) {
   .matches { grid-template-columns: 1fr; gap: 0; }

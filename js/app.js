@@ -15,6 +15,7 @@
   // ---------- scoring ----------
 
   function computeScores(answers) {
+    // statements with no axis weights (the attention check) are ignored here
     const sum = Array(N).fill(0);
     const max = Array(N).fill(0);
     quiz.forEach((q, i) => {
@@ -30,22 +31,35 @@
     return sum.map((s, k) => (max[k] ? Math.round((s / max[k]) * 100) : 0));
   }
 
-  // Root-mean-square distance across all axes. An axis the profile leaves blank counts as a fixed
-  // gap of `gap` points instead of being dropped, so sparse profiles don't win by default.
+  // Weighted root-mean-square distance across all axes. An axis the profile leaves blank counts as a
+  // fixed gap of `gap` points instead of being dropped, so sparse profiles don't win by default.
+  // Means is down-weighted: its statements are the hardest to measure well (Westwood et al. 2022)
+  // and it alone would otherwise pull respondents toward militants.
   const FIGURE_GAP = 35;
   const IDEOLOGY_GAP = 30;
+  const BASE_WEIGHT = AXES.map((ax) => (ax.key === 'method' ? 0.5 : 1));
+  const IMPORTANCE = [{ label: 'Low', w: 0.5 }, { label: 'Normal', w: 1 }, { label: 'High', w: 2 }];
+  let importance = Array(N).fill(1);
+  const weights = () => BASE_WEIGHT.map((b, k) => b * importance[k]);
+
   function distance(u, v, gap) {
-    let ss = 0, n = 0;
+    const w = weights();
+    let ss = 0, ws = 0, n = 0;
     for (let k = 0; k < N; k++) {
-      if (v[k] == null) { ss += (gap || 0) ** 2; continue; }
+      if (v[k] == null) {
+        if (gap) { ss += w[k] * gap * gap; ws += w[k]; }
+        continue;
+      }
       const d = u[k] - v[k];
-      ss += d * d;
+      ss += w[k] * d * d;
+      ws += w[k];
       n++;
     }
-    if (!n) return { d: Infinity, n: 0 };
-    return { d: Math.sqrt(ss / (gap ? N : n)), n };
+    if (!n || !ws) return { d: Infinity, n: 0 };
+    return { d: Math.sqrt(ss / ws), n };
   }
   const similarity = (d) => Math.max(0, Math.round(100 * (1 - d / 200)));
+  const approx = (d) => '≈' + similarity(d) + '%';
 
   function rankIdeologies(u) {
     return IDEOLOGIES.map((ide) => ({ ide, ...distance(u, ide.v, IDEOLOGY_GAP) }))
@@ -53,10 +67,37 @@
       .sort((a, b) => a.d - b.d);
   }
 
+  // Celebrities and notorious figures have no scholarly coding, so they are kept out of the overall ranking.
+  const rankable = (f) => f.c !== 'public' && f.v.filter((x) => x != null).length >= MIN_SHARED_FIGURE;
+
   function rankFigures(u) {
-    return FIGURES.map((f) => ({ f, ...distance(u, f.v, FIGURE_GAP) }))
-      .filter((r) => r.n >= MIN_SHARED_FIGURE)
+    return FIGURES.filter(rankable)
+      .map((f) => ({ f, ...distance(u, f.v, FIGURE_GAP) }))
       .sort((a, b) => a.d - b.d);
+  }
+
+  // Answer quality: attention check, how many statements fed each axis, and how much the answers on
+  // each axis agree with one another. Low agreement is the "unconstrained" pattern Converse (1964)
+  // found to be common in mass publics; it is reported, not corrected.
+  function answerQuality(qs, ans) {
+    const check = qs.findIndex((q) => q.check != null);
+    const attention = check < 0 || ans[check] == null ? null : ans[check] === qs[check].check;
+    const perAxis = AXES.map((ax) => {
+      let sum = 0, abs = 0, count = 0;
+      qs.forEach((q, i) => {
+        const w = q.e[ax.key];
+        if (!w || ans[i] == null) return;
+        count++;
+        if (Math.abs(w) < 1) return;
+        const c = ans[i] * Math.sign(w);
+        sum += c; abs += Math.abs(c);
+      });
+      return { count, agreement: abs ? Math.abs(sum) / abs : null };
+    });
+    const scored = perAxis.filter((a) => a.agreement != null);
+    const overall = scored.length ? scored.reduce((t, a) => t + a.agreement, 0) / scored.length : null;
+    const skipped = ans.filter((a, i) => a == null && qs[i].check == null).length;
+    return { attention, perAxis, overall, skipped };
   }
 
   function closestOnAxis(u, k, count) {
@@ -91,6 +132,7 @@
   let answers = [];
   let idx = 0;
   let currentScores = null;
+  let currentQuality = null;   // only known right after taking the test, not from a pasted code
   const SHORT = QUESTIONS.filter((q) => q.s);
   let quiz = QUESTIONS;
 
@@ -136,6 +178,8 @@
   function finish() {
     const scores = computeScores(answers);
     currentScores = scores;
+    currentQuality = answerQuality(quiz, answers);
+    currentQuality.mode = quiz === SHORT ? 'short' : 'full';
     try { history.replaceState(null, '', '#r.' + scores.join('.')); } catch (e) { /* sandboxed */ }
     renderResults(scores);
   }
@@ -175,7 +219,10 @@
     return b;
   }
 
-  function renderResults(u) {
+  const CLEAR_FIT_GAP = 3;   // similarity points the top ideology must lead by
+  const WEAK_FIT = 75;       // below this, no profile fits well
+
+  function renderResults(u, keepScroll) {
     showView('test');
     $('#intro').hidden = true;
     $('#quiz').hidden = true;
@@ -183,18 +230,26 @@
 
     const ideos = rankIdeologies(u);
     const top = ideos[0];
-    $('#r-ideology').textContent = top.ide.name;
-    $('#r-ideology-desc').textContent = top.ide.d;
-    $('#r-ideology-sim').textContent = similarity(top.d) + '% match';
+    const close = ideos.filter((r) => similarity(top.d) - similarity(r.d) < CLEAR_FIT_GAP);
+    const weak = similarity(top.d) < WEAK_FIT;
+    $('#r-eyebrow').textContent = close.length > 1 ? 'No clear fit: closest ideologies' : 'Closest ideology';
+    $('#r-ideology').textContent = close.length > 1 ? close.slice(0, 3).map((r) => r.ide.name).join(' / ') : top.ide.name;
+    $('#r-ideology-desc').textContent = close.length > 1
+      ? `These are within ${CLEAR_FIT_GAP} points of each other; the test cannot separate them. ${top.ide.name}: ${top.ide.d}`
+      : top.ide.d;
+    $('#r-ideology-sim').textContent = approx(top.d) + ' match' + (weak ? ' · no profile fits closely' : '');
+    $('#r-ideology-src').textContent = top.ide.src ? 'Profile follows ' + top.ide.src + '.' : '';
 
     const runners = $('#r-runners');
     runners.textContent = '';
-    ideos.slice(1, 5).forEach((r) => {
+    ideos.slice(close.length > 1 ? Math.min(close.length, 3) : 1).slice(0, 4).forEach((r) => {
       const li = el('li');
       li.appendChild(el('span', 'runner-name', r.ide.name));
-      li.appendChild(el('span', 'num', similarity(r.d) + '%'));
+      li.appendChild(el('span', 'num', approx(r.d)));
       runners.appendChild(li);
     });
+
+    renderQuality(currentQuality);
 
     // Per-axis results with nearest figures on each axis
     const axesBox = $('#r-axes');
@@ -204,8 +259,28 @@
       const head = el('div', 'axis-head');
       const name = el('h3', 'axis-name', ax.name);
       const verdict = el('span', 'axis-verdict', strengthLabel(u[k], ax));
+      head.append(name, verdict);
+      const pa = currentQuality && currentQuality.perAxis[k];
+      if (pa && pa.agreement != null && pa.agreement < 0.4) {
+        const tag = el('span', 'tag', 'Mixed answers');
+        tag.title = 'Your answers on this axis pulled in opposite directions, so the score sits near the middle for that reason.';
+        head.appendChild(tag);
+      }
+      if (pa && pa.count < 3) head.appendChild(el('span', 'tag', `Only ${pa.count} answered`));
+      const imp = el('label', 'imp');
+      imp.append(el('span', 'imp-label', 'Matters'));
+      const sel = el('select');
+      sel.id = 'imp-' + ax.key;
+      IMPORTANCE.forEach((o) => {
+        const opt = el('option', null, o.label);
+        opt.value = String(o.w);
+        if (o.w === importance[k]) opt.selected = true;
+        sel.appendChild(opt);
+      });
+      sel.addEventListener('change', () => { importance[k] = Number(sel.value); renderResults(u, true); });
+      imp.appendChild(sel);
       const val = el('span', 'num axis-val', signed(u[k]));
-      head.append(name, verdict, val);
+      head.append(imp, val);
 
       const poles = el('div', 'poles');
       poles.append(el('span', 'pole pole-l', ax.left), el('span', 'pole pole-r', ax.right));
@@ -229,14 +304,31 @@
     farList.textContent = '';
     figs.slice(-5).reverse().forEach((r) => farList.appendChild(matchRow(r)));
 
-    const skipped = FIGURES.filter((f) => distance(u, f.v).n < MIN_SHARED_FIGURE).map((f) => f.n);
+    const skipped = FIGURES.filter((f) => !rankable(f)).map((f) => f.n);
     $('#r-skipped').textContent = skipped.length
-      ? `Left out of the overall ranking for lack of public record on enough axes: ${skipped.join(', ')}. They still appear in the per-axis matches where a score exists.`
+      ? `Not in the overall ranking because no scholarly source codes their politics, or the record covers too few axes: ${skipped.join(', ')}. They still appear in the per-axis matches where a score exists.`
       : '';
 
     const code = '#r.' + u.join('.');
     $('#r-code').value = code;
-    window.scrollTo({ top: 0 });
+    if (!keepScroll) window.scrollTo({ top: 0 });
+  }
+
+  function renderQuality(q) {
+    const box = $('#r-quality');
+    box.hidden = !q;
+    if (!q) return;
+    const lines = [];
+    if (q.attention === false) lines.push({ cls: 'warn', t: 'You missed the attention-check statement. Treat this result with caution.' });
+    if (q.overall != null) {
+      const pct = Math.round(q.overall * 100);
+      lines.push({ cls: pct < 50 ? 'warn' : '', t: `Answer consistency ${pct}%. This is how often your answers on the same axis point the same way. Below about 50%, your views don't line up on these axes, which is common (Converse 1964; Kinder & Kalmoe 2017), and the nearest ideology means less.` });
+    }
+    if (q.skipped) lines.push({ cls: '', t: `${q.skipped} statement${q.skipped === 1 ? '' : 's'} answered "No opinion" and left out of scoring.` });
+    if (q.mode === 'short') lines.push({ cls: '', t: 'Short version: five statements per axis, so each score is less reliable than in the full test.' });
+    const ul = $('#r-quality-list');
+    ul.textContent = '';
+    lines.forEach((l) => { const li = el('li', l.cls, l.t); ul.appendChild(li); });
   }
 
   function matchRow(r) {
@@ -246,7 +338,7 @@
     const left = el('span', 'match-who');
     left.appendChild(el('span', 'match-name', r.f.n));
     left.appendChild(el('span', 'match-sub', `${r.f.l} · ${FIGURE_CATEGORIES[r.f.c]}`));
-    const pct = el('span', 'num match-pct', similarity(r.d) + '%');
+    const pct = el('span', 'num match-pct', approx(r.d));
     const meter = el('span', 'meter');
     const fill = el('span', 'meter-fill');
     fill.style.width = similarity(r.d) + '%';
@@ -293,6 +385,12 @@
     conf.textContent = f.conf + ' confidence';
     conf.dataset.conf = f.conf;
     $('#fd-note').textContent = f.note;
+    $('#fd-flag').textContent = f.flag || '';
+    $('#fd-flag').hidden = !f.flag;
+    const src = $('#fd-src');
+    src.textContent = '';
+    (f.src || []).forEach((t) => src.appendChild(el('li', null, t)));
+    $('#fd-src-wrap').hidden = !(f.src && f.src.length);
     const scored = f.v.filter((x) => x != null).length;
     $('#fd-nearest').textContent = scored >= 4
       ? 'Nearest ideology profile on these scores: ' + nearestIdeologyFor(f.v)
@@ -373,6 +471,7 @@
       const li = el('li', 'ide');
       li.appendChild(el('h3', 'ide-name', ide.name));
       li.appendChild(el('p', 'ide-desc', ide.d));
+      if (ide.src) li.appendChild(el('p', 'ide-src', 'Source: ' + ide.src));
       li.appendChild(profileTable(ide.v));
       list.appendChild(li);
     });
@@ -385,6 +484,7 @@
       const dt = el('dt', null, `${ax.name}: ${ax.left} ↔ ${ax.right}`);
       const dd = el('dd', null, `${ax.left}: ${ax.ldesc} ${ax.right}: ${ax.rdesc}`);
       const count = QUESTIONS.filter((q) => q.e[ax.key]).length;
+      if (ax.key === 'method') dd.appendChild(el('span', 'dd-count', ' Counts half as much as other axes in matching.'));
       const shortCount = SHORT.filter((q) => q.e[ax.key]).length;
       dd.appendChild(el('span', 'dd-count', ` ${count} statements touch this axis (${shortCount} in the short version).`));
       box.append(dt, dd);
@@ -435,6 +535,7 @@
       const parts = v.replace(/^#?r\./, '').split('.').map(Number);
       if (parts.length === N && parts.every((x) => Number.isFinite(x) && Math.abs(x) <= 100)) {
         currentScores = parts;
+        currentQuality = null;
         renderResults(parts);
         $('#paste-error').hidden = true;
       } else {
@@ -466,6 +567,7 @@
       if (e.target.tagName === 'INPUT') return;
       const n = Number(e.key);
       if (n >= 1 && n <= 5) choose(ANSWERS[n - 1].v);
+      else if (n === 6) choose(null);
       else if (e.key === 'Backspace' && idx > 0) { idx--; renderQuestion(); }
     });
   }

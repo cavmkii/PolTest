@@ -1,10 +1,11 @@
 // Each statement moves one or more axes. A positive weight means agreeing pushes
 // toward the right-hand pole of that axis (Markets, Authority, Tradition, ...).
 // Every axis has statements in both directions to dampen agree-with-everything bias.
-// s: 1 marks the 50 statements (five per axis) used by the short version.
+// s: 1 marks the 50 scored statements (five per axis) used by the short version.
+// Violence items are concrete scenarios rather than abstract principles, following Westwood et al. (2022, PNAS).
 const QUESTIONS = [
   // Economy
-  { t: 'Healthcare should be provided by the state and free at the point of use.', s: 1, e: { econ: -1 } },
+  { t: 'Healthcare should be paid for by the government through taxes.', s: 1, e: { econ: -1 } },
   { t: 'Minimum wage laws do more harm than good for low-skilled workers.', s: 1, e: { econ: 1 } },
   { t: 'Key industries such as energy, rail and water should be publicly owned.', s: 1, e: { econ: -1 } },
   { t: 'Inequality is not a problem in itself, as long as the poor are getting richer.', e: { econ: 1 } },
@@ -18,9 +19,9 @@ const QUESTIONS = [
   { t: 'The government should be able to monitor communications without a warrant if it helps prevent terrorism.', s: 1, e: { power: 1 } },
   { t: 'Hate speech should be a criminal offense.', e: { power: 0.5, culture: -0.5 } },
   { t: 'Most drugs should be legal for adults.', s: 1, e: { power: -1, culture: -0.5 } },
-  { t: 'In a crisis, a strong leader who does not have to answer to parliament or elections would be good for the country.', s: 1, e: { power: 1, method: 0.5 } },
+  { t: 'In a national crisis, the head of government should be able to rule without parliament\'s approval.', s: 1, e: { power: 1, method: 0.5 } },
   { t: 'Private citizens should have the right to own firearms.', s: 1, e: { power: -1, culture: 0.3 } },
-  { t: 'Obedience and respect for authority are among the most important things children can learn.', e: { power: 1, culture: 0.5 } },
+  { t: 'Schools should put more emphasis on obedience and respect for authority.', e: { power: 1, culture: 0.5 } },
   { t: 'The press should be free to publish state secrets when it is in the public interest.', s: 1, e: { power: -1 } },
   { t: 'Political parties that threaten national stability should be banned.', e: { power: 1 } },
   { t: 'Governments should not break up protests just because they are disruptive.', e: { power: -1 } },
@@ -44,6 +45,9 @@ const QUESTIONS = [
   { t: 'National sovereignty matters more than international human rights treaties.', e: { nation: 1, power: 0.3 } },
   { t: 'Humanity would be better off with stronger global governance, even at the cost of national independence.', e: { nation: -1 } },
 
+  // Attention check: not scored. Answering anything but Disagree flags the result.
+  { t: 'To show you are reading carefully, choose "Disagree" for this statement.', s: 1, check: -0.5, e: {} },
+
   // Religion
   { t: 'Religious values should guide the laws of the country.', s: 1, e: { faith: 1 } },
   { t: 'Religion and the state should be strictly separated.', s: 1, e: { faith: -1 } },
@@ -55,7 +59,7 @@ const QUESTIONS = [
   { t: 'Laws should rest on reason and evidence, not on religious teaching.', s: 1, e: { faith: -1 } },
 
   // Membership
-  { t: 'Immigrants generally strengthen the country they move to.', s: 1, e: { belong: -1, nation: -0.5 } },
+  { t: 'My country should welcome immigrants who want to settle here permanently.', s: 1, e: { belong: -1, nation: -0.5 } },
   { t: 'A nation is fundamentally defined by shared ancestry.', s: 1, e: { belong: 1, nation: 0.5 } },
   { t: "Anyone who commits to the country's laws should be able to become a full citizen, whatever their race or religion.", s: 1, e: { belong: -1 } },
   { t: 'Some cultures are simply incompatible with ours, and their members should not be allowed to settle here.', s: 1, e: { belong: 1 } },
@@ -91,11 +95,12 @@ const QUESTIONS = [
   { t: 'Technological progress is, on the whole, good for humanity.', e: { ecology: 0.5, culture: -0.3 } },
 
   // Means
-  { t: 'Political violence is never justified in a democracy.', s: 1, e: { method: -1 } },
+  { t: 'In a country with free elections, it is never acceptable to physically attack politicians or officials, even ones you see as dangerous.', s: 1, e: { method: -1 } },
   { t: 'The political system is so corrupt that it must be torn down rather than reformed.', e: { method: 1 } },
+  { t: 'Using violence to stop a policy I strongly oppose would be justified if peaceful means had failed.', e: { method: 1 } },
   { t: 'Political change should come through elections, courts and legislation.', e: { method: -1 } },
-  { t: 'Armed struggle is legitimate against a government that oppresses your people.', s: 1, e: { method: 1 } },
-  { t: 'Attacks on civilians can be justified if they serve a just cause.', s: 1, e: { method: 1, war: 0.5 } },
+  { t: 'If a government jailed opposition leaders and cancelled elections, citizens would be justified in taking up arms against it.', s: 1, e: { method: 0.5 } },
+  { t: 'A movement fighting for a cause I support would be justified in bombing places where its opponents\' civilians gather.', s: 1, e: { method: 1, war: 0.5 } },
   { t: 'Compromising with political opponents is a sign of weakness.', e: { method: 0.5, power: 0.3 } },
   { t: 'Accepting the result of an election matters even when your side loses.', s: 1, e: { method: -1 } },
   { t: 'Peaceful protest achieves more lasting change than violence does.', s: 1, e: { method: -1 } }
@@ -104,7 +109,7 @@ const QUESTIONS = [
 const ANSWERS = [
   { label: 'Strongly agree', v: 1 },
   { label: 'Agree', v: 0.5 },
-  { label: 'Neutral / unsure', v: 0 },
+  { label: 'Neutral', v: 0 },
   { label: 'Disagree', v: -0.5 },
   { label: 'Strongly disagree', v: -1 }
 ];

@@ -26,18 +26,18 @@
     <section id="intro" class="intro">
       <p class="eyebrow">Political alignment test</p>
       <h1>Which bad leader is closest to you?</h1>
-      <p class="lede">Rate <span id="q-short">50</span> or <span id="q-full">77</span> statements. You get the nearest of <span id="ide-total">49</span> real ideologies, your score on each axis, and which of <span id="fig-total">50</span> dictators, terrorist leaders and notorious figures sits closest to you on each axis and overall.</p>
+      <p class="lede">Rate <span id="q-short">50</span> or <span id="q-full">78</span> statements. You get the nearest of <span id="ide-total">49</span> real ideologies, your score on each axis, and which of <span id="fig-total">50</span> dictators, terrorist leaders and notorious figures sits closest to you on each axis and overall.</p>
       <div class="intro-actions">
         <button id="start-short" class="btn btn-primary btn-mode" type="button">
           <span class="mode-name">Short test</span>
-          <span class="mode-meta">50 statements · about 6 min</span>
+          <span class="mode-meta">50 statements + 1 attention check · about 6 min · less reliable</span>
         </button>
         <button id="start-full" class="btn btn-mode" type="button">
           <span class="mode-name">Full test</span>
-          <span class="mode-meta">77 statements · about 10 min · finer, better balanced scores</span>
+          <span class="mode-meta">78 statements + 1 attention check · about 10 min · more reliable</span>
         </button>
       </div>
-      <p class="hint">Keys 1–5 answer, Backspace goes back.</p>
+      <p class="hint">Keys 1–5 answer, 6 is No opinion, Backspace goes back.</p>
       <ol class="axis-index" aria-label="The ten axes">
         <li>Equality ↔ Markets</li><li>Liberty ↔ Authority</li><li>Progress ↔ Tradition</li>
         <li>Globalism ↔ Nationalism</li><li>Secular ↔ Religious</li><li>Pluralism ↔ Exclusion</li>
@@ -62,24 +62,30 @@
       <div id="q-answers" class="answers"></div>
       <div class="quiz-nav">
         <button id="q-back" class="btn btn-quiet" type="button">Back</button>
-        <button id="q-skip" class="btn btn-quiet" type="button">Skip</button>
+        <button id="q-skip" class="btn btn-quiet" type="button">No opinion</button>
       </div>
     </section>
 
     <section id="results" class="results" hidden>
       <div class="verdict">
-        <p class="eyebrow">Closest ideology</p>
+        <p id="r-eyebrow" class="eyebrow">Closest ideology</p>
         <h1 id="r-ideology"></h1>
         <p id="r-ideology-sim" class="sim num"></p>
         <p id="r-ideology-desc" class="lede"></p>
+        <p id="r-ideology-src" class="sub"></p>
         <div class="runners">
           <h2 class="h-small">Next closest</h2>
           <ol id="r-runners"></ol>
         </div>
       </div>
 
+      <section id="r-quality" class="quality" hidden>
+        <h2 class="h-small">How much to trust this result</h2>
+        <ul id="r-quality-list"></ul>
+      </section>
+
       <h2 class="h-section">Your axes</h2>
-      <p class="sub">The large mark is you. Thin ticks are scored figures; hover one for the name. Chips are the four people closest to you on that axis alone.</p>
+      <p class="sub">The large mark is you. Thin ticks are scored figures; hover one for the name. Chips are the four people closest to you on that axis alone. "Matters" changes how much an axis counts in your matches.</p>
       <div id="r-axes" class="axes"></div>
 
       <div class="matches">
@@ -135,18 +141,55 @@
     <h2 class="h-section">Axes</h2>
     <dl id="method-axes" class="method-axes"></dl>
 
+    <h2 class="h-section">What the axes are, and are not</h2>
+    <p>The ten axes are a display choice, not a finding. Research on mass political attitudes repeatedly finds that they sort mainly onto two correlated dimensions, economic and cultural/authoritarian (Feldman &amp; Johnston 2014; Treier &amp; Hillygus 2009), and that the two relate differently across countries (Malka, Lelkes &amp; Soto 2019). Culture, Religion, Membership and Justice probably measure overlapping things. This test has never been checked against real response data, so no axis here has an established reliability.</p>
+    <p>State power mixes authoritarian disposition, which the literature measures separately as right-wing authoritarianism (Altemeyer 1996), social dominance orientation (Pratto et al. 1994), child-rearing authoritarianism (Feldman &amp; Stenner 1997) and left-wing authoritarianism (Costello et al. 2022), with civil-liberties policy. The statements are worded as policy so the axis leans toward the second.</p>
+    <p>Populism is treated as a thin ideology that attaches to a host ideology (Mudde 2004), not as a point in this space. Measuring it properly needs its own scale (Akkerman, Mudde &amp; Zaslove 2014; Castanho Silva et al. 2020), which this test does not include.</p>
+
     <h2 class="h-section">Scoring</h2>
-    <p>Answers count +1, +½, 0, −½, −1. Each statement carries a weight on one or more axes; your axis score is the weighted sum divided by the largest possible sum, scaled to −100…+100. Skipped statements drop out of both. Each axis has statements in both directions so that agreeing with everything does not push you to one pole.</p>
-    <p>Matches use root-mean-square distance over the axes both profiles define, converted to a percentage where 0 distance is 100% and the maximum possible distance (200) is 0%. Figures need a score on at least 5 axes to enter the overall ranking. Per-axis matches use any figure scored on that axis, with ties broken by overall distance.</p>
+    <p>Answers count +1, +½, 0, −½, −1. "No opinion" is separate from Neutral (Krosnick et al. 2002) and drops the statement. Each statement carries a weight on one or more axes; your axis score is the weighted sum over the largest possible sum, scaled to −100…+100 (the 8values model). Each axis has statements keyed in both directions to limit acquiescence bias. Double-barreled statements were split or reworded. One attention-check statement is not scored.</p>
+    <p>The violence statements describe concrete acts rather than abstract principles. Westwood, Grimmer, Tyler &amp; Nall (2022) showed abstract items overstate support for political violence. Even so, Means is the least trustworthy axis and counts half as much as the others in matching.</p>
+    <p>Matching uses weighted root-mean-square distance across all ten axes, the standard form in spatial models of political choice (Enelow &amp; Hinich 1984). The "Matters" setting on each axis changes its weight. A blank axis on a profile counts as a fixed gap (35 points for figures, 30 for ideologies), so sparsely documented profiles do not win by default. When the top ideologies are within 3 points, the result says there is no clear fit. Percentages are shown as approximate because the profiles themselves are estimates.</p>
+    <p>Answer consistency reports how often answers on the same axis point the same way. Most people do not hold tightly constrained ideological views (Converse 1964; Kinder &amp; Kalmoe 2017); a low score is common and means the nearest ideology tells you less.</p>
 
     <h2 class="h-section">How the figures were scored</h2>
-    <p>The roster is deliberately limited to divisive figures: dictators, militant and terrorist leaders, and notorious public figures. Positions are inferred from what each person did in power and said in their own writings or speeches, placed on the present-day spectrum you answer on, not relative to their era.</p>
-    <p>Because nobody mainstream is on the list, a moderate will still get a "closest" match, usually a far worse person than they are. The percentage tells you how close that really is.</p>
-    <p>Confidence reflects how much political record exists. Bin Laden, Lenin and Thatcher wrote or governed at length. Sean Combs and Jeffrey Epstein left almost no stated politics: their profiles cover the few axes with evidence (donations, campaigns, public statements) and are blank elsewhere. Epstein falls below the 5-axis threshold and is excluded from overall rankings. Matching someone on an axis is a fact about one position, not about character or conduct.</p>
+    <p>The roster is limited to divisive figures: dictators, militant and terrorist leaders, and notorious public figures. Positions are placed on the present-day spectrum you answer on. Each profile lists the sources it was checked against.</p>
+    <ul class="method-list">
+      <li><b>Economy</b> for heads of state since 1945 was checked against Herre's (2023) Global Leader Ideologies dataset. Where the codes disagreed with the first draft, the score moved: Lee Kuan Yew (coded leftist), Khomeini (rightist), Duterte (rightist), Assad (leftist) and Idi Amin (non-ideological, now blank).</li>
+      <li><b>Party positions</b> for Erdoğan, Bolsonaro, Putin, Chávez, Mugabe, Thatcher, Lee Kuan Yew and Saddam were checked against V-Party expert codings (Lührmann et al. 2020) for economic position, religious appeals, LGBT equality, immigration, pluralism and encouragement of violence.</li>
+      <li><b>Regime type</b> flags come from V-Dem's codings of how a regime legitimizes itself: through the leader's person, through ideology, and which ideology. The Geddes-Wright-Frantz autocratic regimes data and the Archigos leader data were planned for this but could not be downloaded from this environment, so they were not used.</li>
+      <li><b>Militant groups</b> follow the group histories and classifications in Stanford's Mapping Militant Organizations, Rapoport's four waves, and the scholarship listed on each profile. al-Qaeda and ISIS are separated as Wiktorowicz and Bunzel separate them.</li>
+      <li><b>Celebrities and notorious figures</b> (Combs, Epstein, Ye, Musk, Rogan, Tate) have no scholarly coding. Their profiles rest on journalism and their own statements, they are marked low confidence, and they are excluded from the overall ranking.</li>
+    </ul>
+    <p>A close match means you share some stated positions with that person. It says nothing about conduct, and because nobody mainstream is on the list, a moderate will still get a "closest" figure who is much further from them than the name suggests.</p>
 
-    <h2 class="h-section">Limits</h2>
-    <p>Ten axes cannot hold a whole politics. A single number for "Means" flattens the difference between Gandhi's nonviolent law-breaking and a bombing campaign; the statements try to separate those but the scale cannot. Ideology profiles are idealized centers, and real movements spread wide around them. Statement wording carries bias that no balancing fully removes. Treat the output as a map for argument, not a measurement.</p>
-    <p>Comparable tests: <a href="https://8values.github.io/" target="_blank" rel="noopener">8values</a> (four axes, the scoring model used here), <a href="https://12axes.github.io/" target="_blank" rel="noopener">12axes</a> (more axes, ideology matching with weighted slots).</p>
+    <h2 class="h-section">Not done</h2>
+    <p>The test has not been validated: no factor analysis, no reliability estimates (omega or alpha), no test-retest check, no comparison against self-placement or party identification. Those need response data, which this page does not collect. Until then, treat the output as a structured argument about where you sit, not a measurement.</p>
+
+    <h2 class="h-section">References</h2>
+    <ul class="refs">
+      <li>Akkerman, A., Mudde, C. &amp; Zaslove, A. (2014). How populist are the people? <i>Comparative Political Studies</i> 47(9).</li>
+      <li>Altemeyer, B. (1996). <i>The Authoritarian Specter.</i> Harvard University Press.</li>
+      <li>Castanho Silva, B. et al. (2020). An empirical comparison of seven populist attitudes scales. <i>Political Research Quarterly</i> 73(2).</li>
+      <li>Converse, P. (1964). The nature of belief systems in mass publics. In Apter (ed.), <i>Ideology and Discontent.</i></li>
+      <li>Costello, T. et al. (2022). Clarifying the structure and nature of left-wing authoritarianism. <i>Journal of Personality and Social Psychology</i> 122(1).</li>
+      <li>Enelow, J. &amp; Hinich, M. (1984). <i>The Spatial Theory of Voting.</i> Cambridge University Press.</li>
+      <li>Feldman, S. &amp; Johnston, C. (2014). Understanding the determinants of political ideology. <i>Political Psychology</i> 35(3).</li>
+      <li>Feldman, S. &amp; Stenner, K. (1997). Perceived threat and authoritarianism. <i>Political Psychology</i> 18(4).</li>
+      <li>Herre, B. (2023). Identifying ideologues: A global dataset on political leaders, 1945–2020. <i>British Journal of Political Science</i> 53(2).</li>
+      <li>Kinder, D. &amp; Kalmoe, N. (2017). <i>Neither Liberal nor Conservative.</i> University of Chicago Press.</li>
+      <li>Krosnick, J. et al. (2002). The impact of "no opinion" response options on data quality. <i>Public Opinion Quarterly</i> 66(3).</li>
+      <li>Lührmann, A. et al. (2020). Varieties of Party Identity and Organization (V-Party) Dataset. V-Dem Institute.</li>
+      <li>Malka, A., Lelkes, Y. &amp; Soto, C. (2019). Are cultural and economic conservatism positively correlated? <i>British Journal of Political Science</i> 49(3).</li>
+      <li>Mudde, C. (2004). The populist zeitgeist. <i>Government and Opposition</i> 39(4).</li>
+      <li>Mudde, C. (2007). <i>Populist Radical Right Parties in Europe.</i> Cambridge University Press.</li>
+      <li>Pratto, F. et al. (1994). Social dominance orientation. <i>Journal of Personality and Social Psychology</i> 67(4).</li>
+      <li>Rapoport, D. (2004). The four waves of modern terrorism. In Cronin &amp; Ludes (eds.), <i>Attacking Terrorism.</i></li>
+      <li>Treier, S. &amp; Hillygus, D. S. (2009). The nature of political ideology in the contemporary electorate. <i>Public Opinion Quarterly</i> 73(4).</li>
+      <li>Westwood, S., Grimmer, J., Tyler, M. &amp; Nall, C. (2022). Current research overstates American support for political violence. <i>PNAS</i> 119(12).</li>
+      <li>Wiktorowicz, Q. (2006). Anatomy of the Salafi movement. <i>Studies in Conflict &amp; Terrorism</i> 29(3).</li>
+    </ul>
+    <p>Comparable tests: <a href="https://8values.github.io/" target="_blank" rel="noopener">8values</a> and <a href="https://12axes.github.io/" target="_blank" rel="noopener">12axes</a>. Neither is validated either.</p>
   </section>
 </main>
 
@@ -160,9 +203,14 @@
   </div>
   <p class="fd-label-row"><span id="fd-label" class="fd-label"></span> <span id="fd-conf" class="conf"></span></p>
   <p id="fd-note" class="fd-note"></p>
+  <p id="fd-flag" class="fd-flag" hidden></p>
   <div id="fd-profile"></div>
   <p id="fd-legend" class="sub legend" hidden><span class="key key-fig"></span> this person <span class="key key-you"></span> you</p>
   <p id="fd-nearest" class="sub"></p>
+  <div id="fd-src-wrap" class="fd-src-wrap" hidden>
+    <h3 class="h-small">Sources</h3>
+    <ul id="fd-src" class="fd-src"></ul>
+  </div>
 </dialog>
 <!--/BODY-->
 
