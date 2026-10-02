@@ -58,10 +58,11 @@ V-Party (Lührmann et al. 2020); regime type against V-Dem legitimation codes. E
 its sources in `js/figures.js` and `js/ideologies.js`; the Method tab has the methodological references.
 Celebrities have no scholarly coding and are excluded from the overall ranking.
 
-The test is not validated: no factor analysis, reliability or test-retest data exist for it.
+The test's own statements are not validated: no reliability or test-retest data exist for them. The axis structure was checked against World Values Survey Wave 7 (97,220 respondents, 66 countries) using comparable questions; see `research/wvs7_axis_check.md`.
 
 ## Data in `research/`
 
 - `philpapers2020_target_faculty.txt` – 2020 PhilPapers Survey results, target faculty.
 - `philpapers2020_strongest_correlations.txt` – the survey's 200 strongest answer correlations.
 - `gpd_v2.1_term_scores.csv` – Global Populism Database v2.1, one row per leader term.
+- `wvs7_axis_check.md` – World Values Survey Wave 7 check of the political axes; `wvs7_recode.py`, `wvs7_analysis.py` and `wvs7_results.txt` reproduce it (the WVS data itself is not redistributed).

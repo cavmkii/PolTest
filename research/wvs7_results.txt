@@ -1,0 +1,158 @@
+## Reliability (Cronbach alpha) and item counts
+econ     items=6  alpha pooled=0.30  within-country=0.30
+power    items=7  alpha pooled=0.42  within-country=0.28
+culture  items=5  alpha pooled=0.79  within-country=0.62
+faith    items=4  alpha pooled=0.74  within-country=0.54
+belong   items=9  alpha pooled=0.67  within-country=0.60
+nation   items=4  alpha pooled=-0.01  within-country=0.02
+war      items=1  alpha pooled=nan  within-country=nan
+justice  items=1  alpha pooled=nan  within-country=nan
+ecology  items=1  alpha pooled=nan  within-country=nan
+method   items=3  alpha pooled=0.85  within-country=0.84
+
+## Axis score correlations (pooled, weighted by S018)
+         econ  power  culture  faith  belong  nation   war  justice  ecology  method
+econ     1.00  -0.05    -0.10  -0.16   -0.09   -0.02 -0.00     0.03    -0.02   -0.03
+power   -0.05   1.00     0.39   0.46    0.20    0.19  0.15     0.00     0.09    0.08
+culture -0.10   0.39     1.00   0.54    0.33    0.31  0.21    -0.14     0.13   -0.12
+faith   -0.16   0.46     0.54   1.00    0.28    0.22  0.19    -0.06     0.10    0.08
+belong  -0.09   0.20     0.33   0.28    1.00    0.24  0.10     0.05     0.11    0.02
+nation  -0.02   0.19     0.31   0.22    0.24    1.00  0.22     0.04     0.05   -0.10
+war     -0.00   0.15     0.21   0.19    0.10    0.22  1.00     0.01    -0.01   -0.03
+justice  0.03   0.00    -0.14  -0.06    0.05    0.04  0.01     1.00     0.02    0.25
+ecology -0.02   0.09     0.13   0.10    0.11    0.05 -0.01     0.02     1.00    0.04
+method  -0.03   0.08    -0.12   0.08    0.02   -0.10 -0.03     0.25     0.04    1.00
+
+## Axis score correlations (within-country, weighted by S018)
+         econ  power  culture  faith  belong  nation   war  justice  ecology  method
+econ     1.00  -0.03    -0.02  -0.13   -0.04    0.02  0.03     0.04    -0.00   -0.04
+power   -0.03   1.00     0.21   0.28    0.12    0.10  0.05     0.03     0.08    0.04
+culture -0.02   0.21     1.00   0.29    0.18    0.16  0.06    -0.19     0.09   -0.19
+faith   -0.13   0.28     0.29   1.00    0.16    0.07  0.04    -0.05     0.05    0.07
+belong  -0.04   0.12     0.18   0.16    1.00    0.14  0.02     0.03     0.08    0.01
+nation   0.02   0.10     0.16   0.07    0.14    1.00  0.15     0.04     0.01   -0.11
+war      0.03   0.05     0.06   0.04    0.02    0.15  1.00     0.02    -0.02   -0.03
+justice  0.04   0.03    -0.19  -0.05    0.03    0.04  0.02     1.00     0.02    0.27
+ecology -0.00   0.08     0.09   0.05    0.08    0.01 -0.02     0.02     1.00    0.05
+method  -0.04   0.04    -0.19   0.07    0.01   -0.11 -0.03     0.27     0.05    1.00
+
+## Correlation with left-right self-placement (Q240, 1=left..10=right)
+econ     pooled=+0.05  within-country=+0.08
+power    pooled=+0.16  within-country=+0.12
+culture  pooled=+0.17  within-country=+0.11
+faith    pooled=+0.21  within-country=+0.15
+belong   pooled=+0.14  within-country=+0.11
+nation   pooled=+0.13  within-country=+0.09
+war      pooled=+0.09  within-country=+0.06
+justice  pooled=+0.01  within-country=+0.04
+ecology  pooled=+0.08  within-country=+0.06
+method   pooled=+0.05  within-country=+0.03
+
+## Exploratory factor analysis, within-country, listwise N=53236, 41 items
+eigenvalues: 3.25 3.02 2.09 1.86 1.77 1.64 1.31 1.24 1.22 1.13 1.09 1.07
+parallel-analysis 95% thresholds: 1.05 1.05 1.04 1.04 1.04 1.04 1.03 1.03 1.03 1.03 1.02 1.02
+factors retained by parallel analysis: 12
+
+### 2-factor solution (principal axis, promax); variance explained by unrotated factors: 0.119
+econ_Q106_incentives               -0.02 +0.01   -> F1 (0.02)
+econ_Q107_private                  -0.06 -0.09   -> F2 (0.09)
+econ_Q108_selfreliance             +0.05 +0.05   -> F1 (0.05)
+econ_Q109_competition              -0.15 -0.14   -> F1 (0.15)
+econ_Q241_taxrich_notessential     -0.03 -0.08   -> F2 (0.08)
+econ_Q247_equalize_notessential    -0.05 -0.15   -> F2 (0.15)
+power_Q235_strongleader            +0.09 +0.25   -> F2 (0.25)
+power_Q237_armyrule                +0.16 +0.33   -> F2 (0.33)
+power_Q45_respectauthority         -0.03 +0.20   -> F2 (0.20)
+power_Q17_obedience                -0.02 +0.12   -> F2 (0.12)
+power_Q150_security                -0.05 +0.04   -> F1 (0.05)
+power_Q248_obeyrulers              +0.03 +0.22   -> F2 (0.22)
+power_Q246_civilrights_notess      +0.06 +0.09   -> F2 (0.09)
+culture_Q182_homosex_unjust        -0.39 +0.40   -> F2 (0.40)
+culture_Q184_abortion_unjust       -0.49 +0.37   -> F1 (0.49)
+culture_Q185_divorce_unjust        -0.34 +0.38   -> F2 (0.38)
+culture_Q29_menleaders             +0.07 +0.32   -> F2 (0.32)
+culture_Q33_menjobs                +0.07 +0.37   -> F2 (0.37)
+faith_Q164_god                     -0.08 +0.34   -> F2 (0.34)
+faith_Q169_religionright           +0.04 +0.51   -> F2 (0.51)
+faith_Q239_religiouslaw            +0.15 +0.44   -> F2 (0.44)
+faith_Q242_clericslaw              +0.14 +0.37   -> F2 (0.37)
+belong_Q170_onlymyreligion         +0.05 +0.49   -> F2 (0.49)
+belong_Q19_noneighbor_race         +0.10 +0.27   -> F2 (0.27)
+belong_Q21_noneighbor_immig        +0.08 +0.24   -> F2 (0.24)
+belong_Q23_noneighbor_relig        +0.10 +0.28   -> F2 (0.28)
+belong_Q26_noneighbor_lang         +0.09 +0.25   -> F2 (0.25)
+belong_Q121_immig_bad              -0.03 +0.11   -> F2 (0.11)
+belong_Q130_restrict               -0.06 +0.13   -> F2 (0.13)
+belong_Q124_crime                  -0.03 +0.14   -> F2 (0.14)
+belong_Q129_conflict               -0.04 +0.09   -> F2 (0.09)
+nation_Q34_natives_first           -0.06 +0.18   -> F2 (0.18)
+nation_Q254_pride                  -0.12 +0.10   -> F1 (0.12)
+nation_Q257_closecountry           -0.10 +0.07   -> F1 (0.10)
+nation_Q259_notcloseworld          -0.00 -0.04   -> F2 (0.04)
+war_Q151_fight                     -0.05 +0.09   -> F2 (0.09)
+justice_Q195_deathpenalty          +0.32 -0.05   -> F1 (0.32)
+ecology_Q111_growth                +0.04 +0.15   -> F2 (0.15)
+method_Q191_violence               +0.73 +0.10   -> F1 (0.73)
+method_Q192_terrorism              +0.75 +0.14   -> F1 (0.75)
+method_Q194_polviolence            +0.75 +0.11   -> F1 (0.75)
+factor correlations:
+      F1    F2
+F1  1.00 -0.08
+F2 -0.08  1.00
+
+### 12-factor solution (principal axis, promax); variance explained by unrotated factors: 0.317
+econ_Q106_incentives               -0.02 -0.03 -0.00 +0.02 +0.05 -0.01 +0.01 -0.05 -0.00 +0.51 -0.04 -0.06   -> F10 (0.51)
+econ_Q107_private                  +0.03 +0.03 +0.02 +0.10 +0.03 -0.02 +0.01 -0.02 +0.01 -0.12 +0.29 -0.12   -> F11 (0.29)
+econ_Q108_selfreliance             +0.01 +0.01 +0.01 +0.05 +0.00 -0.00 +0.01 -0.01 -0.04 +0.52 -0.17 -0.07   -> F10 (0.52)
+econ_Q109_competition              +0.01 -0.02 +0.02 +0.01 +0.04 -0.00 +0.01 -0.01 -0.03 -0.12 +0.50 -0.12   -> F11 (0.50)
+econ_Q241_taxrich_notessential     +0.04 +0.02 +0.01 +0.51 -0.03 +0.01 -0.02 +0.07 -0.01 +0.02 +0.05 +0.03   -> F4 (0.51)
+econ_Q247_equalize_notessential    -0.01 -0.01 +0.00 +0.60 +0.01 -0.00 +0.01 -0.04 +0.05 +0.14 +0.08 -0.04   -> F4 (0.60)
+power_Q235_strongleader            -0.03 -0.05 -0.02 +0.04 +0.00 +0.01 +0.03 +0.48 -0.06 -0.01 +0.02 +0.06   -> F8 (0.48)
+power_Q237_armyrule                -0.03 -0.02 -0.00 +0.03 +0.02 +0.01 +0.01 +0.63 -0.08 -0.03 -0.01 +0.01   -> F8 (0.63)
+power_Q45_respectauthority         +0.03 -0.01 +0.03 -0.02 -0.06 +0.07 +0.03 +0.14 +0.03 +0.07 +0.06 +0.11   -> F8 (0.14)
+power_Q17_obedience                +0.06 +0.02 +0.01 +0.01 -0.05 -0.02 -0.00 +0.04 +0.03 -0.02 -0.01 +0.14   -> F12 (0.14)
+power_Q150_security                -0.02 -0.05 -0.04 -0.02 -0.02 -0.00 -0.05 +0.07 +0.00 -0.00 -0.01 +0.16   -> F12 (0.16)
+power_Q248_obeyrulers              +0.05 +0.04 +0.02 -0.47 -0.02 -0.01 +0.01 +0.06 -0.01 +0.07 +0.06 +0.03   -> F4 (0.47)
+power_Q246_civilrights_notess      +0.08 +0.07 +0.01 +0.48 -0.02 -0.02 -0.00 +0.18 +0.03 -0.04 -0.07 +0.06   -> F4 (0.48)
+culture_Q182_homosex_unjust        +0.57 -0.05 -0.00 +0.01 +0.01 -0.03 +0.07 -0.03 +0.04 +0.01 +0.02 +0.08   -> F1 (0.57)
+culture_Q184_abortion_unjust       +0.70 -0.06 -0.02 -0.00 +0.00 -0.01 -0.05 -0.02 +0.02 +0.01 +0.08 +0.04   -> F1 (0.70)
+culture_Q185_divorce_unjust        +0.76 +0.07 +0.01 +0.02 +0.02 +0.02 +0.02 -0.03 -0.06 -0.01 -0.05 -0.06   -> F1 (0.76)
+culture_Q29_menleaders             +0.02 +0.03 +0.02 +0.01 -0.00 -0.00 +0.46 +0.05 +0.03 +0.02 +0.04 -0.04   -> F7 (0.46)
+culture_Q33_menjobs                +0.02 +0.00 -0.02 -0.03 -0.03 -0.00 +0.72 -0.01 +0.00 -0.00 -0.02 -0.05   -> F7 (0.72)
+faith_Q164_god                     +0.15 +0.03 -0.03 -0.06 -0.03 +0.03 -0.09 -0.01 +0.36 +0.06 +0.07 +0.07   -> F9 (0.36)
+faith_Q169_religionright           -0.06 -0.02 -0.01 +0.04 +0.01 -0.01 -0.00 -0.05 +0.86 -0.03 -0.01 -0.03   -> F9 (0.86)
+faith_Q239_religiouslaw            -0.01 -0.01 -0.00 +0.00 +0.03 -0.00 -0.02 +0.53 +0.14 -0.02 -0.03 -0.04   -> F8 (0.53)
+faith_Q242_clericslaw              +0.06 +0.07 +0.02 -0.32 +0.02 -0.03 -0.00 +0.20 +0.11 +0.04 -0.07 -0.04   -> F4 (0.32)
+belong_Q170_onlymyreligion         +0.00 +0.00 +0.02 +0.02 +0.00 +0.00 +0.08 -0.02 +0.58 -0.03 -0.05 +0.02   -> F9 (0.58)
+belong_Q19_noneighbor_race         -0.00 -0.01 +0.68 -0.01 -0.01 -0.01 +0.00 +0.00 -0.00 +0.01 +0.02 -0.03   -> F3 (0.68)
+belong_Q21_noneighbor_immig        -0.02 -0.00 +0.57 +0.01 +0.02 -0.01 +0.00 -0.02 -0.01 -0.01 +0.00 +0.08   -> F3 (0.57)
+belong_Q23_noneighbor_relig        -0.00 -0.01 +0.64 -0.01 -0.01 +0.01 -0.00 -0.00 +0.03 +0.01 +0.01 -0.06   -> F3 (0.64)
+belong_Q26_noneighbor_lang         +0.01 +0.00 +0.61 +0.01 -0.00 +0.01 -0.01 -0.00 -0.01 -0.01 +0.00 +0.01   -> F3 (0.61)
+belong_Q121_immig_bad              +0.00 +0.00 +0.04 +0.02 +0.14 -0.02 -0.03 -0.05 +0.02 -0.07 -0.13 +0.36   -> F12 (0.36)
+belong_Q130_restrict               +0.04 +0.00 +0.01 +0.01 +0.10 -0.01 -0.03 -0.03 -0.02 -0.08 -0.13 +0.47   -> F12 (0.47)
+belong_Q124_crime                  +0.03 +0.03 -0.01 -0.02 +0.64 +0.01 +0.00 +0.03 -0.00 +0.03 +0.05 +0.03   -> F5 (0.64)
+belong_Q129_conflict               -0.01 -0.02 -0.00 -0.01 +0.66 +0.01 -0.02 +0.02 +0.01 +0.03 +0.04 -0.01   -> F5 (0.66)
+nation_Q34_natives_first           -0.04 -0.06 -0.01 -0.01 +0.09 +0.02 +0.27 -0.02 +0.01 -0.01 +0.04 +0.24   -> F7 (0.27)
+nation_Q254_pride                  +0.03 -0.02 -0.01 -0.03 -0.06 +0.34 -0.03 +0.04 +0.02 +0.06 +0.10 +0.12   -> F6 (0.34)
+nation_Q257_closecountry           -0.02 -0.00 +0.01 +0.02 +0.02 +0.85 +0.01 -0.04 -0.01 -0.03 -0.04 +0.03   -> F6 (0.85)
+nation_Q259_notcloseworld          +0.01 -0.03 +0.00 -0.01 -0.04 -0.47 -0.00 -0.03 -0.01 +0.02 +0.03 +0.17   -> F6 (0.47)
+war_Q151_fight                     +0.03 +0.03 -0.01 -0.01 -0.01 +0.14 +0.01 +0.05 -0.00 +0.06 +0.12 +0.08   -> F6 (0.14)
+justice_Q195_deathpenalty          -0.24 +0.25 -0.01 +0.01 +0.01 -0.04 -0.00 +0.04 -0.00 +0.06 +0.12 +0.17   -> F2 (0.25)
+ecology_Q111_growth                +0.05 +0.04 +0.01 +0.04 -0.00 -0.05 +0.08 +0.06 -0.01 +0.02 -0.07 +0.11   -> F12 (0.11)
+method_Q191_violence               -0.01 +0.77 -0.00 +0.01 +0.02 -0.01 +0.02 -0.03 +0.00 +0.01 +0.01 -0.02   -> F2 (0.77)
+method_Q192_terrorism              +0.04 +0.82 -0.01 -0.00 -0.00 +0.02 -0.00 -0.01 +0.00 -0.01 -0.03 -0.02   -> F2 (0.82)
+method_Q194_polviolence            -0.00 +0.81 +0.00 -0.00 -0.01 +0.00 -0.00 -0.02 -0.01 -0.02 +0.01 -0.00   -> F2 (0.81)
+factor correlations:
+       F1    F2    F3    F4    F5    F6    F7    F8    F9   F10   F11   F12
+F1   1.00 -0.37  0.08 -0.05  0.02  0.09  0.22  0.25  0.39  0.06 -0.00  0.15
+F2  -0.37  1.00  0.10 -0.01 -0.02 -0.09  0.13  0.26  0.11  0.02 -0.25 -0.09
+F3   0.08  0.10  1.00 -0.03  0.11 -0.01  0.20  0.16  0.14 -0.04 -0.13  0.10
+F4  -0.05 -0.01 -0.03  1.00  0.00 -0.09 -0.08 -0.21 -0.16 -0.04 -0.00 -0.10
+F5   0.02 -0.02  0.11  0.00  1.00 -0.05  0.13 -0.03  0.04  0.02  0.04  0.35
+F6   0.09 -0.09 -0.01 -0.09 -0.05  1.00  0.04  0.02  0.11  0.15  0.19  0.12
+F7   0.22  0.13  0.20 -0.08  0.13  0.04  1.00  0.28  0.32  0.06 -0.03  0.26
+F8   0.25  0.26  0.16 -0.21 -0.03  0.02  0.28  1.00  0.47  0.07 -0.25 -0.01
+F9   0.39  0.11  0.14 -0.16  0.04  0.11  0.32  0.47  1.00  0.12 -0.10  0.14
+F10  0.06  0.02 -0.04 -0.04  0.02  0.15  0.06  0.07  0.12  1.00  0.23  0.30
+F11 -0.00 -0.25 -0.13 -0.00  0.04  0.19 -0.03 -0.25 -0.10  0.23  1.00  0.40
+F12  0.15 -0.09  0.10 -0.10  0.35  0.12  0.26 -0.01  0.14  0.30  0.40  1.00

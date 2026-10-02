@@ -153,7 +153,7 @@
 
       <section class="psych">
         <h2 class="h-section">Where you sit in the research</h2>
-        <p class="sub">Most research finds two main dimensions in political attitudes: economic, and cultural/authoritarian. Your cultural score here averages State power, Culture, Religion, Membership and Justice.</p>
+        <p class="sub">Most research finds two main dimensions in political attitudes: economic, and cultural/authoritarian. Your cultural score here averages State power, Culture, Religion and Membership, the four that hang together in World Values Survey data.</p>
         <div class="psych-top">
           <div id="r-map" class="dim-map" aria-hidden="true"></div>
           <div class="psych-type">
@@ -322,7 +322,18 @@
     <dl id="method-axes" class="method-axes"></dl>
 
     <h2 class="h-section">What the axes are, and are not</h2>
-    <p>The ten axes are a display choice, not a finding. Research on mass political attitudes repeatedly finds that they sort mainly onto two correlated dimensions, economic and cultural/authoritarian (Feldman &amp; Johnston 2014; Treier &amp; Hillygus 2009), and that the two relate differently across countries (Malka, Lelkes &amp; Soto 2019). Culture, Religion, Membership and Justice probably measure overlapping things. This test has never been checked against real response data, so no axis here has an established reliability.</p>
+    <p>The ten axes are a display choice, not a finding. Research on mass political attitudes repeatedly finds that they sort mainly onto two correlated dimensions, economic and cultural/authoritarian (Feldman &amp; Johnston 2014; Treier &amp; Hillygus 2009), and that the two relate differently across countries (Malka, Lelkes &amp; Soto 2019). Culture, Religion, Membership and Justice probably measure overlapping things. The test's own statements have never been answered by a real sample, so no axis has an established reliability; the World Values Survey check below tests the axes' structure using comparable questions.</p>
+    <h3 class="h-small">Checked against the World Values Survey</h3>
+    <p>The axes were checked against World Values Survey Wave 7 (Haerpfer et al. 2022): 97,220 respondents in 66 countries, using WVS questions on the same topics as each axis. The test's own statements are not in the WVS, so this checks whether the axes behave as separate dimensions, not whether the statements are valid. Full results and code are in <code>research/wvs7_axis_check.md</code>. The main findings:</p>
+    <ul class="method-list">
+      <li>The axes do not collapse into two. Within countries the largest correlation between axes is 0.29, and parallel analysis retains 12 factors among 41 items.</li>
+      <li>State power, Culture, Religion and Membership form a loose cluster (average r = 0.37 across all respondents, 0.21 within countries). About half the variation in Culture and Religion is between countries rather than between people in the same country.</li>
+      <li>Economic attitudes are not one dimension in the WVS (reliability 0.30). They are unrelated to the cultural cluster, which matches Malka, Lelkes &amp; Soto (2019).</li>
+      <li>Attachment to one's nation and to the world are not opposites. People close to their country also tend to feel close to the world.</li>
+      <li>Approval of political violence is the cleanest separate dimension (reliability 0.84).</li>
+      <li>Support for the death penalty does not go with cultural traditionalism across countries, so Justice was removed from the cultural score used in the two-dimension map.</li>
+      <li>Left-right self-placement relates only weakly to any axis (at most 0.21), and barely to economics (0.05).</li>
+    </ul>
     <p>State power mixes authoritarian disposition, which the literature measures separately as right-wing authoritarianism (Altemeyer 1996), social dominance orientation (Pratto et al. 1994), child-rearing authoritarianism (Feldman &amp; Stenner 1997) and left-wing authoritarianism (Costello et al. 2022), with civil-liberties policy. The statements are worded as policy so the axis leans toward the second.</p>
     <p>Populism is treated as a thin ideology that attaches to a host ideology (Mudde 2004), not as a point in this space. Measuring it properly needs its own scale (Akkerman, Mudde &amp; Zaslove 2014; Castanho Silva et al. 2020), which this test does not include.</p>
 
@@ -380,6 +391,7 @@
       <li>Gerber, A. et al. (2010). Personality and political attitudes: Relationships across issue domains and political contexts. <i>American Political Science Review</i> 104(1).</li>
       <li>Goodwin, G. &amp; Darley, J. (2008). The psychology of meta-ethics: Exploring objectivism. <i>Cognition</i> 106(3).</li>
       <li>Graham, J., Haidt, J. &amp; Nosek, B. (2009). Liberals and conservatives rely on different sets of moral foundations. <i>Journal of Personality and Social Psychology</i> 96(5).</li>
+      <li>Haerpfer, C. et al. (eds.) (2022). <i>World Values Survey: Round Seven – Country-Pooled Datafile Version 6.0.</i> JD Systems Institute &amp; WVSA Secretariat. doi:10.14281/18241.24.</li>
       <li>Hawkins, K. et al. (2025). <i>Global Populism Database</i>, v2.1. Harvard Dataverse, doi:10.7910/DVN/LFTQEZ.</li>
       <li>Hawkins, K., Riding, S. &amp; Mudde, C. (2012). Measuring populist attitudes. <i>Committee on Concepts and Methods Working Paper</i> 55.</li>
       <li>Herre, B. (2023). Identifying ideologues: A global dataset on political leaders, 1945–2020. <i>British Journal of Political Science</i> 53(2).</li>

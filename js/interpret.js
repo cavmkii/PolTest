@@ -80,9 +80,10 @@ function practiceFor(key, v) {
 }
 
 // Two research dimensions: economic (the Economy axis) and a cultural/authoritarian composite of
-// State power, Culture, Religion, Membership and Justice. These five are expected to correlate
-// (Feldman & Johnston 2014), so averaging them approximates the second dimension.
-const CULTURAL_KEYS = ['power', 'culture', 'faith', 'belong', 'justice'];
+// State power, Culture, Religion and Membership. In World Values Survey Wave 7 (97,220 respondents, 66
+// countries) these four correlate positively with each other, while the death-penalty item does not
+// (it runs slightly the other way within countries), so Justice is left out. See research/wvs7_axis_check.md.
+const CULTURAL_KEYS = ['power', 'culture', 'faith', 'belong'];
 
 function dimensions(u) {
   const idx = (k) => AXES.findIndex((a) => a.key === k);
