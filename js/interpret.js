@@ -58,6 +58,12 @@ const AXIS_PRACTICE = {
     right: ['Growth and energy security first, with environmental rules weighed against their economic cost.',
       'Expanded fossil fuel production and rollback of environmental regulation.']
   },
+  pop: {
+    left: ['Representative democracy with checks: courts, independent institutions and compromise between parties.',
+      'A firm defense of independent courts, expert bodies and minority protections against majority pressure.'],
+    right: ['More direct democracy: referendums, recall votes, and politicians bound closer to majority opinion.',
+      'Politics as the people against a corrupt elite, and support for leaders who claim to embody the popular will and override institutions that block it.']
+  },
   method: {
     left: ['A strong preference for institutional routes and nonviolent protest.',
       'Change only through elections, courts and negotiation, including accepting defeat.'],
@@ -129,6 +135,9 @@ function psychology(u, d) {
   }
   if (u[idx('power')] > 30 && d.econ < -20) {
     out.push('You combine left economics with support for state authority. Costello et al. (2022) show that left-wing authoritarianism is a measurable trait, with support for coercion and censorship in pursuit of egalitarian goals, which older research often missed by measuring authoritarianism only on the right.');
+  }
+  if (u[idx('pop')] > 30) {
+    out.push('You score high on populism. Populist attitudes are measurable in ordinary voters, not just leaders (Akkerman, Mudde & Zaslove 2014). They are a thin layer on top of a host ideology, which is why both left and right populists exist (Mudde 2004). Castanho Silva et al. (2020) compared seven scales and found that scales worded entirely in the populist direction inflate scores through agree-with-everything bias, so this test mixes in reverse-worded statements.');
   }
   if (u[idx('method')] > 30) {
     out.push('Your answers show openness to extra-legal or violent means. Research on radicalization (Kruglanski et al. 2014) finds the path to violence runs less through ideology itself than through a sense of lost significance, a narrative that offers it back, and a network that rewards action. Westwood et al. (2022) also show that survey measures like these overstate real support for violence.');

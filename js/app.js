@@ -43,12 +43,16 @@
   let importance = Array(N).fill(1);
   const weights = () => BASE_WEIGHT.map((b, k) => b * importance[k]);
 
-  function distance(u, v, gap, wIn) {
+  // skip: axes where a missing value is ignored rather than charged the gap (populism, which only the
+  // Global Populism Database scores, for a handful of figures).
+  const POL_SKIP = AXES.map((ax) => !!ax.noGap);
+  function distance(u, v, gap, wIn, skip) {
     const w = wIn || weights();
+    skip = skip || (v.length === N ? POL_SKIP : null);
     let ss = 0, ws = 0, n = 0;
     for (let k = 0; k < v.length; k++) {
       if (v[k] == null) {
-        if (gap) { ss += w[k] * gap * gap; ws += w[k]; }
+        if (gap && !(skip && skip[k])) { ss += w[k] * gap * gap; ws += w[k]; }
         continue;
       }
       const d = u[k] - v[k];
@@ -229,6 +233,11 @@
       return nums.length === n && nums.every((x) => Number.isFinite(x) && Math.abs(x) <= 100) ? nums : null;
     };
     out.pol = take('r', N);
+    if (!out.pol) {
+      // Codes from before the populism scale have ten political scores; populism is set to the middle.
+      const old = take('r', N - 1);
+      if (old) out.pol = old.concat(0);
+    }
     out.phil = take('p', PHIL_AXES.length);
     return out.pol || out.phil ? out : null;
   }
@@ -310,6 +319,7 @@
     const axesBox = $('#r-axes');
     axesBox.textContent = '';
     AXES.forEach((ax, k) => {
+      if (ax.thin) return;
       const row = el('section', 'axis-row');
       const head = el('div', 'axis-head');
       const name = el('h3', 'axis-name', ax.name);
@@ -351,6 +361,8 @@
       axesBox.appendChild(row);
     });
 
+    renderPopulism(u);
+
     // Overall nearest and farthest figures
     const figs = rankFigures(u);
     const nearList = $('#r-near');
@@ -365,6 +377,43 @@
       ? `Not in the overall ranking because no scholarly source codes their politics, or the record covers too few axes: ${skipped.join(', ')}. They still appear in the per-axis matches where a score exists.`
       : '';
 
+  }
+
+  // ---------- populism panel ----------
+
+  function renderPopulism(u) {
+    const k = AXES.findIndex((a) => a.key === 'pop');
+    const ax = AXES[k];
+    const v = u[k];
+    $('#pop-verdict').textContent = strengthLabel(v, ax);
+    $('#pop-val').textContent = signed(v);
+    const pa = currentQuality && currentQuality.perAxis[k];
+    $('#pop-mixed').hidden = !(pa && pa.agreement != null && pa.agreement < 0.4);
+    const refs = GPD_REFERENCE.map((r) => ({ n: r.n, v: Array(N).fill(null).map((x, i) => (i === k ? gpdToAxis(r.s) : null)) }));
+    const bar = $('#pop-bar');
+    bar.textContent = '';
+    bar.appendChild(axisBar(ax, k, v, { ticks: true, ticksFrom: refs }));
+    const you = axisToGpd(v);
+    const list = $('#pop-list');
+    list.textContent = '';
+    const rows = GPD_REFERENCE.map((r) => ({ ...r })).concat([{ n: 'You (converted)', s: you, me: true }])
+      .sort((a, b) => b.s - a.s);
+    rows.forEach((r) => {
+      const li = el('li', 'pop-row' + (r.me ? ' pop-me' : '') + (r.roster ? ' pop-roster' : ''));
+      li.appendChild(el('span', 'pop-name', r.n));
+      const m = el('span', 'meter');
+      const f = el('span', 'meter-fill');
+      f.style.width = (r.s / 2 * 100) + '%';
+      m.appendChild(f);
+      li.appendChild(m);
+      li.appendChild(el('span', 'num pop-score', r.s.toFixed(2)));
+      list.appendChild(li);
+    });
+    $('#pop-text').textContent = v > 30
+      ? 'Your answers frame politics as the people against an elite. Populist attitudes show up on both left and right; what they attach to is set by your other axes. In surveys they go with distrust of politicians and support for referendums, and they predict votes for populist parties of either side (Akkerman, Mudde & Zaslove 2014).'
+      : v < -30
+        ? 'Your answers favor representation, compromise and independent institutions over a single popular will. This is the pluralist view populists reject. It is the default stance of liberal-democratic parties, and populist scholars criticize it as distant from ordinary voters.'
+        : 'You sit near the middle: some sympathy for the people-versus-elite frame, tempered by support for representation and institutions.';
   }
 
   // ---------- ideology deep dive ----------
@@ -730,7 +779,7 @@
       const row = el('div', 'profile-row');
       row.appendChild(el('span', 'profile-axis', ax.name));
       if (v[k] == null) {
-        const na = el('span', 'profile-na', 'No record');
+        const na = el('span', 'profile-na', ax.thin ? 'Not in populism data' : 'No record');
         row.appendChild(na);
         row.appendChild(el('span', 'num profile-val', '—'));
       } else {
@@ -816,6 +865,7 @@
         b.appendChild(el('span', 'fig-sub', f.y));
         b.appendChild(el('span', 'fig-label', f.l));
         const spark = el('span', 'spark');
+        spark.style.gridTemplateColumns = `repeat(${AXES.length}, 1fr)`;
         AXES.forEach((ax, k) => {
           const s = el('span', 'spark-col');
           s.title = `${ax.name}: ${f.v[k] == null ? 'no record' : signed(f.v[k])}`;

@@ -2,11 +2,11 @@
 
 Two tests, each in a short or full version, taken separately or together:
 
-- **Political** – ten axes, 49 ideologies, 50 divisive figures.
+- **Political** – ten axes plus a separate populism scale, 49 ideologies, 50 divisive figures.
 - **Philosophical** – nine axes built on the PhilPapers Survey structure, 34 schools of thought, 78 philosophers scored from their works.
-- **Both** – adds a comparison of philosophical and political answers on four research-backed links.
+- **Both** – adds a comparison of philosophical and political answers on six research-backed links (four from general-population studies, two from the PhilPapers Survey's own correlations).
 
-A political alignment test in the style of 8values and 12axes. 78 statements, or a 50-statement short version (five per axis), plus one attention check, score you on ten axes,
+A political alignment test in the style of 8values and 12axes. 87 statements, or a 55-statement short version (five per axis), plus one attention check, score you on ten axes,
 match you to the nearest of 49 real ideologies, and show which of 50 divisive figures sits closest to you
 on each axis and overall: dictators, militant and terrorist leaders, and notorious public figures.
 
@@ -59,3 +59,9 @@ its sources in `js/figures.js` and `js/ideologies.js`; the Method tab has the me
 Celebrities have no scholarly coding and are excluded from the overall ranking.
 
 The test is not validated: no factor analysis, reliability or test-retest data exist for it.
+
+## Data in `research/`
+
+- `philpapers2020_target_faculty.txt` – 2020 PhilPapers Survey results, target faculty.
+- `philpapers2020_strongest_correlations.txt` – the survey's 200 strongest answer correlations.
+- `gpd_v2.1_term_scores.csv` – Global Populism Database v2.1, one row per leader term.

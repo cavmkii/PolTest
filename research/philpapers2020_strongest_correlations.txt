@@ -1,0 +1,203 @@
+# 2020 PhilPapers Survey, strongest correlations between answers (target faculty), from the survey's correlations pages.
+# Bourget & Chalmers (2023), Table 19, reports the same values. Answer labels may be truncated.
+# r	n	answer A	answer B
++0.72	708	God: theism	Cosmological fine-tuning: design
+-0.70	534	Time: A-theory	Temporal ontology: eternalism
+-0.69	838	Mind: physicalism	Consciousness: dualism
+-0.68	629	Abortion: permissible	Cosmological fine-tuning: design
++0.65	806	Teletransporter: survival	Mind uploading: survival
+-0.65	1016	God: theism	Abortion: permissible
++0.62	1231	Metaphilosophy:	Mind: physicalism
++0.60	1439	Meta-ethics: moral	Moral judgment: cognitivism
++0.59	535	Time: A-theory	Temporal ontology: presentism
+-0.58	775	Metaphilosophy:	Morality: non-naturalism
++0.55	609	Meaning of life: objective	Cosmological fine-tuning: design
++0.52	1227	Aesthetic value:	Meaning of life: objective
+-0.52	1477	God: theism	Mind: physicalism
+-0.52	734	Metaphilosophy:	Consciousness: dualism
+-0.51	619	Metaphilosophy:	Cosmological fine-tuning: design
++0.50	575	Truth: correspondence	Metaontology: heavyweight realism
++0.50	1311	God: theism	Meaning of life: objective
++0.50	578	Consciousness: dualism	Cosmological fine-tuning: design
++0.50	716	Normative ethics: virtue	Practical reason: Aristotelian
++0.50	709	Normative ethics:	Practical reason: Kantian
+-0.50	583	Science: scientific	Metaontology: anti-realism
+-0.50	691	Mind: physicalism	Cosmological fine-tuning: design
++0.50	716	Free will: libertarianism	Cosmological fine-tuning: design
++0.50	614	Abstract objects:	Properties: transcendent universals
++0.50	1524	A priori knowledge: yes	Analytic-synthetic distinction: yes
++0.49	712	Normative ethics:	Practical reason: Humean
++0.49	1382	Aesthetic value:	Meta-ethics: moral realism
++0.48	720	Political philosophy:	Politics: capitalism
++0.48	1272	Meta-ethics: moral	Meaning of life: objective
+-0.47	1270	God: theism	Metaphilosophy: naturalism
+-0.47	903	Meta-ethics: moral	Morality: expressivism
+-0.47	883	Moral judgment:	Morality: expressivism
++0.47	699	Consciousness: dualism	Morality: non-naturalism
++0.47	986	Philosophical progress:	Philosophical knowledge: a lot
+-0.47	661	Meaning of life: objective	Practical reason: Humean
+-0.46	573	Truth: deflationary	Metaontology: heavyweight realism
++0.46	705	Meaning of life: objective	Well-being: objective list
++0.46	377	Cosmological fine-	Quantum mechanics: many-worlds
+-0.46	637	Abstract objects:	Propositions: nonexistent
++0.45	811	Gender: biological	Gender categories: preserve
++0.45	748	Consciousness:	Other minds: particles
++0.45	1531	Free will: libertarianism	God: theism
++0.45	840	Mind: physicalism	Consciousness: functionalism
++0.45	1070	Knowledge: empiricism	Metaphilosophy: naturalism
+-0.45	866	Meaning of life: objective	Abortion: permissible
++0.45	768	Mind uploading: survival	Other minds: future AI systems
++0.45	1340	Gender: social	Race: social
++0.44	1324	Gender: biological	Race: biological
+-0.44	822	Gender: social	Gender categories: preserve
++0.44	1222	Epistemic justification:	Mental content: internalism
+-0.44	765	Epistemic justification:	Justification: reliabilism
+-0.44	1007	Free will: libertarianism	Abortion: permissible
++0.44	986	Philosophical progress:	Philosophical knowledge: a little
+-0.43	1097	Metaphilosophy:	Meaning of life: objective
+-0.43	765	Abortion: permissible	Consciousness: dualism
+-0.43	1131	Abstract objects:	Knowledge: empiricism
++0.43	970	Mind: physicalism	Abortion: permissible
++0.43	1267	Metaphilosophy:	Philosophical methods: empirical philosophy
+-0.43	986	Philosophical progress:	Philosophical knowledge: a little
++0.43	850	God: theism	Consciousness: dualism
++0.43	858	Metaphilosophy:	Abortion: permissible
++0.43	612	Possible worlds:	Propositions: nonexistent
+-0.43	1466	Free will: libertarianism	Mind: physicalism
++0.42	1327	Normative ethics:	Footbridge: push
++0.42	984	Philosophical progress:	Philosophical knowledge: none
++0.42	686	Gender categories:	Race categories: revise
+-0.42	762	Abortion: permissible	Gender categories: preserve
+-0.42	986	Philosophical progress:	Philosophical knowledge: a lot
++0.42	763	Epistemic justification:	Justification: nonreliabilist foundationalism
++0.42	494	Properties: nonexistent	Propositions: nonexistent
++0.41	572	Truth: deflationary	Metaontology: deflationary realism
+-0.41	1250	Mind: physicalism	Meaning of life: objective
+-0.40	684	Truth: correspondence	Theory of reference: deflationary
++0.40	686	Gender categories:	Race categories: preserve
++0.40	592	Cosmological fine-	Morality: non-naturalism
+-0.40	861	Mind: physicalism	Morality: non-naturalism
+-0.40	812	Normative ethics: virtue	Moral principles: moral generalism
++0.40	468	Grounds of	Propositional attitudes: phenomenal
+-0.40	613	Possible worlds: abstract	Propositions: nonexistent
+-0.40	743	Meta-ethics: moral	Practical reason: Humean
++0.40	855	Free will: libertarianism	Consciousness: dualism
+-0.40	593	Practical reason:	Well-being: objective list
+-0.39	1266	Free will: libertarianism	Metaphilosophy: naturalism
++0.39	569	Moral judgment:	Metaontology: heavyweight realism
++0.39	598	Meta-ethics: moral	Metaontology: heavyweight realism
++0.39	670	Mental content:	Theory of reference: descriptive
+-0.39	574	Truth: correspondence	Metaontology: deflationary realism
++0.39	683	Truth: deflationary	Theory of reference: deflationary
++0.39	656	Metaphilosophy:	Practical reason: Humean
++0.38	536	Cosmological fine-	Gender categories: preserve
++0.38	687	Gender categories:	Race categories: eliminate
++0.38	731	Meaning of life: objective	Consciousness: dualism
++0.38	674	Gender categories:	Politics: capitalism
++0.38	763	Zombies: metaphysically	Consciousness: dualism
+-0.38	901	Meta-ethics: moral	Morality: error theory
++0.38	764	Aesthetic value:	Well-being: objective list
+-0.38	601	Knowledge: empiricism	Concepts: nativism
+-0.38	904	God: theism	Human genetic engineering: permissible
++0.38	690	Logic: classical	True contradictions: impossible
++0.37	607	Proper names: Fregean	Theory of reference: descriptive
++0.55	639	Practical reason: Kantian	Philosopher: Kant
++0.49	641	Practical reason:	Philosopher: Hume
++0.48	742	Cosmological fine-	AOS: Philosophy of Religion
+-0.47	829	Abortion: permissible	Philosopher: Aquinas
++0.43	641	Practical reason:	Philosopher: Aristotle
++0.43	575	Cosmological fine-	Philosopher: Aquinas
+-0.42	1074	Abortion: permissible	AOS: Philosophy of Religion
++0.40	1604	God: theism	AOS: Philosophy of Religion
++0.38	1169	God: theism	Philosopher: Aquinas
++0.35	838	Method in history of	Tradition: Analytic
++0.35	845	True contradictions:	Tradition: Analytic
+-0.35	845	True contradictions:	Tradition: Analytic
++0.35	653	Arguments for theism:	Philosopher: Aquinas
++0.34	845	True contradictions:	Tradition: Continental
+-0.31	641	Practical reason:	Philosopher: Hume
++0.31	957	Knowledge: empiricism	Philosopher: Hume
++0.31	1095	Normative ethics:	Philosopher: Kant
++0.31	1169	Free will: libertarianism	Philosopher: Aquinas
++0.30	1070	Laws of nature: Humean	Philosopher: Hume
++0.30	976	Metaphilosophy:	Philosopher: Hume
++0.30	641	Practical reason:	Philosopher: Aquinas
+-0.30	641	Practical reason:	Philosopher: Aristotle
++0.30	742	Cosmological fine-	AOS: Medieval and Renaissance Philosophy
+-0.29	1315	Metaphilosophy:	AOS: Philosophy of Religion
++0.29	989	Meaning of life: objective	Philosopher: Aquinas
++0.29	618	Metaontology:	AOS: Metaphysics
+-0.29	1074	Abortion: permissible	AOS: Medieval and Renaissance Philosophy
++0.28	1102	Normative ethics: virtue	Philosopher: Aristotle
++0.28	1592	Free will: libertarianism	AOS: Philosophy of Religion
++0.28	888	Consciousness: dualism	AOS: Philosophy of Religion
++0.27	798	Practical reason:	AOS: Medieval and Renaissance Philosophy
++0.27	362	Material composition:	Philosopher: Lewis
+-0.27	838	Method in history of	Tradition: Continental
++0.27	1497	Eating animals and	Other demographics: YOB
+-0.26	1048	Abstract objects:	Philosopher: Hume
+-0.26	741	Cosmological fine-	AOS: Philosophy of Religion
+-0.26	479	Material composition:	AOS: Metaphysics
++0.26	1096	Normative ethics:	Philosopher: Hume
++0.26	1350	Meaning of life: objective	AOS: Philosophy of Religion
+-0.26	362	Material composition:	Philosopher: Lewis
++0.26	798	Practical reason:	AOS: Ancient Greek and Roman Philosophy
++0.26	1023	Immortality: yes	AOS: Philosophy of Religion
++0.25	1604	God: theism	AOS: Medieval and Renaissance Philosophy
+-0.25	641	Practical reason:	Philosopher: Kant
++0.25	745	Possible worlds:	Philosopher: Lewis
++0.25	497	Temporal ontology:	Philosopher: Lewis
+-0.25	989	Meaning of life: objective	Philosopher: Hume
++0.25	679	Principle of sufficient	Philosopher: Aquinas
++0.25	672	Consciousness: dualism	Philosopher: Aquinas
+-0.24	1060	Aesthetic value:	Philosopher: Hume
++0.24	697	Propositional attitudes:	Tradition: Analytic
+-0.24	1125	Meta-ethics: moral	Philosopher: Hume
+-0.24	1499	Eating animals and	Other demographics: YOB
+-0.24	647	Well-being: objective list	Philosopher: Hume
+-0.23	616	Metaontology:	AOS: Metaphysics
++0.23	1048	Abstract objects:	Philosopher: Plato
++0.23	1578	Philosophical methods:	Tradition: Analytic
++0.23	1599	Philosophical methods:	AOS: Philosophy of Language
++0.23	575	Cosmological fine-	Philosopher: Reid
+-0.23	1524	Mind: physicalism	AOS: Philosophy of Religion
+-0.23	575	Cosmological fine-	Philosopher: Hume
++0.23	936	Morality: non-naturalism	AOS: Philosophy of Religion
+-0.23	641	Practical reason:	Philosopher: Kant
+-0.23	1169	Free will: libertarianism	Philosopher: Hume
++0.23	1157	External world: idealism	Philosopher: Berkeley
++0.23	683	Gender categories:	Philosopher: Aquinas
+-0.23	1171	Free will: compatibilism	Philosopher: Aquinas
++0.23	784	Practical reason:	Tradition: Analytic
++0.23	1574	External world: idealism	Tradition: Continental
++0.23	1491	Science: scientific	Tradition: Analytic
++0.22	1599	Philosophical methods:	AOS: Philosophy of Cognitive Science
++0.22	718	Morality: non-naturalism	Philosopher: Moore
++0.22	571	Units of selection: genes	Tradition: Analytic
++0.22	1169	God: theism	Philosopher: Augustine
+-0.22	652	Temporal ontology:	AOS: Metaphysics
+-0.22	1151	Analytic-synthetic	Philosopher: Quine
+-0.22	1595	Free will: compatibilism	AOS: Philosophy of Religion
+-0.22	838	Method in history of	Tradition: Other tradition
++0.22	362	Material composition:	Philosopher: Carnap
++0.22	583	Theory of reference:	Philosopher: Sellars
++0.22	976	Metaphilosophy:	Philosopher: Quine
+-0.22	574	Spacetime: relationism	AOS: Metaphysics
+-0.22	639	Practical reason: Kantian	Philosopher: Aristotle
+-0.22	615	Metaontology: anti-	AOS: Metaphysics
+-0.22	558	Spacetime: relationism	Tradition: Analytic
+-0.22	1380	Race: social	Region of nationality: Europe
+-0.22	890	Consciousness:	AOS: Philosophy of Religion
+-0.22	742	Cosmological fine-	AOS: Philosophy of Religion
++0.22	1107	Mind: physicalism	Philosopher: Hume
++0.22	575	Cosmological fine-	Philosopher: Augustine
++0.22	723	Morality: constructivism	Philosopher: Kant
++0.21	647	Well-being: desire	Philosopher: Hume
++0.21	362	Material composition:	Philosopher: Aquinas
++0.21	619	Interlevel metaphysics:	AOS: Metaphilosophy
++0.21	1095	Normative ethics:	Philosopher: Rawls
+-0.21	704	Values in science:	Philosopher: Russell
++0.21	810	Capital punishment:	Philosopher: Aquinas
+-0.21	738	Cosmological fine-	AOS: Philosophy of Religion
++0.21	479	Material composition:	AOS: Medieval and Renaissance Philosophy
+-0.21	670	Properties: classes	AOS: Metaphysics

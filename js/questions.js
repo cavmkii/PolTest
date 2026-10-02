@@ -101,8 +101,19 @@ const QUESTIONS = [
   { t: 'Political change should come through elections, courts and legislation.', e: { method: -1 } },
   { t: 'If a government jailed opposition leaders and cancelled elections, citizens would be justified in taking up arms against it.', s: 1, e: { method: 0.5 } },
   { t: 'A movement fighting for a cause I support would be justified in bombing places where its opponents\' civilians gather.', s: 1, e: { method: 1, war: 0.5 } },
-  { t: 'Compromising with political opponents is a sign of weakness.', e: { method: 0.5, power: 0.3 } },
+  { t: 'Compromising with political opponents is a sign of weakness.', e: { method: 0.5, power: 0.3, pop: 0.5 } },
   { t: 'Accepting the result of an election matters even when your side loses.', s: 1, e: { method: -1 } },
+
+  // Populism (Akkerman, Mudde & Zaslove 2014, with reverse-worded items added)
+  { t: 'The politicians in parliament need to follow the will of the people.', s: 1, e: { pop: 1 } },
+  { t: 'The people, and not politicians, should make our most important policy decisions.', s: 1, e: { pop: 1 } },
+  { t: 'The political differences between the elite and the people are larger than the differences among the people.', s: 1, e: { pop: 1 } },
+  { t: 'Most political disagreements are honest differences of opinion, not a struggle between the people and a corrupt elite.', s: 1, e: { pop: -1 } },
+  { t: 'Elected representatives should sometimes use their own judgment even when most voters disagree.', s: 1, e: { pop: -1 } },
+  { t: 'I would rather be represented by an ordinary citizen than by a specialized politician.', e: { pop: 1 } },
+  { t: 'Elected officials talk too much and take too little action.', e: { pop: 1 } },
+  { t: 'Politics is ultimately a struggle between good and evil.', e: { pop: 1 } },
+  { t: 'Courts, central banks and other independent institutions should be shielded from popular pressure.', e: { pop: -1 } },
   { t: 'Peaceful protest achieves more lasting change than violence does.', s: 1, e: { method: -1 } }
 ];
 

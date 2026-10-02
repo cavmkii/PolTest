@@ -307,6 +307,20 @@ h1 { font-weight: 800; font-stretch: 112%; font-size: clamp(1.9rem, 5vw, 3rem); 
 .gap-item[data-status="note"] .gap-status { color: var(--accent); }
 .gap-pair { margin-top: 4px !important; }
 
+/* Populism panel */
+.pop-panel { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--rule); }
+.pop-h { margin-top: 0; }
+.pop-text { max-width: 70ch; margin: 10px 0 0; }
+.pop-list-h { margin-top: 24px; }
+.pop-list { list-style: none; padding: 0; margin: 10px 0 0; display: flex; flex-direction: column; gap: 4px; max-width: 560px; }
+.pop-row { display: grid; grid-template-columns: minmax(0, 1fr) 140px 44px; gap: 12px; align-items: center; font-size: 0.9rem; }
+.pop-row .meter-fill { background: var(--muted); }
+.pop-roster .pop-name { font-weight: 600; }
+.pop-me { color: var(--accent); font-weight: 600; }
+.pop-me .meter-fill { background: var(--accent); }
+.pop-score { text-align: right; font-size: 0.82rem; }
+.pop-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
 /* Figures browser */
 .filters { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 24px; }
 .filters select, .filters input {
@@ -380,6 +394,7 @@ h1 { font-weight: 800; font-stretch: 112%; font-size: clamp(1.9rem, 5vw, 3rem); 
 .refs { max-width: 70ch; padding-left: 18px; font-size: 0.86rem; color: var(--muted); display: flex; flex-direction: column; gap: 4px; }
 
 @media (max-width: 640px) {
+  .pop-row { grid-template-columns: minmax(0, 1fr) 90px 40px; }
   .axis-lists { grid-template-columns: 1fr; }
   .deep-grid, .psych-top { grid-template-columns: 1fr; }
   .matches { grid-template-columns: 1fr; gap: 0; }

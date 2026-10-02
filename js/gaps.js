@@ -91,7 +91,45 @@ function gapAnalysis(pol, phil) {
     else out.push({ ...base, status: 'neutral', text: 'At least one of these is near the middle for you, so there is no clear pattern to compare.' });
   }
 
+  // 5. Worldview and cultural politics, from the philosophers' own answers
+  {
+    const n = side(F('nat')), c = side(P('culture'));
+    const base = {
+      title: 'Worldview and cultural politics',
+      pair: `Reality ${fmtScore(F('nat'))} · Culture ${fmtScore(P('culture'))}`,
+      cite: 'Bourget & Chalmers (2023), 2020 PhilPapers Survey, Table 19'
+    };
+    if (n && c && n === c) out.push({ ...base, status: 'aligned',
+      text: n > 0
+        ? 'Your transcendent worldview goes with cultural traditionalism. This is the strongest politics-related pattern among professional philosophers: theism correlates with judging abortion impermissible at r = -0.65, and libertarian free will (-0.44) and objective meaning of life (-0.45) point the same way.'
+        : 'Your naturalism goes with cultural liberalism, the majority pattern among professional philosophers: physicalism about the mind and naturalism both correlate with judging abortion permissible (r = 0.43 each), and theism correlates against it (r = -0.65).' });
+    else if (n > 0 && c < 0) out.push({ ...base, status: 'gap',
+      text: 'You hold a religious or transcendent worldview but are culturally liberal. Among professional philosophers this is the less common pairing: theism correlates with judging abortion impermissible at r = -0.65. It has a long tradition, though: liberal Protestantism, the religious left, and Catholic thinkers who separate moral teaching from law.' });
+    else if (n < 0 && c > 0) out.push({ ...base, status: 'gap',
+      text: 'You are a naturalist but culturally traditional. Among professional philosophers, naturalism goes with liberal views on abortion (r = 0.43). The secular case for tradition rests on social stability and inherited wisdom rather than revelation, as in Hume, Burke read secularly, or Oakeshott.' });
+    else out.push({ ...base, status: 'neutral', text: 'At least one of these is near the middle for you, so there is no clear pattern to compare.' });
+  }
+
+  // 6. Social construction and economics, from the philosophers' own answers
+  {
+    const r = side(F('real')), e = side(P('econ'));
+    const base = {
+      title: 'Social construction and economics',
+      pair: `Truth ${fmtScore(F('real'))} · Economy ${fmtScore(P('econ'))}`,
+      cite: 'Bourget & Chalmers (2023), Table 19'
+    };
+    if (r && e && r !== e) out.push({ ...base, status: 'aligned',
+      text: r > 0
+        ? 'You see more of reality as socially constructed and lean economically left. Among professional philosophers, holding that race is biological correlates with capitalism at r = 0.37, and wanting to preserve gender categories at r = 0.38, so the reverse pairing you hold is the common one. The link is modest and runs through views on race and gender in particular.'
+        : 'You lean realist about categories and economically right, matching a modest pattern among professional philosophers: biological views of race correlate with capitalism at r = 0.37.' });
+    else if (r && e && r === e) out.push({ ...base, status: 'note',
+      text: r > 0
+        ? 'You see much of reality as socially constructed but lean economically right. Among professional philosophers the more common pairing is constructionism with socialism (r about 0.37 to 0.38 for the race and gender questions). The link is modest; libertarian constructivists exist, often influenced by Hayek\'s view of social orders as spontaneous constructions.'
+        : 'You lean realist about categories and economically left. Among professional philosophers realism about race and gender leans slightly toward capitalism (r about 0.37), but the link is modest, and realist egalitarians such as Rawlsians and Marxist materialists are common.' });
+    else out.push({ ...base, status: 'neutral', text: 'At least one of these is near the middle for you, so there is no clear pattern to compare.' });
+  }
+
   return out;
 }
 
-const GAP_INTRO = 'Research links a few philosophical views to political ones. These links are modest correlations, mostly from US and European samples. A gap means your combination is less common than the research predicts, not that it is inconsistent. Each gap below names a tradition that holds that combination on principle.';
+const GAP_INTRO = 'Research links a few philosophical views to political ones. The first four checks use studies of the general public; the last two use the 2020 PhilPapers Survey of professional philosophers. All are modest correlations, mostly from US and European samples. A gap means your combination is less common than the research predicts, not that it is inconsistent. Each gap below names a tradition that holds that combination on principle.';

@@ -63,5 +63,31 @@ const AXES = [
     lc: '#5a7fb8', rc: '#c23b3b',
     ldesc: 'Elections, courts, compromise, accepting losses.',
     rdesc: 'Willingness to break the legal order, up to armed violence.'
+  },
+  {
+    key: 'pop', name: 'Populism', left: 'Pluralist', right: 'Populist', thin: true, noGap: true,
+    lc: '#6f7f99', rc: '#d0782e',
+    ldesc: 'Politics as bargaining among legitimate interests through representatives and institutions.',
+    rdesc: 'Politics as a pure people against a corrupt elite, with the popular will above institutions.'
   }
 ];
+// Populism is a "thin" ideology (Mudde 2004): it attaches to a host ideology rather than being a position
+// on the other axes, so the results show it in its own panel. Its statements follow Akkerman, Mudde &
+// Zaslove (2014), with reverse-worded items added. Figures are scored from the Global Populism Database.
+
+// Reference points for the populism panel: mean speech score across terms, Global Populism Database v2.1
+// (Hawkins et al.), on its 0–2 scale. 0 = few or no populist elements, 1 = clearly populist but inconsistent,
+// 2 = close to the ideal type.
+const GPD_REFERENCE = [
+  { n: 'Hugo Chávez', s: 1.78, roster: true }, { n: 'Nicolás Maduro', s: 1.60 }, { n: 'Rafael Correa', s: 1.50 },
+  { n: 'Rodrigo Duterte', s: 1.38, roster: true }, { n: 'Evo Morales', s: 1.32 }, { n: 'Mahmoud Ahmadinejad', s: 1.17 },
+  { n: 'Andrés Manuel López Obrador', s: 0.96 }, { n: 'Recep Tayyip Erdoğan', s: 0.84, roster: true },
+  { n: 'Silvio Berlusconi', s: 0.81 }, { n: 'Viktor Orbán', s: 0.69 }, { n: 'Narendra Modi', s: 0.55 },
+  { n: 'Jair Bolsonaro', s: 0.50, roster: true }, { n: 'Nayib Bukele', s: 0.50 }, { n: 'Benjamin Netanyahu', s: 0.31 },
+  { n: 'Vladimir Putin', s: 0.27, roster: true }, { n: 'Lula da Silva', s: 0.25 }, { n: 'Emmanuel Macron', s: 0.15 },
+  { n: 'Angela Merkel', s: 0.03 }
+];
+// Mapping from the GPD 0–2 scale to this test's -100..+100 axis: v = 75s - 50, so 0 -> -50, 1 -> +25, 2 -> +100.
+// A leader with no populist rhetoric is placed at -50, not -100: absence of populism is not active pluralism.
+const gpdToAxis = (s) => Math.round(75 * s - 50);
+const axisToGpd = (v) => Math.max(0, Math.min(2, (v + 50) / 75));

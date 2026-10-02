@@ -59,6 +59,7 @@
             <li>Restraint ↔ Militarism</li><li>Rehabilitation ↔ Punishment</li><li>Ecology ↔ Industry</li>
             <li>Reform ↔ Upheaval</li>
           </ol>
+          <p class="sub">Plus a separate populism scale (Pluralist ↔ Populist).</p>
         </div>
         <div>
           <h2 class="h-small">Philosophy axes</h2>
@@ -170,6 +171,22 @@
       <h2 class="h-section">Your axes</h2>
       <p class="sub">The large mark is you. Thin ticks are scored figures; hover one for the name. Chips are the four people closest to you on that axis alone. "Matters" changes how much an axis counts in your matches.</p>
       <div id="r-axes" class="axes"></div>
+
+      <section class="pop-panel" aria-labelledby="pop-h">
+        <div class="axis-head">
+          <h2 id="pop-h" class="h-section pop-h">Populism</h2>
+          <span id="pop-verdict" class="axis-verdict"></span>
+          <span id="pop-mixed" class="tag" hidden>Mixed answers</span>
+          <span id="pop-val" class="num axis-val"></span>
+        </div>
+        <p class="sub">Populism is a thin ideology: a frame of the pure people against a corrupt elite that attaches to a host ideology on the left or right (Mudde 2004). So it is measured here separately, not as an eleventh axis. Your score is set against how populist real leaders' speeches were, as coded by the Global Populism Database.</p>
+        <div class="poles"><span class="pole pole-l">Pluralist</span><span class="pole pole-r">Populist</span></div>
+        <div id="pop-bar"></div>
+        <p id="pop-text" class="pop-text"></p>
+        <h3 class="h-small pop-list-h">Leaders' speeches, Global Populism Database v2.1 (0 = not populist, 2 = ideal-type populist)</h3>
+        <ol id="pop-list" class="pop-list"></ol>
+        <p class="sub">Your score is converted to the same 0–2 scale with a mapping chosen for this test (−50 on the axis = 0, +100 = 2). The database codes leaders' rhetoric while this test asks for your attitudes, so treat the comparison as rough. Leaders scored in this test's figure list are in bold.</p>
+      </section>
 
       <div class="matches">
         <div class="matches-col">
@@ -318,13 +335,16 @@
     <h2 class="h-section">How the results are explained</h2>
     <p>The ideology notes describe each ideology from its standard sources. "Your positions in practice" is built from your axis scores, not from the label. The psychological section uses research on the two broad dimensions (economic and cultural/authoritarian), because almost no research exists on the psychology of named ideologies. The exceptions (libertarians, Christian nationalists, populist-right voters, jihadist radicalization) are cited where they apply. All of it describes group averages with modest effect sizes and cannot tell you about yourself.</p>
 
+    <h2 class="h-section">Populism</h2>
+    <p>Populism is measured with statements adapted from Akkerman, Mudde &amp; Zaslove (2014), plus reverse-worded statements, because Castanho Silva et al. (2020) found that scales worded only in the populist direction inflate scores. It is shown as its own panel, not a host axis, following Mudde's account of populism as a thin ideology. Five figures (Chávez, Duterte, Erdoğan, Bolsonaro, Putin) are scored from their mean speech scores in the Global Populism Database v2.1 (Hawkins et al.), converted with v = 75 × score − 50. The conversion is a judgment: a leader with no populist rhetoric sits at −50, not at the pluralist extreme. Other figures are not in the database; for them populism is skipped in matching rather than counted as a gap. Ideology profiles carry a populism value from their definitions.</p>
+
     <h2 class="h-section">The philosophy test</h2>
-    <p>The nine philosophy axes follow the structure found in the PhilPapers Surveys of professional philosophers (Bourget &amp; Chalmers 2014, 2023). In the 2009 survey, libertarian free will, non-physicalism about the mind and theism loaded together on one "anti-naturalism" component (loadings around 0.63–0.66); other components were objectivism/Platonism, rationalism and externalism. Reality, Knowledge and Truth here follow those components. Morality, Right action and Moral scope follow the standard divides in metaethics and normative ethics, and impartiality follows Kahane et al.'s (2018) separation of impartial beneficence from instrumental harm. Freedom, Self and Method cover free will, personal identity and the analytic/continental divide. Freedom and Reality are kept apart, though the survey found them correlated, because compatibilism (59% of philosophers in 2020) cuts across the theism question. Under each axis the results show how professional philosophers answered the closest survey questions. The figures are for the survey's target faculty (N = 1,785, accept or lean toward), taken from the survey's own results pages; a copy is kept in <code>research/</code>. The Economy, Justice and Environment axes of the political test show the same survey's answers on capitalism versus socialism, capital punishment and environmental ethics. The survey reports no correlations on these pages, so the comparison section still rests on the published studies listed below.</p>
+    <p>The nine philosophy axes follow the structure found in the PhilPapers Surveys of professional philosophers (Bourget &amp; Chalmers 2014, 2023). In the 2009 survey, libertarian free will, non-physicalism about the mind and theism loaded together on one "anti-naturalism" component (loadings around 0.63–0.66); other components were objectivism/Platonism, rationalism and externalism. Reality, Knowledge and Truth here follow those components. Morality, Right action and Moral scope follow the standard divides in metaethics and normative ethics, and impartiality follows Kahane et al.'s (2018) separation of impartial beneficence from instrumental harm. Freedom, Self and Method cover free will, personal identity and the analytic/continental divide. Freedom and Reality are kept apart, though the survey found them correlated, because compatibilism (59% of philosophers in 2020) cuts across the theism question. In the 2020 survey the first principal component combines rationalism with realism, especially moral realism, and explains 12.3% of the variance among answers. The second, about 8.8%, the authors tentatively call a science-friendly outlook. They found the correlations form only small clusters, which is why this test keeps nine separate axes rather than collapsing them. Under each axis the results show how professional philosophers answered the closest survey questions. The figures are for the survey's target faculty (N = 1,785, accept or lean toward), taken from the survey's own results pages; a copy is kept in <code>research/</code>. The Economy, Justice and Environment axes of the political test show the same survey's answers on capitalism versus socialism, capital punishment and environmental ethics. The survey reports no correlations on these pages, so the comparison section still rests on the published studies listed below.</p>
     <p>Each of the 78 philosophers and 34 schools is scored from primary works, listed on each profile, with a standard secondary source where readings differ. Scores for Heidegger, Derrida, Nietzsche, Laozi and others whose positions resist propositional summary are marked medium confidence. Some axes are left blank where a thinker took no position or the reading is too contested. Many philosophers fit no school neatly, and the school list is a map, not a taxonomy.</p>
     <p>A script that answers the test as each fully scored philosopher would puts that philosopher in their own top three in every case, in both versions. That shows the scoring is internally consistent, not that the profiles are right. Two statements' secondary weights tilt Truth slightly toward Construction (+6.2 against −3.5 in the full test), so readings near the middle of that axis should be taken loosely.</p>
 
     <h2 class="h-section">Comparing philosophy and politics</h2>
-    <p>When both tests are taken, four links between philosophical and political views are checked, each backed by published research: free-will belief and punitiveness (Carey &amp; Paulhus 2013; Shariff et al. 2014; Everett et al. 2021); theism and religion in public life (Bourget &amp; Chalmers 2014); moral objectivism with religiosity and intolerance of disagreement (Goodwin &amp; Darley 2008; Wright, Cullum &amp; Schwab 2008); and impartial ethics with identification with all humanity (Kahane et al. 2018). Other plausible links, such as consequentialism and economic policy, were left out because no solid research supports them. A "less common" result means your pairing is rarer than predicted. Each one is paired with a tradition that holds it on principle.</p>
+    <p>When both tests are taken, six links between philosophical and political views are checked, each backed by published research. Two come from the 2020 PhilPapers Survey's own correlation tables (Bourget &amp; Chalmers 2023, Table 19). Among professional philosophers, theism correlates with judging abortion impermissible at r = −0.65 (n = 1,016), with libertarian free will (−0.44), objective meaning of life (−0.45) and physicalism (+0.43) following the same pattern. Biological views of race and gender correlate with capitalism at about r = 0.37–0.38. The other four come from studies of the general public: free-will belief and punitiveness (Carey &amp; Paulhus 2013; Shariff et al. 2014; Everett et al. 2021); theism and religion in public life (Bourget &amp; Chalmers 2014); moral objectivism with religiosity and intolerance of disagreement (Goodwin &amp; Darley 2008; Wright, Cullum &amp; Schwab 2008); and impartial ethics with identification with all humanity (Kahane et al. 2018). Other plausible links, such as consequentialism and economic policy, were left out because no solid research supports them. A "less common" result means your pairing is rarer than predicted. Each one is paired with a tradition that holds it on principle.</p>
 
     <h2 class="h-section">How the figures were scored</h2>
     <p>The roster is limited to divisive figures: dictators, militant and terrorist leaders, and notorious public figures. Positions are placed on the present-day spectrum you answer on. Each profile lists the sources it was checked against.</p>
@@ -360,6 +380,8 @@
       <li>Gerber, A. et al. (2010). Personality and political attitudes: Relationships across issue domains and political contexts. <i>American Political Science Review</i> 104(1).</li>
       <li>Goodwin, G. &amp; Darley, J. (2008). The psychology of meta-ethics: Exploring objectivism. <i>Cognition</i> 106(3).</li>
       <li>Graham, J., Haidt, J. &amp; Nosek, B. (2009). Liberals and conservatives rely on different sets of moral foundations. <i>Journal of Personality and Social Psychology</i> 96(5).</li>
+      <li>Hawkins, K. et al. (2025). <i>Global Populism Database</i>, v2.1. Harvard Dataverse, doi:10.7910/DVN/LFTQEZ.</li>
+      <li>Hawkins, K., Riding, S. &amp; Mudde, C. (2012). Measuring populist attitudes. <i>Committee on Concepts and Methods Working Paper</i> 55.</li>
       <li>Herre, B. (2023). Identifying ideologues: A global dataset on political leaders, 1945–2020. <i>British Journal of Political Science</i> 53(2).</li>
       <li>Iyer, R. et al. (2012). Understanding libertarian morality. <i>PLoS ONE</i> 7(8).</li>
       <li>Kahane, G. et al. (2018). Beyond sacrificial harm: A two-dimensional model of utilitarian psychology. <i>Psychological Review</i> 125(2).</li>
