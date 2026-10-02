@@ -361,6 +361,12 @@ h1 { font-weight: 800; font-stretch: 112%; font-size: clamp(1.9rem, 5vw, 3rem); 
 .conf[data-conf="low"] { color: var(--low); }
 
 /* Ideologies */
+.ide-jump { margin-top: 20px; }
+.ide-jump select { flex: 0 1 320px; }
+.ide { scroll-margin-top: 80px; border-radius: 10px; }
+@keyframes ide-flash { from { background: color-mix(in srgb, var(--accent) 16%, transparent); } to { background: transparent; } }
+.ide-flash { animation: ide-flash 1.8s ease-out; }
+@media (prefers-reduced-motion: reduce) { .ide-flash { animation: none; outline: 2px solid var(--accent); outline-offset: 6px; } }
 .ide-list { list-style: none; padding: 0; margin: 24px 0 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 32px 28px; }
 .ide { min-width: 0; }
 .ide-name { font-size: 1.1rem; font-weight: 700; }

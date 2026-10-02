@@ -896,11 +896,35 @@
     $('#fig-count').textContent = list.children.length + ' shown';
   }
 
+  const ideId = (name) => 'ide-' + name.toLowerCase().normalize('NFD').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+  // Scroll to the chosen ideology, open its notes and briefly highlight it.
+  function jumpToIdeology(id) {
+    const li = document.getElementById(id);
+    if (!li) return;
+    const det = li.querySelector('details');
+    if (det) det.open = true;
+    const header = $('.top');
+    const y = li.getBoundingClientRect().top + window.scrollY - (header ? header.offsetHeight : 0) - 12;
+    const smooth = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({ top: y, behavior: smooth ? 'smooth' : 'auto' });
+    li.classList.remove('ide-flash');
+    void li.offsetWidth;
+    li.classList.add('ide-flash');
+  }
+
   function renderIdeologies() {
     const list = $('#ide-list');
     list.textContent = '';
+    const jump = $('#ide-jump');
+    [...IDEOLOGIES].sort((x, y) => x.name.localeCompare(y.name)).forEach((ide) => {
+      const o = el('option', null, ide.name);
+      o.value = ideId(ide.name);
+      jump.appendChild(o);
+    });
     IDEOLOGIES.forEach((ide) => {
       const li = el('li', 'ide');
+      li.id = ideId(ide.name);
       li.appendChild(el('h3', 'ide-name', ide.name));
       li.appendChild(el('p', 'ide-desc', ide.d));
       if (ide.src) li.appendChild(el('p', 'ide-src', 'Source: ' + ide.src));
@@ -972,6 +996,7 @@
     $('#fig-filter').addEventListener('change', renderBrowser);
     $('#fig-search').addEventListener('input', renderBrowser);
     $('#phil-search').addEventListener('input', renderPhilBrowser);
+    $('#ide-jump').addEventListener('change', (e) => { if (e.target.value) jumpToIdeology(e.target.value); });
     document.querySelectorAll('[data-jump]').forEach((b) => b.addEventListener('click', () => {
       document.getElementById(b.dataset.jump).scrollIntoView({ behavior: 'smooth', block: 'start' });
     }));
