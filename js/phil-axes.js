@@ -2,69 +2,71 @@
 // The first three follow the main components Bourget & Chalmers (2014) found in the 2009 PhilPapers
 // Survey (anti-naturalism, rationalism, realism/objectivism); the rest follow standard divides in ethics,
 // free will, personal identity and philosophical method.
-// survey: share of professional philosophers (target faculty, accept or lean) in the 2020 PhilPapers
-// Survey (Bourget & Chalmers 2023) for the closest question, where one exists.
+// survey: share of professional philosophers (target faculty, N = 1,785, accept or lean) in the 2020
+// PhilPapers Survey (Bourget & Chalmers 2023) for the closest questions, from the survey's results pages.
 const PHIL_AXES = [
   {
     key: 'nat', name: 'Reality', left: 'Naturalism', right: 'Transcendence',
     lc: '#3f8f7a', rc: '#8a63b8',
     ldesc: 'Everything is part of the natural world science studies; mind is physical.',
     rdesc: 'God, soul or a reality beyond nature; mind is not merely physical.',
-    survey: '2020 PhilPapers Survey: 66.9% of philosophers accept or lean atheism, 18.9% theism; 51.9% physicalism about mind, 32.1% non-physicalism.'
+    survey: '2020 PhilPapers Survey (target faculty, accept or lean): atheism 66.9%, theism 18.9%; physicalism about mind 51.9%, non-physicalism 32.1%; naturalism as a metaphilosophy 50.2%, non-naturalism 31.1%.'
   },
   {
     key: 'know', name: 'Knowledge', left: 'Experience', right: 'Reason',
     lc: '#c0812b', rc: '#3c6fb0',
     ldesc: 'Empiricism: knowledge comes from the senses.',
     rdesc: 'Rationalism: reason alone can know substantial truths.',
-    survey: '2020 PhilPapers Survey: 72.8% accept or lean toward the existence of a priori knowledge, 18.5% against.'
+    survey: '2020 PhilPapers Survey: a priori knowledge exists 72.8%, does not 18.5%; on the general question, empiricism 43.9%, rationalism 33.5%.'
   },
   {
     key: 'real', name: 'Truth', left: 'Realism', right: 'Construction',
     lc: '#5b7d3a', rc: '#b5527a',
     ldesc: 'A mind-independent world; truth as correspondence to it.',
     rdesc: 'Truth and categories made by minds, language, practice or power.',
-    survey: '2020 PhilPapers Survey: 79.5% accept or lean non-skeptical realism about the external world; 72.4% scientific realism.'
+    survey: '2020 PhilPapers Survey: non-skeptical realism about the external world 79.5%; scientific realism 72.4%; truth as correspondence 51.4%, deflationary 24.5%, epistemic 10.2%. Gender is social 63.1%, race is social 63.4%.'
   },
   {
     key: 'moral', name: 'Morality', left: 'Objective', right: 'Subjective',
     lc: '#356fa0', rc: '#c25c3a',
     ldesc: 'Moral realism: some things are right or wrong whatever anyone thinks.',
     rdesc: 'Anti-realism: morality is feeling, convention or choice.',
-    survey: '2020 PhilPapers Survey: 62.1% accept or lean moral realism, 26.1% anti-realism.'
+    survey: '2020 PhilPapers Survey: moral realism 62.1%, anti-realism 26.1% (naturalist realism 31.6%, non-naturalism 26.6%, constructivism 20.8%, expressivism 10.6%, error theory 5.3%). Meaning of life: subjective 33.0%, objective 32.1%, nonexistent 16.1%. Aesthetic value: objective 43.5%, subjective 40.6%.'
   },
   {
     key: 'ethic', name: 'Right action', left: 'Outcomes', right: 'Duty',
     lc: '#c49a22', rc: '#5a5f8f',
     ldesc: 'Consequentialism: the best results decide what is right.',
     rdesc: 'Deontology: some acts are required or forbidden whatever the results.',
-    survey: '2020 PhilPapers Survey: consequentialism 30.6%, deontology 32.1%, virtue ethics 37.0% (multiple answers allowed).'
+    survey: '2020 PhilPapers Survey: virtue ethics 37.0%, deontology 32.1%, consequentialism 30.6% (multiple answers allowed). Trolley: switch 63.4%, don\'t 13.3%. Footbridge: push 22.0%, don\'t push 56.0%. Experience machine: would not enter 76.9%.'
   },
   {
     key: 'scope', name: 'Moral scope', left: 'Impartial', right: 'Particular',
     lc: '#2f8fa6', rc: '#a3683a',
     ldesc: 'Universal principles; everyone counts equally, near or far.',
-    rdesc: 'Character, relationships and tradition shape what we owe.'
+    rdesc: 'Character, relationships and tradition shape what we owe.',
+    survey: '2020 PhilPapers Survey: moral generalism 54.6%, particularism 33.7%; practical reason Aristotelian 38.7%, Humean 30.6%, Kantian 18.9%; political philosophy egalitarianism 44.1%, communitarianism 27.3%, libertarianism 13.4%.'
   },
   {
     key: 'will', name: 'Freedom', left: 'Determined', right: 'Free',
     lc: '#6b6f7a', rc: '#d0703a',
     ldesc: 'Choices are fully caused; libertarian free will is an illusion.',
     rdesc: 'We could genuinely have done otherwise.',
-    survey: '2020 PhilPapers Survey: 59.2% accept or lean compatibilism, which this test scores just left of center; libertarian free will and no free will are minority views.'
+    survey: '2020 PhilPapers Survey: compatibilism 59.2% (scored just left of center here), libertarian free will 18.8%, no free will 11.2%.'
   },
   {
     key: 'self', name: 'Self', left: 'Enduring', right: 'Fluid',
     lc: '#7c5a9e', rc: '#3f9a8a',
     ldesc: 'A soul, essence or single continuing self.',
     rdesc: 'No fixed self: a bundle, a process, or made by choice and situation.',
-    survey: '2020 PhilPapers Survey: psychological view of personal identity 43.7%, biological view 19.1%, further-fact view 14.9%.'
+    survey: '2020 PhilPapers Survey: psychological view of personal identity 43.7%, biological view 19.1%, further-fact view 14.9%. Teletransporter: survival 35.2%, death 40.1%.'
   },
   {
     key: 'pmethod', name: 'Method', left: 'Analysis', right: 'Interpretation',
     lc: '#4a6fa5', rc: '#a5574a',
     ldesc: 'Clear argument, logic, continuity with science.',
-    rdesc: 'Lived experience, history, texts and critique.'
+    rdesc: 'Lived experience, history, texts and critique.',
+    survey: '2020 PhilPapers Survey: in history of philosophy, analytic/rational reconstruction 60.8%, contextual/historicist 44.4% (both allowed); later Wittgenstein preferred to early 57.5% to 24.6%.'
   }
 ];
 

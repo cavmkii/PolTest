@@ -347,6 +347,7 @@
       near.appendChild(chips);
 
       row.append(head, poles, axisBar(ax, k, u[k], { ticks: true }), near);
+      if (ax.survey) row.appendChild(el('p', 'survey', ax.survey));
       axesBox.appendChild(row);
     });
 

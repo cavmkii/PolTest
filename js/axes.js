@@ -5,7 +5,8 @@ const AXES = [
     key: 'econ', name: 'Economy', left: 'Equality', right: 'Markets',
     lc: '#c4472f', rc: '#c79a1d',
     ldesc: 'Redistribution, public ownership, labor power.',
-    rdesc: 'Private property, free exchange, low taxes and regulation.'
+    rdesc: 'Private property, free exchange, low taxes and regulation.',
+    survey: 'Professional philosophers (2020 PhilPapers Survey, target faculty): socialism 53.0%, capitalism 29.5%.'
   },
   {
     key: 'power', name: 'State power', left: 'Liberty', right: 'Authority',
@@ -47,13 +48,15 @@ const AXES = [
     key: 'justice', name: 'Justice', left: 'Rehabilitation', right: 'Punishment',
     lc: '#4aa39a', rc: '#6b4d8f',
     ldesc: 'Root causes, decarceration, no death penalty.',
-    rdesc: 'Deterrence, harsh sentences, police power.'
+    rdesc: 'Deterrence, harsh sentences, police power.',
+    survey: 'Professional philosophers (2020 PhilPapers Survey, target faculty): capital punishment impermissible 75.1%, permissible 17.7%.'
   },
   {
     key: 'ecology', name: 'Environment', left: 'Ecology', right: 'Industry',
     lc: '#4f9a3a', rc: '#7a6a5a',
     ldesc: 'Environmental protection over growth; skepticism of industrialism.',
-    rdesc: 'Growth, extraction and development first.'
+    rdesc: 'Growth, extraction and development first.',
+    survey: 'Professional philosophers (2020 PhilPapers Survey, target faculty): non-anthropocentric environmental ethics 50.7%, anthropocentric 42.3%.'
   },
   {
     key: 'method', name: 'Means', left: 'Reform', right: 'Upheaval',
