@@ -17,7 +17,7 @@
   function computeScores(answers) {
     const sum = Array(N).fill(0);
     const max = Array(N).fill(0);
-    QUESTIONS.forEach((q, i) => {
+    quiz.forEach((q, i) => {
       const a = answers[i];
       if (a == null) return;
       AXES.forEach((ax, k) => {
@@ -91,9 +91,12 @@
   let answers = [];
   let idx = 0;
   let currentScores = null;
+  const SHORT = QUESTIONS.filter((q) => q.s);
+  let quiz = QUESTIONS;
 
-  function startQuiz() {
-    answers = Array(QUESTIONS.length).fill(null);
+  function startQuiz(mode) {
+    quiz = mode === 'short' ? SHORT : QUESTIONS;
+    answers = Array(quiz.length).fill(null);
     idx = 0;
     $('#intro').hidden = true;
     $('#results').hidden = true;
@@ -102,10 +105,10 @@
   }
 
   function renderQuestion() {
-    const q = QUESTIONS[idx];
-    $('#q-count').textContent = `Statement ${idx + 1} of ${QUESTIONS.length}`;
+    const q = quiz[idx];
+    $('#q-count').textContent = `Statement ${idx + 1} of ${quiz.length}`;
     $('#q-text').textContent = q.t;
-    $('#q-progress').style.width = ((idx / QUESTIONS.length) * 100).toFixed(1) + '%';
+    $('#q-progress').style.width = ((idx / quiz.length) * 100).toFixed(1) + '%';
     $('#q-back').disabled = idx === 0;
     const box = $('#q-answers');
     box.textContent = '';
@@ -122,7 +125,7 @@
 
   function choose(v) {
     answers[idx] = v;
-    if (idx < QUESTIONS.length - 1) {
+    if (idx < quiz.length - 1) {
       idx++;
       renderQuestion();
     } else {
@@ -382,7 +385,8 @@
       const dt = el('dt', null, `${ax.name}: ${ax.left} ↔ ${ax.right}`);
       const dd = el('dd', null, `${ax.left}: ${ax.ldesc} ${ax.right}: ${ax.rdesc}`);
       const count = QUESTIONS.filter((q) => q.e[ax.key]).length;
-      dd.appendChild(el('span', 'dd-count', ` ${count} statements touch this axis.`));
+      const shortCount = SHORT.filter((q) => q.e[ax.key]).length;
+      dd.appendChild(el('span', 'dd-count', ` ${count} statements touch this axis (${shortCount} in the short version).`));
       box.append(dt, dd);
     });
   }
@@ -400,11 +404,19 @@
   }
 
   function boot() {
-    $('#q-total').textContent = QUESTIONS.length;
+    $('#q-short').textContent = SHORT.length;
+    $('#q-full').textContent = QUESTIONS.length;
     $('#fig-total').textContent = FIGURES.length;
     $('#ide-total').textContent = IDEOLOGIES.length;
-    $('#start').addEventListener('click', startQuiz);
-    $('#retake').addEventListener('click', startQuiz);
+    $('#start-short').addEventListener('click', () => startQuiz('short'));
+    $('#start-full').addEventListener('click', () => startQuiz('full'));
+    $('#retake').addEventListener('click', () => {
+      $('#results').hidden = true;
+      $('#quiz').hidden = true;
+      $('#intro').hidden = false;
+      try { history.replaceState(null, '', '#test'); } catch (e) { /* sandboxed */ }
+      window.scrollTo({ top: 0 });
+    });
     $('#q-back').addEventListener('click', () => { if (idx > 0) { idx--; renderQuestion(); } });
     $('#q-skip').addEventListener('click', () => choose(null));
     $('#fig-filter').addEventListener('change', renderBrowser);

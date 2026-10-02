@@ -26,11 +26,18 @@
     <section id="intro" class="intro">
       <p class="eyebrow">Political alignment test</p>
       <h1>Which bad leader is closest to you?</h1>
-      <p class="lede">Rate <span id="q-total">50</span> statements. You get the nearest of <span id="ide-total">49</span> real ideologies, your score on each axis, and which of <span id="fig-total">50</span> dictators, terrorist leaders and notorious figures sits closest to you on each axis and overall.</p>
+      <p class="lede">Rate <span id="q-short">50</span> or <span id="q-full">77</span> statements. You get the nearest of <span id="ide-total">49</span> real ideologies, your score on each axis, and which of <span id="fig-total">50</span> dictators, terrorist leaders and notorious figures sits closest to you on each axis and overall.</p>
       <div class="intro-actions">
-        <button id="start" class="btn btn-primary" type="button">Start the test</button>
-        <span class="hint">About 6 minutes. Keys 1–5 answer.</span>
+        <button id="start-short" class="btn btn-primary btn-mode" type="button">
+          <span class="mode-name">Short test</span>
+          <span class="mode-meta">50 statements · about 6 min</span>
+        </button>
+        <button id="start-full" class="btn btn-mode" type="button">
+          <span class="mode-name">Full test</span>
+          <span class="mode-meta">77 statements · about 10 min · finer, better balanced scores</span>
+        </button>
       </div>
+      <p class="hint">Keys 1–5 answer, Backspace goes back.</p>
       <ol class="axis-index" aria-label="The ten axes">
         <li>Equality ↔ Markets</li><li>Liberty ↔ Authority</li><li>Progress ↔ Tradition</li>
         <li>Globalism ↔ Nationalism</li><li>Secular ↔ Religious</li><li>Pluralism ↔ Exclusion</li>
