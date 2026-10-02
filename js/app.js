@@ -14,14 +14,15 @@
 
   // ---------- scoring ----------
 
-  function computeScores(answers) {
-    // statements with no axis weights (the attention check) are ignored here
-    const sum = Array(N).fill(0);
-    const max = Array(N).fill(0);
-    quiz.forEach((q, i) => {
+  // Scores one test's axes from the answers. Statements that touch none of these axes (the other
+  // test's statements, attention checks) are ignored.
+  function computeFor(qs, answers, axes) {
+    const sum = Array(axes.length).fill(0);
+    const max = Array(axes.length).fill(0);
+    qs.forEach((q, i) => {
       const a = answers[i];
       if (a == null) return;
-      AXES.forEach((ax, k) => {
+      axes.forEach((ax, k) => {
         const w = q.e[ax.key];
         if (!w) return;
         sum[k] += a * w;
@@ -42,10 +43,10 @@
   let importance = Array(N).fill(1);
   const weights = () => BASE_WEIGHT.map((b, k) => b * importance[k]);
 
-  function distance(u, v, gap) {
-    const w = weights();
+  function distance(u, v, gap, wIn) {
+    const w = wIn || weights();
     let ss = 0, ws = 0, n = 0;
-    for (let k = 0; k < N; k++) {
+    for (let k = 0; k < v.length; k++) {
       if (v[k] == null) {
         if (gap) { ss += w[k] * gap * gap; ws += w[k]; }
         continue;
@@ -79,10 +80,10 @@
   // Answer quality: attention check, how many statements fed each axis, and how much the answers on
   // each axis agree with one another. Low agreement is the "unconstrained" pattern Converse (1964)
   // found to be common in mass publics; it is reported, not corrected.
-  function answerQuality(qs, ans) {
-    const check = qs.findIndex((q) => q.check != null);
-    const attention = check < 0 || ans[check] == null ? null : ans[check] === qs[check].check;
-    const perAxis = AXES.map((ax) => {
+  function answerQuality(qs, ans, axes) {
+    const checks = qs.map((q, i) => i).filter((i) => qs[i].check != null && ans[i] != null);
+    const attention = checks.length ? checks.every((i) => ans[i] === qs[i].check) : null;
+    const perAxis = axes.map((ax) => {
       let sum = 0, abs = 0, count = 0;
       qs.forEach((q, i) => {
         const w = q.e[ax.key];
@@ -119,7 +120,7 @@
 
   // ---------- views ----------
 
-  const views = ['test', 'figures', 'ideologies', 'method'];
+  const views = ['test', 'figures', 'ideologies', 'philosophy', 'method'];
   function showView(name) {
     views.forEach((v) => { $('#view-' + v).hidden = v !== name; });
     document.querySelectorAll('.nav a').forEach((a) => {
@@ -133,11 +134,22 @@
   let idx = 0;
   let currentScores = null;
   let currentQuality = null;   // only known right after taking the test, not from a pasted code
+  let currentPhil = null;
+  let philQuality = null;
   const SHORT = QUESTIONS.filter((q) => q.s);
+  PHIL_QUESTIONS.forEach((q) => { q.phil = true; });
+  PHILOSOPHERS.forEach((p) => { p.phil = true; });
+  const PHIL_SHORT = PHIL_QUESTIONS.filter((q) => q.s);
   let quiz = QUESTIONS;
+  const mode = { pol: true, phil: false, len: 'short' };
 
-  function startQuiz(mode) {
-    quiz = mode === 'short' ? SHORT : QUESTIONS;
+  function buildQuiz() {
+    const short = mode.len === 'short';
+    return [].concat(mode.pol ? (short ? SHORT : QUESTIONS) : [], mode.phil ? (short ? PHIL_SHORT : PHIL_QUESTIONS) : []);
+  }
+
+  function startQuiz() {
+    quiz = buildQuiz();
     answers = Array(quiz.length).fill(null);
     idx = 0;
     $('#intro').hidden = true;
@@ -148,7 +160,8 @@
 
   function renderQuestion() {
     const q = quiz[idx];
-    $('#q-count').textContent = `Statement ${idx + 1} of ${quiz.length}`;
+    $('#q-count').textContent = `Statement ${idx + 1} of ${quiz.length}` +
+      (mode.pol && mode.phil ? (q.phil ? ' · Philosophy' : ' · Politics') : '');
     $('#q-text').textContent = q.t;
     $('#q-progress').style.width = ((idx / quiz.length) * 100).toFixed(1) + '%';
     $('#q-back').disabled = idx === 0;
@@ -176,12 +189,64 @@
   }
 
   function finish() {
-    const scores = computeScores(answers);
-    currentScores = scores;
-    currentQuality = answerQuality(quiz, answers);
-    currentQuality.mode = quiz === SHORT ? 'short' : 'full';
-    try { history.replaceState(null, '', '#r.' + scores.join('.')); } catch (e) { /* sandboxed */ }
-    renderResults(scores);
+    const pick = (phil) => {
+      const qs = [], ans = [];
+      quiz.forEach((q, i) => { if (!!q.phil === phil) { qs.push(q); ans.push(answers[i]); } });
+      return { qs, ans };
+    };
+    currentScores = currentQuality = currentPhil = philQuality = null;
+    if (mode.pol) {
+      const p = pick(false);
+      currentScores = computeFor(p.qs, p.ans, AXES);
+      currentQuality = answerQuality(p.qs, p.ans, AXES);
+      currentQuality.mode = mode.len;
+    }
+    if (mode.phil) {
+      const p = pick(true);
+      currentPhil = computeFor(p.qs, p.ans, PHIL_AXES);
+      philQuality = answerQuality(p.qs, p.ans, PHIL_AXES);
+      philQuality.mode = mode.len;
+    }
+    try { history.replaceState(null, '', '#' + resultCode().slice(1)); } catch (e) { /* sandboxed */ }
+    showResults();
+  }
+
+  // Result codes: "#r.<10 political scores>", "#p.<9 philosophy scores>", or both joined by ".".
+  function resultCode() {
+    const parts = [];
+    if (currentScores) parts.push('r.' + currentScores.join('.'));
+    if (currentPhil) parts.push('p.' + currentPhil.join('.'));
+    return '#' + parts.join('.');
+  }
+
+  function parseCode(str) {
+    const h = str.trim().replace(/^.*#/, '');
+    const out = {};
+    const take = (tag, n) => {
+      const m = h.match(new RegExp('(?:^|\\.)' + tag + '\\.((?:-?\\d+\\.?){' + n + '})'));
+      if (!m) return null;
+      const nums = m[1].replace(/\.$/, '').split('.').map(Number);
+      return nums.length === n && nums.every((x) => Number.isFinite(x) && Math.abs(x) <= 100) ? nums : null;
+    };
+    out.pol = take('r', N);
+    out.phil = take('p', PHIL_AXES.length);
+    return out.pol || out.phil ? out : null;
+  }
+
+  function showResults() {
+    showView('test');
+    $('#intro').hidden = true;
+    $('#quiz').hidden = true;
+    $('#results').hidden = false;
+    $('#pol-results').hidden = !currentScores;
+    $('#phil-results').hidden = !currentPhil;
+    $('#gap-results').hidden = !(currentScores && currentPhil);
+    $('#results-jump').hidden = !(currentScores && currentPhil);
+    if (currentScores) renderResults(currentScores, true);
+    if (currentPhil) renderPhil(currentPhil);
+    if (currentScores && currentPhil) renderGaps(currentScores, currentPhil);
+    $('#r-code').value = resultCode();
+    window.scrollTo({ top: 0 });
   }
 
   // ---------- results ----------
@@ -192,7 +257,7 @@
     wrap.style.setProperty('--rc', ax.rc);
     const track = el('div', 'bar-track');
     if (opts && opts.ticks) {
-      FIGURES.forEach((f) => {
+      (opts.ticksFrom || FIGURES).forEach((f) => {
         if (f.v[k] == null) return;
         const t = el('span', 'tick');
         t.style.left = ((f.v[k] + 100) / 2) + '%';
@@ -222,12 +287,8 @@
   const CLEAR_FIT_GAP = 3;   // similarity points the top ideology must lead by
   const WEAK_FIT = 75;       // below this, no profile fits well
 
-  function renderResults(u, keepScroll) {
-    showView('test');
-    $('#intro').hidden = true;
-    $('#quiz').hidden = true;
-    $('#results').hidden = false;
-
+  // Renders the political half of the results. Called again when an importance setting changes.
+  function renderResults(u) {
     const ideos = rankIdeologies(u);
     const top = ideos[0];
     const close = ideos.filter((r) => similarity(top.d) - similarity(r.d) < CLEAR_FIT_GAP);
@@ -240,7 +301,7 @@
     $('#r-ideology-sim').textContent = approx(top.d) + ' match' + (weak ? ' · no profile fits closely' : '');
     $('#r-ideology-src').textContent = top.ide.src ? 'Profile follows ' + top.ide.src + '.' : '';
 
-    renderQuality(currentQuality);
+    renderQuality(currentQuality, 'r', 'ideology');
     renderDeepTabs(u, ideos.slice(0, 5));
     renderPractice(u);
     renderPsych(u);
@@ -271,7 +332,7 @@
         if (o.w === importance[k]) opt.selected = true;
         sel.appendChild(opt);
       });
-      sel.addEventListener('change', () => { importance[k] = Number(sel.value); renderResults(u, true); });
+      sel.addEventListener('change', () => { importance[k] = Number(sel.value); renderResults(u); });
       imp.appendChild(sel);
       const val = el('span', 'num axis-val', signed(u[k]));
       head.append(imp, val);
@@ -303,9 +364,6 @@
       ? `Not in the overall ranking because no scholarly source codes their politics, or the record covers too few axes: ${skipped.join(', ')}. They still appear in the per-axis matches where a score exists.`
       : '';
 
-    const code = '#r.' + u.join('.');
-    $('#r-code').value = code;
-    if (!keepScroll) window.scrollTo({ top: 0 });
   }
 
   // ---------- ideology deep dive ----------
@@ -329,21 +387,8 @@
     select(0);
   }
 
-  function renderDeep(u, ide) {
-    const n = IDEOLOGY_NOTES[ide.name] || {};
-    $('#r-deep-name').textContent = ide.name;
-    $('#r-deep-core').textContent = n.core || ide.d;
-    const pol = $('#r-deep-policy');
-    pol.textContent = '';
-    (n.policy || []).forEach((t) => pol.appendChild(el('li', null, t)));
-    $('#r-deep-tensions').textContent = n.tensions || '';
-    $('#r-deep-today').textContent = n.today || '';
-    $('#r-deep-psych').textContent = n.psych || '';
-    $('#r-deep-psych-wrap').hidden = !n.psych;
-    $('#r-deep-src').textContent = ide.src ? 'Further reading: ' + ide.src + '.' : '';
-
-    const c = compareToIdeology(u, ide);
-    const box = $('#r-deep-compare');
+  // Lists where a respondent agrees and disagrees with a profile, as sentences.
+  function renderCompare(box, c, who) {
     box.textContent = '';
     if (c.same.length) box.appendChild(el('p', null, 'You match it closely on ' + listText(c.same) + '.'));
     if (c.apart.length) {
@@ -357,7 +402,7 @@
           : sameSide ? `you go further toward ${yourPole}`
           : Math.abs(x.it) < 10 ? `you lean toward ${yourPole} where it sits in the middle`
           : `you lean the other way, toward ${yourPole}`;
-        ul.appendChild(el('li', null, `${x.ax.name}: you ${signed(x.you)}, typical supporter ${signed(x.it)}. ${how[0].toUpperCase() + how.slice(1)}.`));
+        ul.appendChild(el('li', null, `${x.ax.name}: you ${signed(x.you)}, ${who} ${signed(x.it)}. ${how[0].toUpperCase() + how.slice(1)}.`));
       });
       box.appendChild(el('p', null, 'You part ways with it on:'));
       box.appendChild(ul);
@@ -365,6 +410,22 @@
       box.appendChild(el('p', null, 'There is no axis where you differ from it by 30 points or more.'));
     }
     if (c.open.length) box.appendChild(el('p', 'sub', 'It takes no fixed position on ' + listText(c.open) + ', so those axes were not used.'));
+  }
+
+  function renderDeep(u, ide) {
+    const n = IDEOLOGY_NOTES[ide.name] || {};
+    $('#r-deep-name').textContent = ide.name;
+    $('#r-deep-core').textContent = n.core || ide.d;
+    const pol = $('#r-deep-policy');
+    pol.textContent = '';
+    (n.policy || []).forEach((t) => pol.appendChild(el('li', null, t)));
+    $('#r-deep-tensions').textContent = n.tensions || '';
+    $('#r-deep-today').textContent = n.today || '';
+    $('#r-deep-psych').textContent = n.psych || '';
+    $('#r-deep-psych-wrap').hidden = !n.psych;
+    $('#r-deep-src').textContent = ide.src ? 'Further reading: ' + ide.src + '.' : '';
+
+    renderCompare($('#r-deep-compare'), compareToIdeology(u, ide), 'typical supporter');
   }
 
   function listText(a) {
@@ -428,19 +489,19 @@
     </svg>`;
   }
 
-  function renderQuality(q) {
-    const box = $('#r-quality');
+  function renderQuality(q, prefix, noun) {
+    const box = $('#' + (prefix || 'r') + '-quality');
     box.hidden = !q;
     if (!q) return;
     const lines = [];
     if (q.attention === false) lines.push({ cls: 'warn', t: 'You missed the attention-check statement. Treat this result with caution.' });
     if (q.overall != null) {
       const pct = Math.round(q.overall * 100);
-      lines.push({ cls: pct < 50 ? 'warn' : '', t: `Answer consistency ${pct}%. This is how often your answers on the same axis point the same way. Below about 50%, your views don't line up on these axes, which is common (Converse 1964; Kinder & Kalmoe 2017), and the nearest ideology means less.` });
+      lines.push({ cls: pct < 50 ? 'warn' : '', t: `Answer consistency ${pct}%. This is how often your answers on the same axis point the same way. Below about 50%, your views don't line up on these axes, which is common (Converse 1964; Kinder & Kalmoe 2017), and the nearest ${noun || 'ideology'} means less.` });
     }
     if (q.skipped) lines.push({ cls: '', t: `${q.skipped} statement${q.skipped === 1 ? '' : 's'} answered "No opinion" and left out of scoring.` });
     if (q.mode === 'short') lines.push({ cls: '', t: 'Short version: five statements per axis, so each score is less reliable than in the full test.' });
-    const ul = $('#r-quality-list');
+    const ul = $('#' + (prefix || 'r') + '-quality-list');
     ul.textContent = '';
     lines.forEach((l) => { const li = el('li', l.cls, l.t); ul.appendChild(li); });
   }
@@ -451,7 +512,7 @@
     b.type = 'button';
     const left = el('span', 'match-who');
     left.appendChild(el('span', 'match-name', r.f.n));
-    left.appendChild(el('span', 'match-sub', `${r.f.l} · ${FIGURE_CATEGORIES[r.f.c]}`));
+    left.appendChild(el('span', 'match-sub', r.f.phil ? `${r.f.l} · ${r.f.y}` : `${r.f.l} · ${FIGURE_CATEGORIES[r.f.c]}`));
     const pct = el('span', 'num match-pct', approx(r.d));
     const meter = el('span', 'meter');
     const fill = el('span', 'meter-fill');
@@ -463,11 +524,208 @@
     return li;
   }
 
+  // ---------- philosophy results ----------
+
+  const PHIL_W = PHIL_AXES.map(() => 1);
+  const rankSchools = (u) => SCHOOLS.map((sc) => ({ sc, ...distance(u, sc.v, IDEOLOGY_GAP, PHIL_W) }))
+    .filter((r) => r.n >= 5).sort((a, b) => a.d - b.d);
+  const rankPhilosophers = (u) => PHILOSOPHERS.filter((p) => p.v.filter((x) => x != null).length >= 5)
+    .map((f) => ({ f, ...distance(u, f.v, FIGURE_GAP, PHIL_W) })).sort((a, b) => a.d - b.d);
+
+  function renderPhil(u) {
+    const schools = rankSchools(u);
+    const top = schools[0];
+    const close = schools.filter((r) => similarity(top.d) - similarity(r.d) < CLEAR_FIT_GAP);
+    $('#p-eyebrow').textContent = close.length > 1 ? 'No clear fit: closest schools of thought' : 'Closest school of thought';
+    $('#p-school').textContent = close.length > 1 ? close.slice(0, 3).map((r) => r.sc.name).join(' / ') : top.sc.name;
+    $('#p-sim').textContent = approx(top.d) + ' match' + (similarity(top.d) < WEAK_FIT ? ' · no profile fits closely' : '');
+    $('#p-desc').textContent = close.length > 1
+      ? `These are within ${CLEAR_FIT_GAP} points of each other; the test cannot separate them.`
+      : top.sc.core;
+    const phils = rankPhilosophers(u);
+    $('#p-top-phil').textContent = phils.length ? `Closest philosopher: ${phils[0].f.n} (${approx(phils[0].d)}).` : '';
+
+    renderQuality(philQuality, 'p', 'school');
+
+    // School tabs
+    const tabs = $('#p-deep-tabs');
+    tabs.textContent = '';
+    const list = schools.slice(0, 5);
+    const select = (i) => {
+      [...tabs.children].forEach((t, j) => t.setAttribute('aria-selected', String(i === j)));
+      const sc = list[i].sc;
+      $('#p-deep-name').textContent = sc.name;
+      $('#p-deep-core').textContent = sc.core;
+      const ul = $('#p-deep-claims');
+      ul.textContent = '';
+      sc.claims.forEach((t) => ul.appendChild(el('li', null, t)));
+      $('#p-deep-debates').textContent = sc.debates;
+      $('#p-deep-src').textContent = 'Key texts: ' + sc.src + '.';
+      renderCompare($('#p-deep-compare'), compareToIdeology(u, sc, PHIL_AXES), 'the school');
+      const members = PHILOSOPHERS.filter((p) => p.l === sc.name);
+      const box = $('#p-deep-people');
+      box.textContent = '';
+      $('#p-deep-people-wrap').hidden = !members.length;
+      members.forEach((p) => box.appendChild(figureChip(p, approx(distance(u, p.v, FIGURE_GAP, PHIL_W).d))));
+    };
+    list.forEach((r, i) => {
+      const b = el('button', 'deep-tab');
+      b.type = 'button';
+      b.setAttribute('role', 'tab');
+      b.appendChild(el('span', null, r.sc.name));
+      b.appendChild(el('span', 'num deep-tab-pct', approx(r.d)));
+      b.addEventListener('click', () => select(i));
+      tabs.appendChild(b);
+    });
+    select(0);
+
+    // Axes
+    const box = $('#p-axes');
+    box.textContent = '';
+    PHIL_AXES.forEach((ax, k) => {
+      const row = el('section', 'axis-row');
+      const head = el('div', 'axis-head');
+      head.append(el('h3', 'axis-name', ax.name), el('span', 'axis-verdict', strengthLabel(u[k], ax)));
+      const pa = philQuality && philQuality.perAxis[k];
+      if (pa && pa.agreement != null && pa.agreement < 0.4) head.appendChild(el('span', 'tag', 'Mixed answers'));
+      const val = el('span', 'num axis-val', signed(u[k]));
+      val.style.marginLeft = 'auto';
+      head.appendChild(val);
+      const poles = el('div', 'poles');
+      poles.append(el('span', 'pole pole-l', ax.left), el('span', 'pole pole-r', ax.right));
+      const near = el('div', 'near');
+      near.appendChild(el('span', 'near-label', 'Closest on this axis'));
+      const chips = el('div', 'chips');
+      PHILOSOPHERS.filter((f) => f.v[k] != null)
+        .map((f) => ({ f, d: Math.abs(f.v[k] - u[k]), tie: distance(u, f.v, FIGURE_GAP, PHIL_W).d }))
+        .sort((a, b) => a.d - b.d || a.tie - b.tie).slice(0, 4)
+        .forEach((r) => chips.appendChild(figureChip(r.f, signed(r.f.v[k]))));
+      near.appendChild(chips);
+      row.append(head, poles, axisBar(ax, k, u[k], { ticks: true, ticksFrom: PHILOSOPHERS }), near);
+      if (ax.survey) row.appendChild(el('p', 'survey', ax.survey));
+      box.appendChild(row);
+    });
+
+    const nearList = $('#p-near');
+    nearList.textContent = '';
+    phils.slice(0, 10).forEach((r) => nearList.appendChild(matchRow(r)));
+    const farList = $('#p-far');
+    farList.textContent = '';
+    phils.slice(-5).reverse().forEach((r) => farList.appendChild(matchRow(r)));
+  }
+
+  function renderGaps(pol, phil) {
+    $('#g-intro').textContent = GAP_INTRO;
+    const list = $('#g-list');
+    list.textContent = '';
+    const items = gapAnalysis(pol, phil);
+    const gaps = items.filter((g) => g.status === 'gap').length;
+    $('#g-summary').textContent = gaps
+      ? `${gaps} of ${items.length} research-backed links show a less common combination for you.`
+      : `None of the ${items.length} research-backed links show an unusual combination for you.`;
+    const LABEL = { aligned: 'Matches research', gap: 'Less common', note: 'Worth noting', neutral: 'No clear pattern' };
+    items.forEach((g) => {
+      const li = el('li', 'gap-item');
+      li.dataset.status = g.status;
+      const head = el('div', 'gap-head');
+      head.append(el('span', 'gap-title', g.title), el('span', 'gap-status', LABEL[g.status]));
+      li.append(head, el('p', 'num sub gap-pair', g.pair), el('p', null, g.text), el('p', 'sub', 'Research: ' + g.cite));
+      list.appendChild(li);
+    });
+  }
+
+  // ---------- test chooser ----------
+
+  const SECONDS_PER_STATEMENT = 8;
+  function setupChooser() {
+    const update = () => {
+      document.querySelectorAll('[data-test]').forEach((b) => {
+        const t = b.dataset.test;
+        b.setAttribute('aria-pressed', String((t === 'pol' && mode.pol && !mode.phil) || (t === 'phil' && mode.phil && !mode.pol) || (t === 'both' && mode.pol && mode.phil)));
+      });
+      document.querySelectorAll('[data-len]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.len === mode.len)));
+      const qs = buildQuiz();
+      const mins = Math.max(1, Math.round(qs.length * SECONDS_PER_STATEMENT / 60));
+      const checks = qs.filter((q) => q.check != null).length;
+      $('#start-summary').textContent = `${qs.length - checks} statements + ${checks} attention check${checks === 1 ? '' : 's'} · about ${mins} min` +
+        (mode.len === 'short' ? ' · five per axis, less reliable' : '');
+    };
+    document.querySelectorAll('[data-test]').forEach((b) => b.addEventListener('click', () => {
+      mode.pol = b.dataset.test !== 'phil';
+      mode.phil = b.dataset.test !== 'pol';
+      update();
+    }));
+    document.querySelectorAll('[data-len]').forEach((b) => b.addEventListener('click', () => { mode.len = b.dataset.len; update(); }));
+    update();
+  }
+
+  // ---------- philosophy browser ----------
+
+  function sparkFor(v, axes) {
+    const spark = el('span', 'spark');
+    spark.style.gridTemplateColumns = `repeat(${axes.length}, 1fr)`;
+    axes.forEach((ax, k) => {
+      const s = el('span', 'spark-col');
+      s.title = `${ax.name}: ${v[k] == null ? 'no position' : signed(v[k])}`;
+      if (v[k] != null) {
+        const bar = el('span', 'spark-bar');
+        bar.style.height = (Math.abs(v[k]) / 2) + '%';
+        bar.style.background = v[k] < 0 ? ax.lc : ax.rc;
+        bar.style[v[k] < 0 ? 'top' : 'bottom'] = '50%';
+        s.appendChild(bar);
+      } else {
+        s.classList.add('spark-na');
+      }
+      spark.appendChild(s);
+    });
+    return spark;
+  }
+
+  function renderPhilBrowser() {
+    const q = $('#phil-search').value.trim().toLowerCase();
+    const list = $('#phil-list');
+    list.textContent = '';
+    PHILOSOPHERS.filter((f) => !q || f.n.toLowerCase().includes(q) || f.l.toLowerCase().includes(q)).forEach((f) => {
+      const li = el('li');
+      const b = el('button', 'fig-card');
+      b.type = 'button';
+      const top = el('span', 'fig-top');
+      top.appendChild(el('span', 'fig-name', f.n));
+      const c = el('span', 'conf', f.conf);
+      c.dataset.conf = f.conf;
+      top.appendChild(c);
+      b.append(top, el('span', 'fig-sub', f.y), el('span', 'fig-label', f.l), sparkFor(f.v, PHIL_AXES));
+      b.addEventListener('click', () => openFigure(f));
+      li.appendChild(b);
+      list.appendChild(li);
+    });
+    $('#phil-count').textContent = list.children.length + ' shown';
+
+    const sl = $('#school-list');
+    if (sl.children.length) return;
+    SCHOOLS.forEach((sc) => {
+      const li = el('li', 'ide');
+      li.appendChild(el('h3', 'ide-name', sc.name));
+      li.appendChild(el('p', 'ide-desc', sc.core));
+      li.appendChild(el('p', 'ide-src', 'Key texts: ' + sc.src));
+      li.appendChild(profileTable(sc.v, null, PHIL_AXES));
+      const det = el('details', 'ide-more');
+      det.appendChild(el('summary', null, 'Read more'));
+      const ul = el('ul', 'deep-list');
+      sc.claims.forEach((t) => ul.appendChild(el('li', null, t)));
+      det.append(el('h4', 'h-small', 'What it holds'), ul, el('h4', 'h-small', 'Arguments inside it'), el('p', null, sc.debates));
+      const members = PHILOSOPHERS.filter((p) => p.l === sc.name).map((p) => p.n);
+      if (members.length) det.append(el('h4', 'h-small', 'Philosophers scored here'), el('p', null, listText(members)));
+      li.appendChild(det);
+      sl.appendChild(li);
+    });
+  }
+
   // ---------- figure dialog ----------
 
-  function profileTable(v, compareTo) {
+  function profileTable(v, compareTo, axes) {
     const box = el('div', 'profile');
-    AXES.forEach((ax, k) => {
+    (axes || AXES).forEach((ax, k) => {
       const row = el('div', 'profile-row');
       row.appendChild(el('span', 'profile-axis', ax.name));
       if (v[k] == null) {
@@ -493,7 +751,7 @@
   function openFigure(f) {
     const d = $('#fig-dialog');
     $('#fd-name').textContent = f.n;
-    $('#fd-sub').textContent = `${f.y} · ${FIGURE_CATEGORIES[f.c]}`;
+    $('#fd-sub').textContent = f.phil ? `${f.y} · Philosopher` : `${f.y} · ${FIGURE_CATEGORIES[f.c]}`;
     $('#fd-label').textContent = f.l;
     const conf = $('#fd-conf');
     conf.textContent = f.conf + ' confidence';
@@ -506,23 +764,25 @@
     (f.src || []).forEach((t) => src.appendChild(el('li', null, t)));
     $('#fd-src-wrap').hidden = !(f.src && f.src.length);
     const scored = f.v.filter((x) => x != null).length;
-    $('#fd-nearest').textContent = scored >= 4
-      ? 'Nearest ideology profile on these scores: ' + nearestIdeologyFor(f.v)
-      : 'Too few scored axes to compute a nearest ideology.';
+    $('#fd-src-h').textContent = f.phil ? 'Works the scores rest on' : 'Sources';
+    $('#fd-nearest').textContent = scored < 4 ? 'Too few scored axes to compute a nearest match.'
+      : f.phil ? 'Nearest school profile on these scores: ' + nearestFor(f.v, SCHOOLS)
+      : 'Nearest ideology profile on these scores: ' + nearestFor(f.v, IDEOLOGIES);
+    const compare = f.phil ? currentPhil : currentScores;
     const prof = $('#fd-profile');
     prof.textContent = '';
-    prof.appendChild(profileTable(f.v, currentScores));
-    $('#fd-legend').hidden = !currentScores;
+    prof.appendChild(profileTable(f.v, compare, f.phil ? PHIL_AXES : AXES));
+    $('#fd-legend').hidden = !compare;
     if (typeof d.showModal === 'function') d.showModal();
     else d.setAttribute('open', '');
   }
 
-  // Ideology nearest to a figure, using only axes both define.
-  function nearestIdeologyFor(v) {
+  // Profile nearest to a figure or philosopher, using only axes both define.
+  function nearestFor(v, list) {
     let best = null;
-    IDEOLOGIES.forEach((ide) => {
+    list.forEach((ide) => {
       let ss = 0, n = 0;
-      for (let k = 0; k < N; k++) {
+      for (let k = 0; k < v.length; k++) {
         if (v[k] == null || ide.v[k] == null) continue;
         ss += (v[k] - ide.v[k]) ** 2; n++;
       }
@@ -622,21 +882,26 @@
 
   function parseHash() {
     const h = (location.hash || '').slice(1);
-    if (h.startsWith('r.')) {
-      const parts = h.slice(2).split('.').map(Number);
-      if (parts.length === N && parts.every((x) => Number.isFinite(x) && x >= -100 && x <= 100)) return { scores: parts };
-    }
+    const code = parseCode('#' + h);
+    if (code) return { code };
     if (views.includes(h)) return { view: h };
     return {};
   }
 
+  function loadCode(code) {
+    currentScores = code.pol;
+    currentPhil = code.phil;
+    currentQuality = philQuality = null;
+    showResults();
+  }
+
   function boot() {
-    $('#q-short').textContent = SHORT.length;
-    $('#q-full').textContent = QUESTIONS.length;
     $('#fig-total').textContent = FIGURES.length;
     $('#ide-total').textContent = IDEOLOGIES.length;
-    $('#start-short').addEventListener('click', () => startQuiz('short'));
-    $('#start-full').addEventListener('click', () => startQuiz('full'));
+    $('#phil-total').textContent = PHILOSOPHERS.length;
+    $('#school-total').textContent = SCHOOLS.length;
+    setupChooser();
+    $('#start').addEventListener('click', startQuiz);
     $('#retake').addEventListener('click', () => {
       $('#results').hidden = true;
       $('#quiz').hidden = true;
@@ -648,6 +913,10 @@
     $('#q-skip').addEventListener('click', () => choose(null));
     $('#fig-filter').addEventListener('change', renderBrowser);
     $('#fig-search').addEventListener('input', renderBrowser);
+    $('#phil-search').addEventListener('input', renderPhilBrowser);
+    document.querySelectorAll('[data-jump]').forEach((b) => b.addEventListener('click', () => {
+      document.getElementById(b.dataset.jump).scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }));
     $('#fd-close').addEventListener('click', () => $('#fig-dialog').close());
     $('#fig-dialog').addEventListener('click', (e) => { if (e.target.id === 'fig-dialog') e.target.close(); });
     $('#copy-code').addEventListener('click', () => {
@@ -658,16 +927,9 @@
       } else { input.select(); }
     });
     $('#load-code').addEventListener('click', () => {
-      const v = $('#paste-code').value.trim().replace(/^.*#/, '#');
-      const parts = v.replace(/^#?r\./, '').split('.').map(Number);
-      if (parts.length === N && parts.every((x) => Number.isFinite(x) && Math.abs(x) <= 100)) {
-        currentScores = parts;
-        currentQuality = null;
-        renderResults(parts);
-        $('#paste-error').hidden = true;
-      } else {
-        $('#paste-error').hidden = false;
-      }
+      const code = parseCode($('#paste-code').value);
+      $('#paste-error').hidden = !!code;
+      if (code) loadCode(code);
     });
     document.querySelectorAll('.nav a, .brand').forEach((a) => {
       a.addEventListener('click', (e) => {
@@ -680,10 +942,11 @@
 
     renderBrowser();
     renderIdeologies();
+    renderPhilBrowser();
     renderMethodAxes();
 
     const st = parseHash();
-    if (st.scores) { currentScores = st.scores; renderResults(st.scores); }
+    if (st.code) loadCode(st.code);
     else showView(st.view || 'test');
   }
 

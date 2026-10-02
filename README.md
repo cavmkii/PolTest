@@ -1,5 +1,11 @@
 # Ten Axes
 
+Two tests, each in a short or full version, taken separately or together:
+
+- **Political** – ten axes, 49 ideologies, 50 divisive figures.
+- **Philosophical** – nine axes built on the PhilPapers Survey structure, 34 schools of thought, 78 philosophers scored from their works.
+- **Both** – adds a comparison of philosophical and political answers on four research-backed links.
+
 A political alignment test in the style of 8values and 12axes. 78 statements, or a 50-statement short version (five per axis), plus one attention check, score you on ten axes,
 match you to the nearest of 49 real ideologies, and show which of 50 divisive figures sits closest to you
 on each axis and overall: dictators, militant and terrorist leaders, and notorious public figures.
@@ -28,6 +34,9 @@ Open `index.html` in a browser. No build step, no dependencies.
 - `js/ideologies.js` – reference ideology profiles (`null` = no characteristic position)
 - `js/figures.js` – figure profiles, each with a confidence level and the evidence behind it
 - `js/ideology-notes.js` – long-form notes per ideology: core idea, policies, internal debates, where it exists today, research on supporters
+- `js/phil-axes.js` – philosophy axes, PhilPapers 2020 distributions, statements
+- `js/schools.js`, `js/philosophers.js` – philosophy profiles with primary works
+- `js/gaps.js` – philosophy/politics comparison rules and citations
 - `js/interpret.js` – plain-language readings of your scores: policy positions, two-dimension typology, psychological research
 - `js/app.js` – scoring, matching, UI
 

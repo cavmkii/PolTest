@@ -17,6 +17,7 @@
     <a href="#test" data-view="test">Test</a>
     <a href="#figures" data-view="figures">Figures</a>
     <a href="#ideologies" data-view="ideologies">Ideologies</a>
+    <a href="#philosophy" data-view="philosophy">Philosophy</a>
     <a href="#method" data-view="method">Method</a>
   </nav>
 </header>
@@ -24,26 +25,50 @@
 <main class="wrap">
   <div id="view-test">
     <section id="intro" class="intro">
-      <p class="eyebrow">Political alignment test</p>
-      <h1>Which bad leader is closest to you?</h1>
-      <p class="lede">Rate <span id="q-short">50</span> or <span id="q-full">78</span> statements. You get the nearest of <span id="ide-total">49</span> real ideologies, your score on each axis, and which of <span id="fig-total">50</span> dictators, terrorist leaders and notorious figures sits closest to you on each axis and overall.</p>
+      <p class="eyebrow">Political and philosophical alignment tests</p>
+      <h1>Which bad leader, and which philosopher, is closest to you?</h1>
+      <p class="lede">The political test matches you to <span id="ide-total">49</span> real ideologies and <span id="fig-total">50</span> dictators, militants and notorious figures. The philosophy test matches you to <span id="school-total">34</span> schools of thought and <span id="phil-total">78</span> philosophers, from Confucius and Aquinas to Husserl, Derrida and Rorty. Take both and you also see where your philosophy and your politics pull apart.</p>
+      <div class="chooser">
+        <div class="choice-group" role="group" aria-label="Which test">
+          <span class="h-small">Test</span>
+          <div class="seg">
+            <button type="button" class="seg-btn" data-test="pol">Political</button>
+            <button type="button" class="seg-btn" data-test="phil">Philosophical</button>
+            <button type="button" class="seg-btn" data-test="both">Both</button>
+          </div>
+        </div>
+        <div class="choice-group" role="group" aria-label="Length">
+          <span class="h-small">Length</span>
+          <div class="seg">
+            <button type="button" class="seg-btn" data-len="short">Short</button>
+            <button type="button" class="seg-btn" data-len="full">Full</button>
+          </div>
+        </div>
+      </div>
       <div class="intro-actions">
-        <button id="start-short" class="btn btn-primary btn-mode" type="button">
-          <span class="mode-name">Short test</span>
-          <span class="mode-meta">50 statements + 1 attention check · about 6 min · less reliable</span>
-        </button>
-        <button id="start-full" class="btn btn-mode" type="button">
-          <span class="mode-name">Full test</span>
-          <span class="mode-meta">78 statements + 1 attention check · about 10 min · more reliable</span>
-        </button>
+        <button id="start" class="btn btn-primary" type="button">Start</button>
+        <span id="start-summary" class="hint"></span>
       </div>
       <p class="hint">Keys 1–5 answer, 6 is No opinion, Backspace goes back.</p>
-      <ol class="axis-index" aria-label="The ten axes">
-        <li>Equality ↔ Markets</li><li>Liberty ↔ Authority</li><li>Progress ↔ Tradition</li>
-        <li>Globalism ↔ Nationalism</li><li>Secular ↔ Religious</li><li>Pluralism ↔ Exclusion</li>
-        <li>Restraint ↔ Militarism</li><li>Rehabilitation ↔ Punishment</li><li>Ecology ↔ Industry</li>
-        <li>Reform ↔ Upheaval</li>
-      </ol>
+      <div class="axis-lists">
+        <div>
+          <h2 class="h-small">Political axes</h2>
+          <ol class="axis-index" aria-label="Political axes">
+            <li>Equality ↔ Markets</li><li>Liberty ↔ Authority</li><li>Progress ↔ Tradition</li>
+            <li>Globalism ↔ Nationalism</li><li>Secular ↔ Religious</li><li>Pluralism ↔ Exclusion</li>
+            <li>Restraint ↔ Militarism</li><li>Rehabilitation ↔ Punishment</li><li>Ecology ↔ Industry</li>
+            <li>Reform ↔ Upheaval</li>
+          </ol>
+        </div>
+        <div>
+          <h2 class="h-small">Philosophy axes</h2>
+          <ol class="axis-index" aria-label="Philosophy axes">
+            <li>Naturalism ↔ Transcendence</li><li>Experience ↔ Reason</li><li>Realism ↔ Construction</li>
+            <li>Objective ↔ Subjective morality</li><li>Outcomes ↔ Duty</li><li>Impartial ↔ Particular</li>
+            <li>Determined ↔ Free</li><li>Enduring ↔ Fluid self</li><li>Analysis ↔ Interpretation</li>
+          </ol>
+        </div>
+      </div>
       <details class="paste">
         <summary>Have a result code?</summary>
         <div class="paste-row">
@@ -51,7 +76,7 @@
           <input id="paste-code" type="text" placeholder="#r.-20.35.10.…" autocomplete="off">
           <button id="load-code" class="btn" type="button">Show result</button>
         </div>
-        <p id="paste-error" class="error" hidden>That code needs ten numbers between -100 and 100, separated by dots, starting with r.</p>
+        <p id="paste-error" class="error" hidden>A code starts with r. (ten political scores), p. (nine philosophy scores), or both, each score between -100 and 100.</p>
       </details>
     </section>
 
@@ -67,6 +92,12 @@
     </section>
 
     <section id="results" class="results" hidden>
+      <nav id="results-jump" class="results-jump" aria-label="Jump to" hidden>
+        <button type="button" class="seg-btn" data-jump="pol-results">Politics</button>
+        <button type="button" class="seg-btn" data-jump="phil-results">Philosophy</button>
+        <button type="button" class="seg-btn" data-jump="gap-results">Where they pull apart</button>
+      </nav>
+      <div id="pol-results">
       <div class="verdict">
         <p id="r-eyebrow" class="eyebrow">Closest ideology</p>
         <h1 id="r-ideology"></h1>
@@ -152,6 +183,72 @@
         </div>
       </div>
       <p id="r-skipped" class="sub"></p>
+      </div>
+
+      <div id="phil-results" class="phil-results">
+        <div class="verdict">
+          <p id="p-eyebrow" class="eyebrow">Closest school of thought</p>
+          <h1 id="p-school"></h1>
+          <p id="p-sim" class="sim num"></p>
+          <p id="p-desc" class="lede"></p>
+          <p id="p-top-phil" class="sub"></p>
+        </div>
+
+        <section id="p-quality" class="quality" hidden>
+          <h2 class="h-small">How much to trust this result</h2>
+          <ul id="p-quality-list"></ul>
+        </section>
+
+        <section class="deep">
+          <h2 class="h-small">Your nearest schools: pick one to read</h2>
+          <div id="p-deep-tabs" class="deep-tabs" role="tablist"></div>
+          <h2 id="p-deep-name" class="h-section deep-name"></h2>
+          <p id="p-deep-core" class="deep-core"></p>
+          <div class="deep-grid">
+            <div class="deep-block">
+              <h3 class="h-small">What it holds</h3>
+              <ul id="p-deep-claims" class="deep-list"></ul>
+            </div>
+            <div class="deep-block">
+              <h3 class="h-small">How you compare</h3>
+              <div id="p-deep-compare" class="deep-compare"></div>
+            </div>
+          </div>
+          <div class="deep-grid">
+            <div class="deep-block">
+              <h3 class="h-small">Arguments inside it</h3>
+              <p id="p-deep-debates"></p>
+            </div>
+            <div id="p-deep-people-wrap" class="deep-block">
+              <h3 class="h-small">Philosophers scored in this school</h3>
+              <div id="p-deep-people" class="chips"></div>
+            </div>
+          </div>
+          <p id="p-deep-src" class="sub"></p>
+        </section>
+
+        <h2 class="h-section">Your philosophy axes</h2>
+        <p class="sub">Ticks are scored philosophers. Under each axis, where the 2020 PhilPapers Survey asked a matching question, is how professional philosophers answered.</p>
+        <div id="p-axes" class="axes"></div>
+
+        <div class="matches">
+          <div class="matches-col">
+            <h2 class="h-section">Closest philosophers</h2>
+            <ol id="p-near" class="match-list"></ol>
+          </div>
+          <div class="matches-col">
+            <h2 class="h-section">Furthest philosophers</h2>
+            <ol id="p-far" class="match-list"></ol>
+          </div>
+        </div>
+      </div>
+
+      <section id="gap-results" class="gap-results">
+        <h2 class="h-section">Where your philosophy and politics pull apart</h2>
+        <p id="g-intro" class="sub"></p>
+        <p id="g-summary" class="gap-summary"></p>
+        <ol id="g-list" class="gap-list"></ol>
+      </section>
 
       <div class="code-box">
         <label for="r-code" class="h-small">Result code</label>
@@ -163,6 +260,20 @@
       </div>
     </section>
   </div>
+
+  <section id="view-philosophy" hidden>
+    <h1 class="h-page">Philosophy</h1>
+    <p class="lede">Schools of thought and philosophers scored on the nine philosophy axes from their own works. Open a philosopher for the works each score rests on.</p>
+    <h2 class="h-section">Philosophers</h2>
+    <div class="filters">
+      <label for="phil-search" class="sr">Search philosophers</label>
+      <input id="phil-search" type="search" placeholder="Search names or schools">
+      <span id="phil-count" class="hint num"></span>
+    </div>
+    <ul id="phil-list" class="fig-list"></ul>
+    <h2 class="h-section">Schools of thought</h2>
+    <ul id="school-list" class="ide-list"></ul>
+  </section>
 
   <section id="view-figures" hidden>
     <h1 class="h-page">Figures</h1>
@@ -207,6 +318,14 @@
     <h2 class="h-section">How the results are explained</h2>
     <p>The ideology notes describe each ideology from its standard sources. "Your positions in practice" is built from your axis scores, not from the label. The psychological section uses research on the two broad dimensions (economic and cultural/authoritarian), because almost no research exists on the psychology of named ideologies. The exceptions (libertarians, Christian nationalists, populist-right voters, jihadist radicalization) are cited where they apply. All of it describes group averages with modest effect sizes and cannot tell you about yourself.</p>
 
+    <h2 class="h-section">The philosophy test</h2>
+    <p>The nine philosophy axes follow the structure found in the PhilPapers Surveys of professional philosophers (Bourget &amp; Chalmers 2014, 2023). In the 2009 survey, libertarian free will, non-physicalism about the mind and theism loaded together on one "anti-naturalism" component (loadings around 0.63–0.66); other components were objectivism/Platonism, rationalism and externalism. Reality, Knowledge and Truth here follow those components. Morality, Right action and Moral scope follow the standard divides in metaethics and normative ethics, and impartiality follows Kahane et al.'s (2018) separation of impartial beneficence from instrumental harm. Freedom, Self and Method cover free will, personal identity and the analytic/continental divide. Freedom and Reality are kept apart, though the survey found them correlated, because compatibilism (59% of philosophers in 2020) cuts across the theism question. Under each axis the results show how professional philosophers answered the closest survey question.</p>
+    <p>Each of the 78 philosophers and 34 schools is scored from primary works, listed on each profile, with a standard secondary source where readings differ. Scores for Heidegger, Derrida, Nietzsche, Laozi and others whose positions resist propositional summary are marked medium confidence. Some axes are left blank where a thinker took no position or the reading is too contested. Many philosophers fit no school neatly, and the school list is a map, not a taxonomy.</p>
+    <p>A script that answers the test as each fully scored philosopher would puts that philosopher in their own top three in every case, in both versions. That shows the scoring is internally consistent, not that the profiles are right. Two statements' secondary weights tilt Truth slightly toward Construction (+6.2 against −3.5 in the full test), so readings near the middle of that axis should be taken loosely.</p>
+
+    <h2 class="h-section">Comparing philosophy and politics</h2>
+    <p>When both tests are taken, four links between philosophical and political views are checked, each backed by published research: free-will belief and punitiveness (Carey &amp; Paulhus 2013; Shariff et al. 2014; Everett et al. 2021); theism and religion in public life (Bourget &amp; Chalmers 2014); moral objectivism with religiosity and intolerance of disagreement (Goodwin &amp; Darley 2008; Wright, Cullum &amp; Schwab 2008); and impartial ethics with identification with all humanity (Kahane et al. 2018). Other plausible links, such as consequentialism and economic policy, were left out because no solid research supports them. A "less common" result means your pairing is rarer than predicted. Each one is paired with a tradition that holds it on principle.</p>
+
     <h2 class="h-section">How the figures were scored</h2>
     <p>The roster is limited to divisive figures: dictators, militant and terrorist leaders, and notorious public figures. Positions are placed on the present-day spectrum you answer on. Each profile lists the sources it was checked against.</p>
     <ul class="method-list">
@@ -227,34 +346,45 @@
       <li>Akkerman, A., Mudde, C. &amp; Zaslove, A. (2014). How populist are the people? <i>Comparative Political Studies</i> 47(9).</li>
       <li>Altemeyer, B. (1996). <i>The Authoritarian Specter.</i> Harvard University Press.</li>
       <li>Bakker, B., Schumacher, G., Gothreau, C. &amp; Arceneaux, K. (2020). Conservatives and liberals have similar physiological responses to threats. <i>Nature Human Behaviour</i> 4.</li>
+      <li>Bourget, D. &amp; Chalmers, D. (2014). What do philosophers believe? <i>Philosophical Studies</i> 170(3).</li>
+      <li>Bourget, D. &amp; Chalmers, D. (2023). Philosophers on philosophy: The 2020 PhilPapers Survey. <i>Philosophers' Imprint</i> 23(11).</li>
+      <li>Carey, J. &amp; Paulhus, D. (2013). Worldview implications of believing in free will and/or determinism: Politics, morality, and punitiveness. <i>Journal of Personality</i> 81(2).</li>
       <li>Carney, D., Jost, J., Gosling, S. &amp; Potter, J. (2008). The secret lives of liberals and conservatives. <i>Political Psychology</i> 29(6).</li>
       <li>Castanho Silva, B. et al. (2020). An empirical comparison of seven populist attitudes scales. <i>Political Research Quarterly</i> 73(2).</li>
       <li>Converse, P. (1964). The nature of belief systems in mass publics. In Apter (ed.), <i>Ideology and Discontent.</i></li>
       <li>Costello, T. et al. (2022). Clarifying the structure and nature of left-wing authoritarianism. <i>Journal of Personality and Social Psychology</i> 122(1).</li>
       <li>Enelow, J. &amp; Hinich, M. (1984). <i>The Spatial Theory of Voting.</i> Cambridge University Press.</li>
+      <li>Everett, J. et al. (2021). Political differences in free will belief are associated with differences in moralization. <i>Journal of Personality and Social Psychology</i> 120(2).</li>
       <li>Feldman, S. &amp; Johnston, C. (2014). Understanding the determinants of political ideology. <i>Political Psychology</i> 35(3).</li>
       <li>Feldman, S. &amp; Stenner, K. (1997). Perceived threat and authoritarianism. <i>Political Psychology</i> 18(4).</li>
       <li>Gerber, A. et al. (2010). Personality and political attitudes: Relationships across issue domains and political contexts. <i>American Political Science Review</i> 104(1).</li>
+      <li>Goodwin, G. &amp; Darley, J. (2008). The psychology of meta-ethics: Exploring objectivism. <i>Cognition</i> 106(3).</li>
       <li>Graham, J., Haidt, J. &amp; Nosek, B. (2009). Liberals and conservatives rely on different sets of moral foundations. <i>Journal of Personality and Social Psychology</i> 96(5).</li>
       <li>Herre, B. (2023). Identifying ideologues: A global dataset on political leaders, 1945–2020. <i>British Journal of Political Science</i> 53(2).</li>
       <li>Iyer, R. et al. (2012). Understanding libertarian morality. <i>PLoS ONE</i> 7(8).</li>
+      <li>Kahane, G. et al. (2018). Beyond sacrificial harm: A two-dimensional model of utilitarian psychology. <i>Psychological Review</i> 125(2).</li>
       <li>Kinder, D. &amp; Kalmoe, N. (2017). <i>Neither Liberal nor Conservative.</i> University of Chicago Press.</li>
       <li>Krosnick, J. et al. (2002). The impact of "no opinion" response options on data quality. <i>Public Opinion Quarterly</i> 66(3).</li>
       <li>Kruglanski, A. et al. (2014). The psychology of radicalization and deradicalization: How significance quest impacts violent extremism. <i>Political Psychology</i> 35(S1).</li>
       <li>Lefkofridi, Z., Wagner, M. &amp; Willmann, J. (2014). Left-authoritarians and policy representation in Western Europe. <i>West European Politics</i> 37(1).</li>
       <li>Lührmann, A. et al. (2020). Varieties of Party Identity and Organization (V-Party) Dataset. V-Dem Institute.</li>
       <li>Malka, A., Lelkes, Y. &amp; Soto, C. (2019). Are cultural and economic conservatism positively correlated? <i>British Journal of Political Science</i> 49(3).</li>
+      <li>Miller, D. (1995). <i>On Nationality.</i> Oxford University Press.</li>
       <li>Mudde, C. (2004). The populist zeitgeist. <i>Government and Opposition</i> 39(4).</li>
       <li>Mudde, C. (2007). <i>Populist Radical Right Parties in Europe.</i> Cambridge University Press.</li>
       <li>Mutz, D. (2018). Status threat, not economic hardship, explains the 2016 presidential vote. <i>PNAS</i> 115(19).</li>
       <li>Norris, P. &amp; Inglehart, R. (2019). <i>Cultural Backlash.</i> Cambridge University Press.</li>
+      <li>Pereboom, D. (2001). <i>Living Without Free Will.</i> Cambridge University Press.</li>
       <li>Pratto, F. et al. (1994). Social dominance orientation. <i>Journal of Personality and Social Psychology</i> 67(4).</li>
       <li>Rapoport, D. (2004). The four waves of modern terrorism. In Cronin &amp; Ludes (eds.), <i>Attacking Terrorism.</i></li>
+      <li>Shariff, A. et al. (2014). Free will and punishment: A mechanistic view of human nature reduces retribution. <i>Psychological Science</i> 25(8).</li>
       <li>Stenner, K. (2005). <i>The Authoritarian Dynamic.</i> Cambridge University Press.</li>
       <li>Treier, S. &amp; Hillygus, D. S. (2009). The nature of political ideology in the contemporary electorate. <i>Public Opinion Quarterly</i> 73(4).</li>
       <li>Westwood, S., Grimmer, J., Tyler, M. &amp; Nall, C. (2022). Current research overstates American support for political violence. <i>PNAS</i> 119(12).</li>
       <li>Whitehead, A. &amp; Perry, S. (2020). <i>Taking America Back for God.</i> Oxford University Press.</li>
       <li>Wiktorowicz, Q. (2006). Anatomy of the Salafi movement. <i>Studies in Conflict &amp; Terrorism</i> 29(3).</li>
+      <li>Wright, J., Cullum, J. &amp; Schwab, N. (2008). The cognitive and affective dimensions of moral conviction. <i>Personality and Social Psychology Bulletin</i> 34(11).</li>
+      <li>Yaden, D. &amp; Anderson, D. (2021). The psychology of philosophy: Associating philosophical views with psychological traits in professional philosophers. <i>Philosophical Psychology</i> 34(5).</li>
     </ul>
     <p>Comparable tests: <a href="https://8values.github.io/" target="_blank" rel="noopener">8values</a> and <a href="https://12axes.github.io/" target="_blank" rel="noopener">12axes</a>. Neither is validated either.</p>
   </section>
@@ -275,7 +405,7 @@
   <p id="fd-legend" class="sub legend" hidden><span class="key key-fig"></span> this person <span class="key key-you"></span> you</p>
   <p id="fd-nearest" class="sub"></p>
   <div id="fd-src-wrap" class="fd-src-wrap" hidden>
-    <h3 class="h-small">Sources</h3>
+    <h3 id="fd-src-h" class="h-small">Sources</h3>
     <ul id="fd-src" class="fd-src"></ul>
   </div>
 </dialog>
@@ -287,6 +417,10 @@
 <script src="js/figures.js"></script>
 <script src="js/ideology-notes.js"></script>
 <script src="js/interpret.js"></script>
+<script src="js/phil-axes.js"></script>
+<script src="js/schools.js"></script>
+<script src="js/philosophers.js"></script>
+<script src="js/gaps.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>

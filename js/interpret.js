@@ -139,9 +139,9 @@ function psychology(u, d) {
 const PSYCH_CAVEAT = 'These are average differences between groups, with small-to-moderate effect sizes (correlations mostly around 0.1–0.3). They describe tendencies, not you. Some well-known findings have not held up: physiological threat reactions do not reliably predict conservatism (Bakker et al. 2020), and much of the research comes from the US and Western Europe.';
 
 // How a respondent's scores differ from an ideology profile.
-function compareToIdeology(u, ide) {
+function compareToIdeology(u, ide, axes) {
   const same = [], apart = [], open = [];
-  AXES.forEach((ax, k) => {
+  (axes || AXES).forEach((ax, k) => {
     const v = ide.v[k];
     if (v == null) { open.push(ax.name); return; }
     const d = u[k] - v;
