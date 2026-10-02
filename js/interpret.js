@@ -80,9 +80,10 @@ function practiceFor(key, v) {
 }
 
 // Two research dimensions: economic (the Economy axis) and a cultural/authoritarian composite of
-// State power, Culture, Religion and Membership. In World Values Survey Wave 7 (97,220 respondents, 66
-// countries) these four correlate positively with each other, while the death-penalty item does not
-// (it runs slightly the other way within countries), so Justice is left out. See research/wvs7_axis_check.md.
+// State power, Culture, Religion and Membership. These four correlate positively with each other in the
+// World Values Survey (66 countries), the European Social Survey (30 countries) and ANES 2024. Justice is left
+// out because the death penalty tracks traditionalism in the US but not across the WVS countries.
+// See research/axis_checks_summary.md.
 const CULTURAL_KEYS = ['power', 'culture', 'faith', 'belong'];
 
 function dimensions(u) {
@@ -104,11 +105,11 @@ function typology(d) {
   };
   if (R && P) return {
     name: 'Market liberal',
-    text: 'Economically you sit with the right, culturally with the left. This libertarian-leaning combination is a minority in most electorates and is usually split between parties: liberal parties in Europe, and in the US neither major party fits, which is why such voters often swing or abstain.'
+    text: 'Economically you sit with the right, culturally with the left. In the US, where economic and cultural views are tightly sorted (ANES 2024: r = 0.62), this is a cross-pressured minority that neither major party fits. In Europe and most of the world, economic and cultural views are nearly independent (European Social Survey and World Values Survey), so the combination is ordinary; liberal parties in Europe are built around it.'
   };
   if (L && T) return {
     name: 'Left-communitarian',
-    text: 'Economically left but culturally traditional or order-minded. This combination is common among voters, but Lefkofridi, Wagner & Willmann (2014) found that West European parties rarely offer it, leaving these voters to choose which half of their views to trade away. Many such voters have moved to populist-right parties that pair welfare for natives with cultural protection, or to Christian-democratic and religious parties.'
+    text: 'Economically left but culturally traditional or order-minded. Economic and cultural views are nearly independent in Europe and worldwide (European Social Survey, World Values Survey), so many voters hold this combination; in the US, where the two are tightly sorted, it is rarer. Lefkofridi, Wagner & Willmann (2014) found that West European parties seldom offer it, leaving these voters to choose which half of their views to trade away. Many have moved to populist-right parties that pair welfare for natives with cultural protection, or to Christian-democratic and religious parties.'
   };
   return {
     name: 'Mixed or moderate',

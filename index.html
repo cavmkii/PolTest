@@ -322,17 +322,16 @@
     <dl id="method-axes" class="method-axes"></dl>
 
     <h2 class="h-section">What the axes are, and are not</h2>
-    <p>The ten axes are a display choice, not a finding. Research on mass political attitudes repeatedly finds that they sort mainly onto two correlated dimensions, economic and cultural/authoritarian (Feldman &amp; Johnston 2014; Treier &amp; Hillygus 2009), and that the two relate differently across countries (Malka, Lelkes &amp; Soto 2019). Culture, Religion, Membership and Justice probably measure overlapping things. The test's own statements have never been answered by a real sample, so no axis has an established reliability; the World Values Survey check below tests the axes' structure using comparable questions.</p>
-    <h3 class="h-small">Checked against the World Values Survey</h3>
-    <p>The axes were checked against World Values Survey Wave 7 (Haerpfer et al. 2022): 97,220 respondents in 66 countries, using WVS questions on the same topics as each axis. The test's own statements are not in the WVS, so this checks whether the axes behave as separate dimensions, not whether the statements are valid. Full results and code are in <code>research/wvs7_axis_check.md</code>. The main findings:</p>
+    <p>The ten axes are a display choice, not a finding. Research on mass political attitudes repeatedly finds that they sort mainly onto two correlated dimensions, economic and cultural/authoritarian (Feldman &amp; Johnston 2014; Treier &amp; Hillygus 2009), and that the two relate differently across countries (Malka, Lelkes &amp; Soto 2019). Culture, Religion, Membership and Justice probably measure overlapping things. The test's own statements have never been answered by a real sample, so no axis has an established reliability; the survey checks below test the axes' structure using comparable questions.</p>
+    <h3 class="h-small">Checked against three large surveys</h3>
+    <p>The axes were checked against the World Values Survey Wave 7 (97,220 respondents, 66 countries), the European Social Survey round 11 (50,116 respondents, 30 countries) and the ANES 2024 Time Series (5,521 US respondents), using each survey's questions on the same topics. The test's own statements are not in these surveys, so this checks whether the axes behave as separate dimensions, not whether the statements are valid. Full results and code are in <code>research/axis_checks_summary.md</code>.</p>
     <ul class="method-list">
-      <li>The axes do not collapse into two. Within countries the largest correlation between axes is 0.29, and parallel analysis retains 12 factors among 41 items.</li>
-      <li>State power, Culture, Religion and Membership form a loose cluster (average r = 0.37 across all respondents, 0.21 within countries). About half the variation in Culture and Religion is between countries rather than between people in the same country.</li>
-      <li>Economic attitudes are not one dimension in the WVS (reliability 0.30). They are unrelated to the cultural cluster, which matches Malka, Lelkes &amp; Soto (2019).</li>
-      <li>Attachment to one's nation and to the world are not opposites. People close to their country also tend to feel close to the world.</li>
-      <li>Approval of political violence is the cleanest separate dimension (reliability 0.84).</li>
-      <li>Support for the death penalty does not go with cultural traditionalism across countries, so Justice was removed from the cultural score used in the two-dimension map.</li>
-      <li>Left-right self-placement relates only weakly to any axis (at most 0.21), and barely to economics (0.05).</li>
+      <li>State power, Culture, Religion and Membership correlate positively in all three surveys, which supports combining them into the cultural score used in the results map.</li>
+      <li>Approval of political violence is a separate dimension. It forms a clean factor in the WVS, and in the US it is unrelated to liberal-conservative identity (r = 0.01).</li>
+      <li>The US is unusual: one dimension dominates, and economic views correlate 0.62 with cultural views and 0.70 with environmental views. In Europe and worldwide the economic-cultural link is near zero within countries (WVS −0.13 to −0.02; ESS −0.03 to 0.07). So combinations that look cross-pressured in the US are ordinary elsewhere.</li>
+      <li>National attachment does not oppose global or European attachment in either the WVS or the ESS. In Europe, skepticism of the EU goes with immigration attitudes rather than with national attachment.</li>
+      <li>Support for the death penalty goes with immigration restriction and defense spending in the US but not with cultural traditionalism across the WVS countries, so Justice is left out of the cultural score.</li>
+      <li>Left-right self-placement tracks the axes strongly in the US (up to 0.72), moderately in Europe (up to 0.31) and weakly worldwide (up to 0.21).</li>
     </ul>
     <p>State power mixes authoritarian disposition, which the literature measures separately as right-wing authoritarianism (Altemeyer 1996), social dominance orientation (Pratto et al. 1994), child-rearing authoritarianism (Feldman &amp; Stenner 1997) and left-wing authoritarianism (Costello et al. 2022), with civil-liberties policy. The statements are worded as policy so the axis leans toward the second.</p>
     <p>Populism is treated as a thin ideology that attaches to a host ideology (Mudde 2004), not as a point in this space. Measuring it properly needs its own scale (Akkerman, Mudde &amp; Zaslove 2014; Castanho Silva et al. 2020), which this test does not include.</p>
@@ -376,6 +375,7 @@
       <li>Adorno, T. et al. (1950). <i>The Authoritarian Personality.</i> Harper.</li>
       <li>Akkerman, A., Mudde, C. &amp; Zaslove, A. (2014). How populist are the people? <i>Comparative Political Studies</i> 47(9).</li>
       <li>Altemeyer, B. (1996). <i>The Authoritarian Specter.</i> Harvard University Press.</li>
+      <li>American National Election Studies (2026). <i>ANES 2024 Time Series Study</i>, release of 19 May 2026. electionstudies.org.</li>
       <li>Bakker, B., Schumacher, G., Gothreau, C. &amp; Arceneaux, K. (2020). Conservatives and liberals have similar physiological responses to threats. <i>Nature Human Behaviour</i> 4.</li>
       <li>Bourget, D. &amp; Chalmers, D. (2014). What do philosophers believe? <i>Philosophical Studies</i> 170(3).</li>
       <li>Bourget, D. &amp; Chalmers, D. (2023). Philosophers on philosophy: The 2020 PhilPapers Survey. <i>Philosophers' Imprint</i> 23(11).</li>
@@ -385,6 +385,7 @@
       <li>Converse, P. (1964). The nature of belief systems in mass publics. In Apter (ed.), <i>Ideology and Discontent.</i></li>
       <li>Costello, T. et al. (2022). Clarifying the structure and nature of left-wing authoritarianism. <i>Journal of Personality and Social Psychology</i> 122(1).</li>
       <li>Enelow, J. &amp; Hinich, M. (1984). <i>The Spatial Theory of Voting.</i> Cambridge University Press.</li>
+      <li>ESS ERIC (2025). <i>European Social Survey Round 11</i>, integrated file, edition 4.2. Sikt.</li>
       <li>Everett, J. et al. (2021). Political differences in free will belief are associated with differences in moralization. <i>Journal of Personality and Social Psychology</i> 120(2).</li>
       <li>Feldman, S. &amp; Johnston, C. (2014). Understanding the determinants of political ideology. <i>Political Psychology</i> 35(3).</li>
       <li>Feldman, S. &amp; Stenner, K. (1997). Perceived threat and authoritarianism. <i>Political Psychology</i> 18(4).</li>
