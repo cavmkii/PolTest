@@ -217,6 +217,17 @@ h1 { font-weight: 800; font-stretch: 112%; font-size: clamp(1.9rem, 5vw, 3rem); 
 
 .code-box { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--rule); }
 
+/* Closest-figure pair */
+.fig-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 24px; max-width: 720px; }
+.fig-pick {
+  display: flex; flex-direction: column; gap: 4px; text-align: left; cursor: pointer; min-width: 0;
+  padding: 14px 16px; border-radius: 10px; border: 1px solid var(--rule); background: var(--surface);
+}
+.fig-pick:hover { border-color: var(--muted); }
+.fig-pick-name { font-family: var(--font-display); font-weight: 700; font-size: 1.2rem; }
+.fig-pick-meta { font-size: 0.85rem; color: var(--muted); }
+.fig-pick-div { border-color: color-mix(in srgb, var(--low) 45%, var(--rule)); }
+
 /* Answer quality, tags, importance */
 .quality { margin-top: 32px; padding: 16px 18px; border: 1px solid var(--rule); border-radius: 10px; background: var(--surface); }
 .quality ul { margin: 8px 0 0; padding-left: 18px; display: flex; flex-direction: column; gap: 6px; font-size: 0.92rem; max-width: 70ch; }
@@ -394,6 +405,7 @@ h1 { font-weight: 800; font-stretch: 112%; font-size: clamp(1.9rem, 5vw, 3rem); 
 .refs { max-width: 70ch; padding-left: 18px; font-size: 0.86rem; color: var(--muted); display: flex; flex-direction: column; gap: 4px; }
 
 @media (max-width: 640px) {
+  .fig-pair { grid-template-columns: 1fr; }
   .pop-row { grid-template-columns: minmax(0, 1fr) 90px 40px; }
   .axis-lists { grid-template-columns: 1fr; }
   .deep-grid, .psych-top { grid-template-columns: 1fr; }

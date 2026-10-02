@@ -363,14 +363,21 @@
 
     renderPopulism(u);
 
-    // Overall nearest and farthest figures
+    // Closest of everyone, closest divisive figures, furthest of everyone
     const figs = rankFigures(u);
-    const nearList = $('#r-near');
-    nearList.textContent = '';
-    figs.slice(0, 10).forEach((r) => nearList.appendChild(matchRow(r)));
-    const farList = $('#r-far');
-    farList.textContent = '';
-    figs.slice(-5).reverse().forEach((r) => farList.appendChild(matchRow(r)));
+    const div = figs.filter((r) => DIVISIVE.includes(r.f.c));
+    const fill = (sel, list) => { const ol = $(sel); ol.textContent = ''; list.forEach((r) => ol.appendChild(matchRow(r))); };
+    fill('#r-near', figs.slice(0, 10));
+    fill('#r-near-div', div.slice(0, 5));
+    fill('#r-far', figs.slice(-5).reverse());
+    const pick = (sel, r) => {
+      const b = $(sel);
+      b.querySelector('.fig-pick-name').textContent = r ? r.f.n : '';
+      b.querySelector('.fig-pick-meta').textContent = r ? `${approx(r.d)} · ${r.f.l}` : '';
+      b.onclick = r ? () => openFigure(r.f) : null;
+    };
+    pick('#r-top-all', figs[0]);
+    pick('#r-top-div', div[0]);
 
     const skipped = FIGURES.filter((f) => !rankable(f)).map((f) => f.n);
     $('#r-skipped').textContent = skipped.length

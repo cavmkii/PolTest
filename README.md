@@ -2,13 +2,14 @@
 
 Two tests, each in a short or full version, taken separately or together:
 
-- **Political** – ten axes plus a separate populism scale, 49 ideologies, 50 divisive figures.
+- **Political** – ten axes plus a separate populism scale, 49 ideologies, 116 people: all 45 US presidents, 17 heads of government, 5 activists and 49 divisive figures. Results show the closest of everyone and the closest divisive figure.
 - **Philosophical** – nine axes built on the PhilPapers Survey structure, 34 schools of thought, 78 philosophers scored from their works.
 - **Both** – adds a comparison of philosophical and political answers on six research-backed links (four from general-population studies, two from the PhilPapers Survey's own correlations).
 
 A political alignment test in the style of 8values and 12axes. 87 statements, or a 55-statement short version (five per axis), plus one attention check, score you on ten axes,
-match you to the nearest of 49 real ideologies, and show which of 50 divisive figures sits closest to you
-on each axis and overall: dictators, militant and terrorist leaders, and notorious public figures.
+match you to the nearest of 49 real ideologies, and show which of 116 people sits closest to you on each axis
+and overall: US presidents, heads of government, activists, and divisive figures (dictators, militant and terrorist
+leaders, notorious public figures), with the closest divisive figure shown separately.
 
 Open `index.html` in a browser. No build step, no dependencies.
 
@@ -52,6 +53,10 @@ ideologies). Results report answer consistency, attention-check failure, and "no
 ideologies are within 3 points.
 
 ## Sources
+
+Presidents from Nixon on and heads of government whose parties V-Party codes blend their record with V-Party
+party codes on economy, immigration, religion and LGBT rights; Herre (2023) adds an economic code for every head of
+government since 1945. Presidents before 1945 are scored from the historical record alone.
 
 Figure economy scores were checked against Herre (2023), Global Leader Ideologies; party positions against
 V-Party (Lührmann et al. 2020); regime type against V-Dem legitimation codes. Every figure and ideology lists

@@ -82,10 +82,12 @@ const GPD_REFERENCE = [
   { n: 'Hugo Chávez', s: 1.78, roster: true }, { n: 'Nicolás Maduro', s: 1.60 }, { n: 'Rafael Correa', s: 1.50 },
   { n: 'Rodrigo Duterte', s: 1.38, roster: true }, { n: 'Evo Morales', s: 1.32 }, { n: 'Mahmoud Ahmadinejad', s: 1.17 },
   { n: 'Andrés Manuel López Obrador', s: 0.96 }, { n: 'Recep Tayyip Erdoğan', s: 0.84, roster: true },
-  { n: 'Silvio Berlusconi', s: 0.81 }, { n: 'Viktor Orbán', s: 0.69 }, { n: 'Narendra Modi', s: 0.55 },
-  { n: 'Jair Bolsonaro', s: 0.50, roster: true }, { n: 'Nayib Bukele', s: 0.50 }, { n: 'Benjamin Netanyahu', s: 0.31 },
-  { n: 'Vladimir Putin', s: 0.27, roster: true }, { n: 'Lula da Silva', s: 0.25 }, { n: 'Emmanuel Macron', s: 0.15 },
-  { n: 'Angela Merkel', s: 0.03 }
+  { n: 'Silvio Berlusconi', s: 0.81 }, { n: 'Donald Trump', s: 0.78, roster: true }, { n: 'Viktor Orbán', s: 0.69, roster: true },
+  { n: 'Narendra Modi', s: 0.55, roster: true }, { n: 'Jair Bolsonaro', s: 0.50, roster: true }, { n: 'Nayib Bukele', s: 0.50 },
+  { n: 'Benjamin Netanyahu', s: 0.31, roster: true }, { n: 'Vladimir Putin', s: 0.27, roster: true },
+  { n: 'Lula da Silva', s: 0.25, roster: true }, { n: 'Barack Obama', s: 0.22, roster: true }, { n: 'George W. Bush', s: 0.20, roster: true },
+  { n: 'Emmanuel Macron', s: 0.15, roster: true }, { n: 'Tony Blair', s: 0.11, roster: true }, { n: 'Justin Trudeau', s: 0.11, roster: true },
+  { n: 'Angela Merkel', s: 0.03, roster: true }
 ];
 // Mapping from the GPD 0–2 scale to this test's -100..+100 axis: v = 75s - 50, so 0 -> -50, 1 -> +25, 2 -> +100.
 // A leader with no populist rhetoric is placed at -50, not -100: absence of populism is not active pluralism.

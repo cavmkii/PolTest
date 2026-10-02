@@ -27,7 +27,7 @@
     <section id="intro" class="intro">
       <p class="eyebrow">Political and philosophical alignment tests</p>
       <h1>Which bad leader, and which philosopher, is closest to you?</h1>
-      <p class="lede">The political test matches you to <span id="ide-total">49</span> real ideologies and <span id="fig-total">50</span> dictators, militants and notorious figures. The philosophy test matches you to <span id="school-total">34</span> schools of thought and <span id="phil-total">78</span> philosophers, from Confucius and Aquinas to Husserl, Derrida and Rorty. Take both and you also see where your philosophy and your politics pull apart.</p>
+      <p class="lede">The political test matches you to <span id="ide-total">49</span> real ideologies and <span id="fig-total">116</span> people: every US president, heads of government from Churchill to Merkel, activists, and the dictators, militants and notorious figures. You see the closest of everyone and, separately, the closest divisive figure. The philosophy test matches you to <span id="school-total">34</span> schools of thought and <span id="phil-total">78</span> philosophers, from Confucius and Aquinas to Husserl, Derrida and Rorty. Take both and you also see where your philosophy and your politics pull apart.</p>
       <div class="chooser">
         <div class="choice-group" role="group" aria-label="Which test">
           <span class="h-small">Test</span>
@@ -105,6 +105,18 @@
         <p id="r-ideology-sim" class="sim num"></p>
         <p id="r-ideology-desc" class="lede"></p>
         <p id="r-ideology-src" class="sub"></p>
+        <div class="fig-pair">
+          <button id="r-top-all" class="fig-pick" type="button">
+            <span class="h-small">Closest of everyone</span>
+            <span class="fig-pick-name"></span>
+            <span class="fig-pick-meta"></span>
+          </button>
+          <button id="r-top-div" class="fig-pick fig-pick-div" type="button">
+            <span class="h-small">Closest divisive figure</span>
+            <span class="fig-pick-name"></span>
+            <span class="fig-pick-meta"></span>
+          </button>
+        </div>
       </div>
 
       <section id="r-quality" class="quality" hidden>
@@ -185,17 +197,20 @@
         <p id="pop-text" class="pop-text"></p>
         <h3 class="h-small pop-list-h">Leaders' speeches, Global Populism Database v2.1 (0 = not populist, 2 = ideal-type populist)</h3>
         <ol id="pop-list" class="pop-list"></ol>
-        <p class="sub">Your score is converted to the same 0–2 scale with a mapping chosen for this test (−50 on the axis = 0, +100 = 2). The database codes leaders' rhetoric while this test asks for your attitudes, so treat the comparison as rough. Leaders scored in this test's figure list are in bold.</p>
+        <p class="sub">Your score is converted to the same 0–2 scale with a mapping chosen for this test (−50 on the axis = 0, +100 = 2). The database codes leaders' rhetoric while this test asks for your attitudes, so treat the comparison as rough. Leaders who are also in this test's figure list are in bold.</p>
       </section>
 
       <div class="matches">
         <div class="matches-col">
-          <h2 class="h-section">Closest overall</h2>
-          <p class="sub">Everyone here is a dictator, militant or notorious figure, so a close match means you share some of their stated positions, not their conduct.</p>
+          <h2 class="h-section">Closest of everyone</h2>
+          <p class="sub">US presidents, heads of government, activists and divisive figures together.</p>
           <ol id="r-near" class="match-list"></ol>
         </div>
         <div class="matches-col">
-          <h2 class="h-section">Furthest overall</h2>
+          <h2 class="h-section">Closest divisive figures</h2>
+          <p class="sub">Dictators and militant or terrorist leaders only. A close match means you share some of their stated positions, not their conduct.</p>
+          <ol id="r-near-div" class="match-list"></ol>
+          <h2 class="h-section">Furthest of everyone</h2>
           <ol id="r-far" class="match-list"></ol>
         </div>
       </div>
@@ -294,11 +309,14 @@
 
   <section id="view-figures" hidden>
     <h1 class="h-page">Figures</h1>
-    <p class="lede">Each profile is an estimate from public record on today's spectrum. Blank axes mean there is no record to score. Open a card for the reasoning.</p>
+    <p class="lede">Each profile is an estimate from public record on today's spectrum, blended with party and leader datasets where they exist. Blank axes mean there is no record to score. Open a card for the reasoning and sources.</p>
     <div class="filters">
       <label for="fig-filter" class="sr">Category</label>
       <select id="fig-filter">
         <option value="all">All categories</option>
+        <option value="president">US presidents</option>
+        <option value="leader">Heads of government</option>
+        <option value="activist">Politicians &amp; activists</option>
         <option value="militant">Militant &amp; terrorist leaders</option>
         <option value="ruler">Dictators &amp; heads of state</option>
         <option value="public">Celebrities &amp; notorious figures</option>
@@ -346,7 +364,7 @@
     <p>The ideology notes describe each ideology from its standard sources. "Your positions in practice" is built from your axis scores, not from the label. The psychological section uses research on the two broad dimensions (economic and cultural/authoritarian), because almost no research exists on the psychology of named ideologies. The exceptions (libertarians, Christian nationalists, populist-right voters, jihadist radicalization) are cited where they apply. All of it describes group averages with modest effect sizes and cannot tell you about yourself.</p>
 
     <h2 class="h-section">Populism</h2>
-    <p>Populism is measured with statements adapted from Akkerman, Mudde &amp; Zaslove (2014), plus reverse-worded statements, because Castanho Silva et al. (2020) found that scales worded only in the populist direction inflate scores. It is shown as its own panel, not a host axis, following Mudde's account of populism as a thin ideology. Five figures (Chávez, Duterte, Erdoğan, Bolsonaro, Putin) are scored from their mean speech scores in the Global Populism Database v2.1 (Hawkins et al.), converted with v = 75 × score − 50. The conversion is a judgment: a leader with no populist rhetoric sits at −50, not at the pluralist extreme. Other figures are not in the database; for them populism is skipped in matching rather than counted as a gap. Ideology profiles carry a populism value from their definitions.</p>
+    <p>Populism is measured with statements adapted from Akkerman, Mudde &amp; Zaslove (2014), plus reverse-worded statements, because Castanho Silva et al. (2020) found that scales worded only in the populist direction inflate scores. It is shown as its own panel, not a host axis, following Mudde's account of populism as a thin ideology. Figures the Global Populism Database v2.1 (Hawkins et al.) covers, from Chávez to Merkel and including Bush, Obama and Trump, are scored from their mean speech scores, converted with v = 75 × score − 50. The conversion is a judgment: a leader with no populist rhetoric sits at −50, not at the pluralist extreme. Presidents and leaders with V-Party data but no database score take V-Party's populism index for their party (v = 150 × index − 60). For everyone else populism is skipped in matching rather than counted as a gap. Ideology profiles carry a populism value from their definitions.</p>
 
     <h2 class="h-section">The philosophy test</h2>
     <p>The nine philosophy axes follow the structure found in the PhilPapers Surveys of professional philosophers (Bourget &amp; Chalmers 2014, 2023). In the 2009 survey, libertarian free will, non-physicalism about the mind and theism loaded together on one "anti-naturalism" component (loadings around 0.63–0.66); other components were objectivism/Platonism, rationalism and externalism. Reality, Knowledge and Truth here follow those components. Morality, Right action and Moral scope follow the standard divides in metaethics and normative ethics, and impartiality follows Kahane et al.'s (2018) separation of impartial beneficence from instrumental harm. Freedom, Self and Method cover free will, personal identity and the analytic/continental divide. Freedom and Reality are kept apart, though the survey found them correlated, because compatibilism (59% of philosophers in 2020) cuts across the theism question. In the 2020 survey the first principal component combines rationalism with realism, especially moral realism, and explains 12.3% of the variance among answers. The second, about 8.8%, the authors tentatively call a science-friendly outlook. They found the correlations form only small clusters, which is why this test keeps nine separate axes rather than collapsing them. Under each axis the results show how professional philosophers answered the closest survey questions. The figures are for the survey's target faculty (N = 1,785, accept or lean toward), taken from the survey's own results pages; a copy is kept in <code>research/</code>. The Economy, Justice and Environment axes of the political test show the same survey's answers on capitalism versus socialism, capital punishment and environmental ethics. The survey reports no correlations on these pages, so the comparison section still rests on the published studies listed below.</p>
@@ -357,7 +375,8 @@
     <p>When both tests are taken, six links between philosophical and political views are checked, each backed by published research. Two come from the 2020 PhilPapers Survey's own correlation tables (Bourget &amp; Chalmers 2023, Table 19). Among professional philosophers, theism correlates with judging abortion impermissible at r = −0.65 (n = 1,016), with libertarian free will (−0.44), objective meaning of life (−0.45) and physicalism (+0.43) following the same pattern. Biological views of race and gender correlate with capitalism at about r = 0.37–0.38. The other four come from studies of the general public: free-will belief and punitiveness (Carey &amp; Paulhus 2013; Shariff et al. 2014; Everett et al. 2021); theism and religion in public life (Bourget &amp; Chalmers 2014); moral objectivism with religiosity and intolerance of disagreement (Goodwin &amp; Darley 2008; Wright, Cullum &amp; Schwab 2008); and impartial ethics with identification with all humanity (Kahane et al. 2018). Other plausible links, such as consequentialism and economic policy, were left out because no solid research supports them. A "less common" result means your pairing is rarer than predicted. Each one is paired with a tradition that holds it on principle.</p>
 
     <h2 class="h-section">How the figures were scored</h2>
-    <p>The roster is limited to divisive figures: dictators, militant and terrorist leaders, and notorious public figures. Positions are placed on the present-day spectrum you answer on. Each profile lists the sources it was checked against.</p>
+    <p>The roster has two parts. Divisive figures are dictators, militant and terrorist leaders, and notorious public figures. Everyone else is a US president, a head of government or an activist. Results show the closest of everyone and, separately, the closest divisive figure. Positions are placed on the present-day spectrum you answer on, not relative to each person's era, so a 19th-century president who enslaved people scores high on Exclusion. Each profile lists the sources it was checked against.</p>
+    <p>For presidents from Nixon on and for heads of government whose parties V-Party codes (Thatcher, Blair, Merkel, Macron, Trudeau, Ardern, Lula, Orbán, Netanyahu, Mandela, Zelensky), the economy, immigration, religion and LGBT-rights scores are an equal blend of the person's record and the V-Party codes for their party. Only policy positions are blended. A party's stance on pluralism or violence says too little about one leader's conduct, so State power and Means stay with the record. Herre's (2023) economic code is blended in for every head of government since 1945. Presidents before 1945 are covered by no dataset and are scored from the historical record alone. Roll-call-based scores for presidents (DW-NOMINATE, Voteview) would add a check but could not be downloaded from this environment.</p>
     <ul class="method-list">
       <li><b>Economy</b> for heads of state since 1945 was checked against Herre's (2023) Global Leader Ideologies dataset. Where the codes disagreed with the first draft, the score moved: Lee Kuan Yew (coded leftist), Khomeini (rightist), Duterte (rightist), Assad (leftist) and Idi Amin (non-ideological, now blank).</li>
       <li><b>Party positions</b> for Erdoğan, Bolsonaro, Putin, Chávez, Mugabe, Thatcher, Lee Kuan Yew and Saddam were checked against V-Party expert codings (Lührmann et al. 2020) for economic position, religious appeals, LGBT equality, immigration, pluralism and encouragement of violence.</li>
@@ -365,7 +384,7 @@
       <li><b>Militant groups</b> follow the group histories and classifications in Stanford's Mapping Militant Organizations, Rapoport's four waves, and the scholarship listed on each profile. al-Qaeda and ISIS are separated as Wiktorowicz and Bunzel separate them.</li>
       <li><b>Celebrities and notorious figures</b> (Combs, Epstein, Ye, Musk, Rogan, Tate) have no scholarly coding. Their profiles rest on journalism and their own statements, they are marked low confidence, and they are excluded from the overall ranking.</li>
     </ul>
-    <p>A close match means you share some stated positions with that person. It says nothing about conduct, and because nobody mainstream is on the list, a moderate will still get a "closest" figure who is much further from them than the name suggests.</p>
+    <p>A close match means you share some stated positions with that person. It says nothing about conduct. The closest divisive figure is always shown, even when it is far from you; the percentage tells you how close that really is.</p>
 
     <h2 class="h-section">Not done</h2>
     <p>The test has not been validated: no factor analysis, no reliability estimates (omega or alpha), no test-retest check, no comparison against self-placement or party identification. Those need response data, which this page does not collect. Until then, treat the output as a structured argument about where you sit, not a measurement.</p>
